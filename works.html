@@ -1,0 +1,271 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>AI作品展示 - 宝宝爱AI</title>
+  <meta name="description" content="展示网站、自动化、内容生产和真实项目案例">
+  <link rel="stylesheet" href="css/style.css">
+</head>
+<body class="works-page">
+  <nav class="nav-bar glass-nav">
+    <a href="index.html" class="nav-logo">宝宝爱AI</a>
+    <div class="nav-menu">
+      <a href="index.html" class="nav-item">首页</a>
+      <a href="logs.html" class="nav-item">日志</a>
+      <a href="works.html" class="nav-item active">作品</a>
+      <a href="bbs.html" class="nav-item">讨论组</a>
+      <a href="share.html" class="nav-item">AI分享</a>
+      <a href="business.html" class="nav-item">商务洽谈</a>
+    </div>
+    <div class="nav-right">
+      <button class="nav-btn search-btn">
+        <svg viewBox="0 0 24 24">
+          <path d="M15.5 14h-.79l-.28-.27A6.47 6.47 0 0 0 16 9.5 6.5 6.5 0 1 0 9.5 16c1.61 0 3.09-.59 4.23-1.57l.27.28v.79l5 4.99L20.49 19l-4.99-5zm-6 0C7.01 14 5 11.99 5 9.5S7.01 5 9.5 5 14 7.01 14 9.5 11.99 14 9.5 14z"/>
+        </svg>
+      </button>
+      <button class="nav-btn more-btn">
+        <svg viewBox="0 0 24 24">
+          <path d="M12 8c1.1 0 2-.9 2-2s-.9-2-2-2-2 .9-2 2 .9 2 2 2zm0 2c-1.1 0-2 .9-2 2s.9 2 2 2 2-.9 2-2-.9-2-2-2zm0 6c-1.1 0-2 .9-2 2s.9 2 2 2 2-.9 2-2-.9-2-2-2z"/>
+        </svg>
+      </button>
+      <button class="nav-btn mobile-menu-btn">
+        <svg viewBox="0 0 24 24">
+          <path d="M3 18h18v-2H3v2zm0-5h18v-2H3v2zm0-7v2h18V6H3z"/>
+        </svg>
+      </button>
+    </div>
+  </nav>
+
+  <div class="ai-generator-hero">
+    <div class="hero-content works-hero-content">
+      <section class="works-reveal-shell" aria-label="作品分类圆形揭示">
+        <div class="circular-reveal-heading" data-active="0">
+          <div class="reveal-preview" aria-hidden="true">
+            <img class="reveal-art active" src="img/reveal-strategy.jpg" alt="">
+            <img class="reveal-art" src="img/reveal-design.jpg" alt="">
+            <img class="reveal-art" src="img/reveal-growth.jpg" alt="">
+            <img class="reveal-art" src="img/reveal-innovation.jpg" alt="">
+            <div class="reveal-center">
+              <div class="reveal-center-text">AI作品</div>
+            </div>
+            <div class="reveal-preview-ring"></div>
+          </div>
+
+          <div class="reveal-items">
+            <button class="reveal-item active" type="button" data-index="0" data-title="策略" data-subtitle="把想法整理成可执行的 AI 项目路线。">
+              <span class="reveal-item-text">策略</span>
+            </button>
+            <button class="reveal-item" type="button" data-index="1" data-title="设计" data-subtitle="把页面、图片和内容包装成高级视觉作品。">
+              <span class="reveal-item-text">设计</span>
+            </button>
+            <button class="reveal-item" type="button" data-index="2" data-title="增长" data-subtitle="用自动化流程扩大内容、工具和项目影响力。">
+              <span class="reveal-item-text">增长</span>
+            </button>
+            <button class="reveal-item" type="button" data-index="3" data-title="创新" data-subtitle="持续尝试新的 AI 工作方式和作品形态。">
+              <span class="reveal-item-text">创新</span>
+            </button>
+          </div>
+        </div>
+
+        <div class="reveal-copy">
+          <h1 id="revealTitle">策略</h1>
+          <p id="revealSubtitle">把想法整理成可执行的 AI 项目路线。</p>
+        </div>
+      </section>
+
+      <p class="hero-description">从网站搭建到自动化工作流，从内容生产到真实项目案例，展示 AI 驱动的创新成果。</p>
+      <div class="hero-cta">
+        <a class="cta-primary" href="#worksGallery">浏览全部作品</a>
+        <a class="cta-secondary" href="business.html">商务洽谈</a>
+      </div>
+    </div>
+
+    <div class="image-carousel" id="worksGallery">
+      <div class="carousel-track" id="carouselTrack">
+        <div class="carousel-card selected" data-index="0" data-title="宝宝爱AI门户" data-category="网站搭建">
+          <div class="card-image-wrapper">
+            <div class="card-visual visual-portal" role="img" aria-label="宝宝爱AI门户"></div>
+            <div class="card-overlay"></div>
+            <div class="card-selected-ring"></div>
+          </div>
+          <div class="card-info">
+            <div class="card-title">宝宝爱AI门户</div>
+            <div class="card-category">网站搭建</div>
+          </div>
+        </div>
+
+        <div class="carousel-card" data-index="1" data-title="AI内容自动化" data-category="自动化脚本">
+          <div class="card-image-wrapper">
+            <div class="card-visual visual-automation" role="img" aria-label="AI内容自动化"></div>
+            <div class="card-overlay"></div>
+            <div class="card-selected-ring"></div>
+          </div>
+          <div class="card-info">
+            <div class="card-title">AI内容自动化</div>
+            <div class="card-category">自动化脚本</div>
+          </div>
+        </div>
+
+        <div class="carousel-card" data-index="2" data-title="AI图片作品集" data-category="内容生产">
+          <div class="card-image-wrapper">
+            <div class="card-visual visual-content" role="img" aria-label="AI图片作品集"></div>
+            <div class="card-overlay"></div>
+            <div class="card-selected-ring"></div>
+          </div>
+          <div class="card-info">
+            <div class="card-title">AI图片作品集</div>
+            <div class="card-category">内容生产</div>
+          </div>
+        </div>
+
+        <div class="carousel-card" data-index="3" data-title="AI视频创作" data-category="视频生成">
+          <div class="card-image-wrapper">
+            <div class="card-visual visual-video" role="img" aria-label="AI视频创作"></div>
+            <div class="card-overlay"></div>
+            <div class="card-selected-ring"></div>
+          </div>
+          <div class="card-info">
+            <div class="card-title">AI视频创作</div>
+            <div class="card-category">视频生成</div>
+          </div>
+        </div>
+
+        <div class="carousel-card" data-index="4" data-title="提示词库" data-category="知识整理">
+          <div class="card-image-wrapper">
+            <div class="card-visual visual-prompt" role="img" aria-label="提示词库"></div>
+            <div class="card-overlay"></div>
+            <div class="card-selected-ring"></div>
+          </div>
+          <div class="card-info">
+            <div class="card-title">提示词库</div>
+            <div class="card-category">知识整理</div>
+          </div>
+        </div>
+
+        <div class="carousel-card" data-index="5" data-title="AI工具箱" data-category="工具集成">
+          <div class="card-image-wrapper">
+            <div class="card-visual visual-tools" role="img" aria-label="AI工具箱"></div>
+            <div class="card-overlay"></div>
+            <div class="card-selected-ring"></div>
+          </div>
+          <div class="card-info">
+            <div class="card-title">AI工具箱</div>
+            <div class="card-category">工具集成</div>
+          </div>
+        </div>
+      </div>
+
+      <button class="carousel-prev" id="carouselPrev">
+        <svg viewBox="0 0 24 24"><path d="M15.41 7.41L14 6l-6 6 6 6 1.41-1.41L10.83 12z"/></svg>
+      </button>
+      <button class="carousel-next" id="carouselNext">
+        <svg viewBox="0 0 24 24"><path d="M10 6L8.59 7.41 13.17 12l-4.58 4.59L10 18l6-6z"/></svg>
+      </button>
+    </div>
+
+    <div class="hero-features">
+      <div class="feature-card">
+        <div class="feature-icon">
+          <svg viewBox="0 0 24 24"><path d="M12 2C6.48 2 2 6.48 2 12s4.48 10 10 10 10-4.48 10-10S17.52 2 12 2zm-2 15l-5-5 1.41-1.41L10 14.17l7.59-7.59L19 8l-9 9z"/></svg>
+        </div>
+        <div class="feature-title">高质量成果</div>
+        <div class="feature-description">专业级别的AI生成作品，精心打磨每一个细节</div>
+      </div>
+      <div class="feature-card">
+        <div class="feature-icon">
+          <svg viewBox="0 0 24 24"><path d="M12 2C6.48 2 2 6.48 2 12s4.48 10 10 10 10-4.48 10-10S17.52 2 12 2zm-2 15l-5-5 1.41-1.41L10 14.17l7.59-7.59L19 8l-9 9z"/></svg>
+        </div>
+        <div class="feature-title">快速交付</div>
+        <div class="feature-description">高效的AI工作流，快速将创意转化为实际成果</div>
+      </div>
+      <div class="feature-card">
+        <div class="feature-icon">
+          <svg viewBox="0 0 24 24"><path d="M12 2C6.48 2 2 6.48 2 12s4.48 10 10 10 10-4.48 10-10S17.52 2 12 2zm-2 15l-5-5 1.41-1.41L10 14.17l7.59-7.59L19 8l-9 9z"/></svg>
+        </div>
+        <div class="feature-title">多样风格</div>
+        <div class="feature-description">支持多种创作风格，满足不同场景需求</div>
+      </div>
+    </div>
+  </div>
+
+  <div class="more-menu">
+    <a href="tools.html" class="more-menu-item">
+      <svg viewBox="0 0 24 24"><path d="M19.43 12.98c.04-.32.07-.64.07-.98s-.03-.66-.07-.98l2.11-1.65c.19-.15.24-.42.12-.64l-2-3.46c-.12-.22-.37-.3-.59-.22l-2.49 1c-.52-.39-1.08-.7-1.66-.94l-.38-2.65c-.03-.24-.24-.42-.48-.42h-4c-.24 0-.45.18-.48.42l-.38 2.65c-.58.24-1.14.55-1.66.94l-2.49-1c-.22-.08-.47 0-.59.22l-2 3.46c-.12.22-.07.49.12.64l2.11 1.65c-.04.32-.07.64-.07.98s.03.66.07.98l-2.11 1.65c-.19.15-.24.42-.12.64l2 3.46c.12.22.37.3.59.22l2.49-1c.52.39 1.08.7 1.66.94l.38 2.65c.03.24.24.42.48.42h4c.24 0 .45-.18.48-.42l.38-2.65c.58-.24 1.14-.55 1.66-.94l2.49 1c.22.08.47 0 .59-.22l2-3.46c.12-.22.07-.49-.12-.64l-2.11-1.65zM12 15.6c-1.98 0-3.6-1.62-3.6-3.6s1.62-3.6 3.6-3.6 3.6 1.62 3.6 3.6-1.62 3.6-3.6 3.6z"/></svg>
+      <span>AI工具箱</span>
+    </a>
+    <a href="go.html" class="more-menu-item">
+      <svg viewBox="0 0 24 24"><path d="M10 6v2h2V6h2v6h2V6h2v10H10V6zm-8 0v10h2V6H2zm0 12h16v2H2v-2z"/></svg>
+      <span>外部入口</span>
+    </a>
+    <a href="about.html" class="more-menu-item">
+      <svg viewBox="0 0 24 24"><path d="M12 12c2.21 0 4-1.79 4-4s-1.79-4-4-4-4 1.79-4 4 1.79 4 4 4zm0 2c-2.67 0-8 1.34-8 4v2h16v-2c0-2.66-5.33-4-8-4z"/></svg>
+      <span>关于宝宝爱AI</span>
+    </a>
+  </div>
+
+  <div class="mobile-nav-overlay">
+    <div class="mobile-nav-close">
+      <svg viewBox="0 0 24 24">
+        <path d="M19 6.41L17.59 5 12 10.59 6.41 5 5 6.41 10.59 12 5 17.59 6.41 19 12 13.41 17.59 19 19 17.59 13.41 12z"/>
+      </svg>
+    </div>
+    <a href="index.html" class="mobile-nav-item">首页</a>
+    <a href="logs.html" class="mobile-nav-item">日志</a>
+    <a href="works.html" class="mobile-nav-item active">作品</a>
+    <a href="bbs.html" class="mobile-nav-item">讨论组</a>
+    <a href="share.html" class="mobile-nav-item">AI分享</a>
+    <a href="business.html" class="mobile-nav-item">商务洽谈</a>
+    <a href="tools.html" class="mobile-nav-item">AI工具箱</a>
+    <a href="go.html" class="mobile-nav-item">外部入口</a>
+    <a href="about.html" class="mobile-nav-item">关于宝宝爱AI</a>
+  </div>
+
+  <div class="search-overlay">
+    <div class="search-input-wrapper">
+      <input type="text" class="search-input" placeholder="搜索 AI 内容、作品、提示词...">
+      <div class="search-close">
+        <svg viewBox="0 0 24 24">
+          <path d="M19 6.41L17.59 5 12 10.59 6.41 5 5 6.41 10.59 12 5 17.59 6.41 19 12 13.41 17.59 19 19 17.59 13.41 12z"/>
+        </svg>
+      </div>
+    </div>
+    <div class="search-suggestions">
+      <div class="search-suggestions-title">热门搜索</div>
+      <div class="search-tags">
+        <span class="search-tag">提示词</span>
+        <span class="search-tag">AI图片</span>
+        <span class="search-tag">AI视频</span>
+        <span class="search-tag">网站搭建</span>
+        <span class="search-tag">自动化</span>
+        <span class="search-tag">作品案例</span>
+        <span class="search-tag">商务合作</span>
+      </div>
+    </div>
+    <div class="search-links">
+      <a href="logs.html" class="search-link-item">
+        <svg viewBox="0 0 24 24"><path d="M19 3h-1V1h-2v2H8V1H6v2H5c-1.11 0-1.99.9-1.99 2L3 19c0 1.1.89 2 2 2h14c1.1 0 2-.9 2-2V5c0-1.1-.9-2-2-2zm0 16H5V8h14v11zM9 10H7v2h2v-2zm4 0h-2v2h2v-2zm4 0h-2v2h2v-2zm-8 4H7v2h2v-2zm4 0h-2v2h2v-2zm4 0h-2v2h2v-2z"/></svg>
+        <span>日志</span>
+      </a>
+      <a href="works.html" class="search-link-item">
+        <svg viewBox="0 0 24 24"><path d="M21 19V5c0-1.1-.9-2-2-2H5c-1.1 0-2 .9-2 2v14c0 1.1.9 2 2 2h14c1.1 0 2-.9 2-2zM8.5 13.5l2.5 3.01L14.5 12l4.5 6H5l3.5-4.5z"/></svg>
+        <span>作品</span>
+      </a>
+      <a href="share.html" class="search-link-item">
+        <svg viewBox="0 0 24 24"><path d="M18 16.08c-.76 0-1.44.3-1.96.77L8.91 12.7c.05-.23.09-.46.09-.7s-.04-.47-.09-.7l7.05-4.11c.54.5 1.25.81 2.04.81 1.66 0 3-1.34 3-3s-1.34-3-3-3-3 1.34-3 3c0 .24.04.47.09.7L8.04 9.81C7.5 9.31 6.79 9 6 9c-1.66 0-3 1.34-3 3s1.34 3 3 3c.79 0 1.5-.31 2.04-.81l7.12 4.16c-.05.21-.08.43-.08.65 0 1.61 1.31 2.92 2.92 2.92s2.92-1.31 2.92-2.92-1.31-2.92-2.92-2.92z"/></svg>
+        <span>AI分享</span>
+      </a>
+    </div>
+  </div>
+
+  <footer class="footer">
+    <div class="footer-text">© 2026 宝宝爱AI · 持续更新的 AI 工作门户</div>
+    <div class="footer-links">
+      <a href="about.html" class="footer-link">关于</a>
+      <a href="business.html" class="footer-link">商务合作</a>
+    </div>
+  </footer>
+
+  <script src="js/main.js"></script>
+</body>
+</html>

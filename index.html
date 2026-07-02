@@ -1,768 +1,407 @@
-<!doctype html>
+<!DOCTYPE html>
 <html lang="zh-CN">
 <head>
-  <meta charset="utf-8" />
-  <meta name="viewport" content="width=device-width, initial-scale=1" />
-  <title>算力机房商业计划书</title>
-  <style>
-    :root {
-      --bg: #eef3fb;
-      --panel: #ffffff;
-      --panel-soft: #f8fbff;
-      --text: #132238;
-      --muted: #5f6f86;
-      --line: #d7e0ee;
-      --blue: #225ea8;
-      --cyan: #0f8ea8;
-      --green: #1e8b62;
-      --amber: #b06a12;
-      --violet: #6b63b7;
-      --shadow: 0 16px 42px rgba(19, 34, 56, .08);
-    }
-    * { box-sizing: border-box; }
-    html { scroll-behavior: smooth; }
-    body {
-      margin: 0;
-      font-family: "Microsoft YaHei", "PingFang SC", "Noto Sans CJK SC", sans-serif;
-      color: var(--text);
-      background:
-        radial-gradient(circle at top left, rgba(34, 94, 168, .10), transparent 30%),
-        radial-gradient(circle at top right, rgba(107, 99, 183, .10), transparent 26%),
-        linear-gradient(180deg, #f6f9ff 0%, #eef3fb 100%);
-      letter-spacing: 0;
-    }
-    a { color: var(--blue); text-decoration: none; }
-    .wrap { max-width: 1520px; margin: 0 auto; padding: 22px; }
-    .topbar {
-      display: flex;
-      justify-content: space-between;
-      align-items: center;
-      gap: 12px;
-      margin-bottom: 16px;
-    }
-    .brand { display: flex; align-items: center; gap: 12px; }
-    .mark {
-      width: 46px; height: 46px; border-radius: 15px;
-      background: linear-gradient(135deg, var(--blue), var(--violet));
-      box-shadow: 0 10px 24px rgba(34, 94, 168, .26);
-    }
-    .brand h1 { margin: 0; font-size: 20px; line-height: 1.2; }
-    .brand p { margin: 4px 0 0; color: var(--muted); font-size: 12px; }
-    .actions { display: flex; gap: 10px; flex-wrap: wrap; }
-    .action {
-      display: inline-flex; align-items: center;
-      border: 1px solid var(--line); background: #fff;
-      border-radius: 999px; padding: 10px 14px;
-      color: var(--text); box-shadow: 0 8px 18px rgba(19, 34, 56, .04);
-    }
-    .hero {
-      position: relative;
-      min-height: 360px;
-      border: 1px solid rgba(255,255,255,.5);
-      border-radius: 28px;
-      overflow: hidden;
-      box-shadow: var(--shadow);
-      margin-bottom: 18px;
-      background: #091220;
-    }
-    .hero img {
-      position: absolute; inset: 0; width: 100%; height: 100%; object-fit: cover;
-      display: block;
-    }
-    .hero::before {
-      content: "";
-      position: absolute; inset: 0;
-      background: linear-gradient(90deg, rgba(8,14,24,.88) 0%, rgba(8,14,24,.68) 48%, rgba(8,14,24,.16) 100%);
-    }
-    .hero-content {
-      position: relative; z-index: 1;
-      min-height: 360px; padding: 34px;
-      display: grid; grid-template-columns: 1.1fr .9fr; gap: 18px; align-items: end;
-    }
-    .eyebrow {
-      display: inline-flex; align-items: center; gap: 8px;
-      border: 1px solid rgba(255,255,255,.18);
-      background: rgba(255,255,255,.08);
-      color: #dce9ff;
-      padding: 7px 12px;
-      border-radius: 999px;
-      font-size: 12px;
-    }
-    .hero h2 {
-      margin: 16px 0 12px;
-      font-size: 40px; line-height: 1.08; color: #fff;
-    }
-    .hero p {
-      margin: 0;
-      max-width: 830px;
-      color: rgba(236,243,255,.86);
-      font-size: 15px; line-height: 1.9;
-    }
-    .pills { display: flex; flex-wrap: wrap; gap: 10px; margin-top: 18px; }
-    .pill {
-      display: inline-flex; align-items: center; min-height: 34px;
-      padding: 0 14px; border-radius: 999px;
-      background: rgba(255,255,255,.10);
-      border: 1px solid rgba(255,255,255,.16);
-      color: #fff; font-size: 12px;
-    }
-    .hero-side { display: grid; gap: 12px; }
-    .stat {
-      border: 1px solid rgba(255,255,255,.14);
-      border-radius: 22px; padding: 16px;
-      background: rgba(255,255,255,.08);
-      color: #fff;
-    }
-    .stat-grid { display: grid; grid-template-columns: 1fr 1fr; gap: 10px; }
-    .tiny {
-      border-radius: 16px; padding: 12px;
-      border: 1px solid rgba(255,255,255,.12);
-      background: rgba(255,255,255,.08);
-    }
-    .tiny span { display: block; font-size: 12px; color: rgba(236,243,255,.76); margin-bottom: 4px; }
-    .tiny strong { display: block; font-size: 18px; }
-    .layout { display: grid; grid-template-columns: 300px minmax(0, 1fr); gap: 16px; align-items: start; }
-    .sidebar, .content {
-      border: 1px solid var(--line);
-      background: var(--panel);
-      border-radius: 24px;
-      box-shadow: var(--shadow);
-    }
-    .sidebar { position: sticky; top: 18px; padding: 16px; }
-    .sidebar h3 { margin: 0 0 10px; font-size: 18px; }
-    .sidebar p { margin: 0 0 14px; color: var(--muted); font-size: 12px; line-height: 1.7; }
-    .menu-group {
-      border: 1px solid var(--line);
-      background: var(--panel-soft);
-      border-radius: 18px;
-      padding: 10px 12px;
-      margin-bottom: 10px;
-    }
-    .menu-group summary {
-      cursor: pointer; list-style: none;
-      display: flex; justify-content: space-between; align-items: center;
-      gap: 10px; font-weight: 700; font-size: 14px;
-    }
-    .menu-group summary::-webkit-details-marker { display: none; }
-    .subnav { display: grid; gap: 8px; margin-top: 10px; }
-    .nav-btn {
-      width: 100%;
-      border: 1px solid var(--line);
-      background: #fff;
-      border-radius: 14px;
-      padding: 10px 11px;
-      text-align: left;
-      font: inherit;
-      color: var(--text);
-      cursor: pointer;
-    }
-    .nav-btn.active { background: linear-gradient(180deg, #eff6ff, #e6f1ff); border-color: #97b6dd; }
-    .content { padding: 18px; }
-    .section { display: none; }
-    .section.active { display: block; }
-    .section-head {
-      display: flex; justify-content: space-between; gap: 12px; align-items: flex-end;
-      border-bottom: 1px solid var(--line); padding-bottom: 12px; margin-bottom: 14px;
-    }
-    .section-head h3 { margin: 0 0 8px; font-size: 18px; }
-    .section-head p { margin: 0; color: var(--muted); font-size: 12px; line-height: 1.6; }
-    .section-id { color: var(--muted); font-size: 12px; white-space: nowrap; }
-    .section-grid { display: grid; gap: 14px; grid-template-columns: repeat(2, minmax(0, 1fr)); }
-    .card {
-      border: 1px solid var(--line);
-      border-radius: 18px;
-      background: #fff;
-      padding: 16px;
-    }
-    .card h4 { margin: 0 0 10px; font-size: 16px; }
-    .body, .body p, .body li { font-size: 13px; line-height: 1.85; }
-    .body ul { margin: 0; padding-left: 18px; }
-    .body li { margin: 6px 0; }
-    table { width: 100%; border-collapse: collapse; font-size: 13px; }
-    th, td { border: 1px solid var(--line); padding: 9px 10px; text-align: left; vertical-align: top; line-height: 1.6; }
-    th { background: #f3f7fd; }
-    .img-grid { display: grid; grid-template-columns: repeat(3, minmax(0, 1fr)); gap: 12px; margin-top: 14px; }
-    .img-card {
-      border: 1px solid var(--line);
-      border-radius: 18px;
-      overflow: hidden;
-      background: #fff;
-    }
-    .img-card img { display: block; width: 100%; height: 220px; object-fit: cover; }
-    .img-card .cap { padding: 10px 12px 12px; font-size: 12px; color: var(--muted); line-height: 1.6; }
-    .img-card .cap b { display: block; color: var(--text); margin-bottom: 4px; font-size: 13px; }
-    .layer-grid { display: grid; grid-template-columns: repeat(5, minmax(0, 1fr)); gap: 10px; }
-    .layer {
-      border: 1px solid var(--line);
-      border-radius: 16px;
-      background: #fff;
-      padding: 12px;
-      min-height: 118px;
-    }
-    .layer b { display: block; margin-bottom: 6px; font-size: 14px; }
-    .layer span { font-size: 12px; color: var(--muted); line-height: 1.6; }
-    .layer.blue { background: linear-gradient(180deg, #ffffff, #f6f9ff); }
-    .layer.cyan { background: linear-gradient(180deg, #ffffff, #f4fbfd); }
-    .layer.green { background: linear-gradient(180deg, #ffffff, #f4fbf7); }
-    .layer.amber { background: linear-gradient(180deg, #ffffff, #fff9ef); }
-    .layer.violet { background: linear-gradient(180deg, #ffffff, #f8f6ff); }
-    .calc-grid {
-      display: grid;
-      grid-template-columns: repeat(2, minmax(0, 1fr));
-      gap: 12px;
-    }
-    .calc-grid {
-      display: grid;
-      grid-template-columns: repeat(2, minmax(0, 1fr));
-      gap: 12px;
-    }
-    .calc-grid {
-      display: grid;
-      grid-template-columns: repeat(2, minmax(0, 1fr));
-      gap: 12px;
-    }
-    .calc-grid {
-      display: grid;
-      grid-template-columns: repeat(2, minmax(0, 1fr));
-      gap: 12px;
-    }
-    .calc-field {
-      display: grid;
-      gap: 6px;
-      font-size: 12px;
-      color: var(--muted);
-    }
-    .calc-field span { font-weight: 700; color: var(--text); }
-    .calc-field input {
-      width: 100%;
-      border: 1px solid var(--line);
-      border-radius: 12px;
-      padding: 10px 12px;
-      font: inherit;
-      color: var(--text);
-      background: #fff;
-    }
-    .calc-note {
-      margin-top: 12px;
-      padding: 10px 12px;
-      border-radius: 14px;
-      background: #f4f8ff;
-      border: 1px solid #dce7f6;
-      color: var(--muted);
-      font-size: 12px;
-      line-height: 1.7;
-    }
-    .calc-results {
-      display: grid;
-      grid-template-columns: repeat(3, minmax(0, 1fr));
-      gap: 12px;
-    }
-    .result-box {
-      border: 1px solid var(--line);
-      border-radius: 16px;
-      padding: 14px;
-      background: linear-gradient(180deg, #ffffff, #f8fbff);
-      min-height: 110px;
-    }
-    .result-box span {
-      display: block;
-      font-size: 12px;
-      color: var(--muted);
-      margin-bottom: 8px;
-    }
-    .result-box strong {
-      display: block;
-      font-size: 26px;
-      line-height: 1.1;
-      margin-bottom: 8px;
-    }
-    .result-box em {
-      display: block;
-      font-style: normal;
-      font-size: 12px;
-      color: var(--muted);
-      line-height: 1.6;
-    }
-    .calc-summary {
-      margin-top: 12px;
-      padding: 14px 16px;
-      border-radius: 16px;
-      background: linear-gradient(135deg, #eff6ff, #f4fbf8);
-      border: 1px solid #cfe0f4;
-      font-size: 13px;
-      line-height: 1.8;
-      color: var(--text);
-    }
-    @media (max-width: 1200px) {
-      .layout { grid-template-columns: 1fr; }
-      .sidebar { position: static; }
-      .hero-content { grid-template-columns: 1fr; }
-      .section-grid, .img-grid, .layer-grid, .stat-grid, .calc-results { grid-template-columns: 1fr 1fr; }
-      .calc-grid {
-      display: grid;
-      grid-template-columns: repeat(2, minmax(0, 1fr));
-      gap: 12px;
-    }
-    .calc-grid {
-      display: grid;
-      grid-template-columns: repeat(2, minmax(0, 1fr));
-      gap: 12px;
-    }
-    .calc-grid {
-      display: grid;
-      grid-template-columns: repeat(2, minmax(0, 1fr));
-      gap: 12px;
-    }
-    .calc-grid { grid-template-columns: 1fr; }
-    }
-    @media (max-width: 780px) {
-      .wrap { padding: 14px; }
-      .topbar { flex-direction: column; align-items: flex-start; }
-      .hero h2 { font-size: 30px; }
-      .hero-content { padding: 20px; }
-      .section-grid, .img-grid, .layer-grid, .stat-grid, .calc-results { grid-template-columns: 1fr; }
-      .calc-grid {
-      display: grid;
-      grid-template-columns: repeat(2, minmax(0, 1fr));
-      gap: 12px;
-    }
-    .calc-grid {
-      display: grid;
-      grid-template-columns: repeat(2, minmax(0, 1fr));
-      gap: 12px;
-    }
-    .calc-grid {
-      display: grid;
-      grid-template-columns: repeat(2, minmax(0, 1fr));
-      gap: 12px;
-    }
-    .calc-grid { grid-template-columns: 1fr; }
-    }
-  
-
-  /* -- Mobile-first responsive overrides -- */
-  @media (max-width: 900px) {
-    .layout { grid-template-columns: 1fr; }
-    .sidebar { position: static; }
-    .hero-content { grid-template-columns: 1fr; min-height: auto; padding: 24px; }
-    .hero h2 { font-size: 28px; }
-  }
-  @media (max-width: 600px) {
-    .wrap { padding: 12px; }
-    .brand h1 { font-size: 16px; }
-    .brand p { font-size: 10px; }
-    .hero { min-height: auto; }
-    .hero-content { padding: 18px; }
-    .hero h2 { font-size: 22px; }
-    .section-grid { grid-template-columns: 1fr !important; }
-    .img-grid { grid-template-columns: 1fr !important; }
-  }
-  /* -- Calculator mobile optimizations -- */
-  @media (max-width: 520px) {
-    .calc-grid { grid-template-columns: 1fr; }
-    .calc-results { grid-template-columns: repeat(2, minmax(0, 1fr)); }
-    .calc-field input {
-      min-height: 48px;
-      font-size: 16px;
-      padding: 12px 14px;
-    }
-    .result-box { min-height: auto; padding: 12px; }
-    .result-box strong { font-size: 16px; }
-    .topbar { flex-direction: column; align-items: stretch; gap: 8px; }
-    .actions { justify-content: stretch; }
-    .action { flex: 1; justify-content: center; }
-  }
-  @media (max-width: 380px) {
-    .calc-results { grid-template-columns: 1fr; }
-  }
-  /* -- Better touch sizing for calculator inputs -- */
-  .calc-field input { font-size: 15px; }
-  .calc-field input:focus { outline: 2px solid var(--blue); outline-offset: 2px; }
-
-  
-  /* -- Calculator parts selector styles -- */
-  .calc-field select {
-    width: 100%;
-    border: 1px solid var(--line);
-    border-radius: 12px;
-    padding: 10px 12px;
-    font: inherit;
-    color: var(--text);
-    background: #fff;
-    cursor: pointer;
-    appearance: auto;
-  }
-  .calc-field select:focus { outline: 2px solid var(--blue); outline-offset: 2px; }
-  .cost-highlight { background: linear-gradient(135deg, #fff8e6, #fffcf5) !important; border-color: #f0c040 !important; }
-  .cost-highlight strong { color: #c78200; font-size: 28px; }
-  .calc-table { width: 100%; border-collapse: collapse; font-size: 12px; }
-  .calc-table th { background: #f3f7fd; position: sticky; top: 0; }
-  .calc-table th, .calc-table td { border: 1px solid var(--line); padding: 6px 8px; text-align: left; }
-  .calc-table tbody tr:hover { background: #f8fbff; }
-  .inline-input { width: 90px; border: 1px solid var(--line); border-radius: 8px; padding: 4px 8px; font: inherit; }
-  .tiny-input { width: 70px; border: 1px solid var(--line); border-radius: 6px; padding: 3px 6px; font: inherit; font-size: 12px; }
-  .inline-row { display: flex; flex-wrap: wrap; gap: 12px; align-items: center; }
-  .calc-field select { font-size: 14px; }
-  @media (max-width: 520px) {
-    .calc-field select { min-height: 48px; font-size: 16px; }
-    .cost-highlight strong { font-size: 18px; }
-    .inline-row { flex-direction: column; align-items: stretch; }
-  }
-</style>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>宝宝爱AI - 持续更新的AI工作门户</title>
+  <meta name="description" content="宝宝爱AI是一个持续更新的中文AI门户网站，展示AI作品、记录AI工作日志、分享提示词和工具经验。">
+  <link rel="stylesheet" href="css/style.css">
 </head>
 <body>
-  <div class="wrap">
-    <div class="topbar">
-      <div class="brand">
-        <div class="mark"></div>
-        <div>
-          <h1>算力机房商业计划书</h1>
-          <p>本地 HTML 汇报版 · 二级菜单 · 免网站直接演示</p>
+  <nav class="nav-bar glass-nav">
+    <a href="index.html" class="nav-logo">宝宝爱AI</a>
+    <div class="nav-menu">
+      <div class="nav-item-wrapper">
+        <a href="index.html" class="nav-item active">首页</a>
+      </div>
+      <div class="nav-item-wrapper has-dropdown">
+        <a href="logs.html" class="nav-item">日志</a>
+        <div class="nav-dropdown">
+          <div class="dropdown-section main-section">
+            <div class="dropdown-title">AI日志</div>
+            <div class="dropdown-desc">记录AI工作日常，分享学习心得</div>
+          </div>
+          <div class="dropdown-links">
+            <a href="logs.html" class="dropdown-link">
+              <span class="link-title">最新日志</span>
+              <span class="link-desc">查看最新更新的AI工作记录</span>
+            </a>
+            <a href="#" class="dropdown-link">
+              <span class="link-title">技术笔记</span>
+              <span class="link-desc">AI技术学习和实践笔记</span>
+            </a>
+            <a href="#" class="dropdown-link">
+              <span class="link-title">工具评测</span>
+              <span class="link-desc">各类AI工具的使用体验</span>
+            </a>
+          </div>
         </div>
       </div>
-      <div class="actions">
-        <a class="action" href="#overview">进入计划书</a>
-        <a class="action" href="#compliance">查看结论</a>
+      <div class="nav-item-wrapper has-dropdown">
+        <a href="works.html" class="nav-item">作品</a>
+        <div class="nav-dropdown">
+          <div class="dropdown-section main-section">
+            <div class="dropdown-title">AI作品</div>
+            <div class="dropdown-desc">探索200+ AI生成的创意作品</div>
+          </div>
+          <div class="dropdown-links">
+            <a href="works.html" class="dropdown-link">
+              <span class="link-title">网站作品</span>
+              <span class="link-desc">AI辅助设计的网站项目</span>
+            </a>
+            <a href="#" class="dropdown-link">
+              <span class="link-title">自动化脚本</span>
+              <span class="link-desc">提升效率的自动化工具</span>
+            </a>
+            <a href="#" class="dropdown-link">
+              <span class="link-title">创意内容</span>
+              <span class="link-desc">AI生成的艺术作品</span>
+            </a>
+          </div>
+        </div>
+      </div>
+      <div class="nav-item-wrapper has-dropdown">
+        <a href="bbs.html" class="nav-item">讨论组</a>
+        <div class="nav-dropdown">
+          <div class="dropdown-section main-section">
+            <div class="dropdown-title">讨论组</div>
+            <div class="dropdown-desc">AI内容、工具、项目交流社区</div>
+          </div>
+          <div class="dropdown-links">
+            <a href="bbs.html" class="dropdown-link">
+              <span class="link-title">最新话题</span>
+              <span class="link-desc">参与热门AI讨论</span>
+            </a>
+            <a href="#" class="dropdown-link">
+              <span class="link-title">资源分享</span>
+              <span class="link-desc">优质AI资源推荐</span>
+            </a>
+            <a href="#" class="dropdown-link">
+              <span class="link-title">问题求助</span>
+              <span class="link-desc">寻求AI相关问题解答</span>
+            </a>
+          </div>
+        </div>
+      </div>
+      <div class="nav-item-wrapper has-dropdown">
+        <a href="share.html" class="nav-item">AI分享</a>
+        <div class="nav-dropdown">
+          <div class="dropdown-section main-section">
+            <div class="dropdown-title">AI分享</div>
+            <div class="dropdown-desc">精选100+实用提示词和工具</div>
+          </div>
+          <div class="dropdown-links">
+            <a href="share.html" class="dropdown-link">
+              <span class="link-title">提示词库</span>
+              <span class="link-desc">高质量提示词合集</span>
+            </a>
+            <a href="#" class="dropdown-link">
+              <span class="link-title">工具推荐</span>
+              <span class="link-desc">好用的AI工具推荐</span>
+            </a>
+            <a href="#" class="dropdown-link">
+              <span class="link-title">学习路径</span>
+              <span class="link-desc">AI学习资源整理</span>
+            </a>
+          </div>
+        </div>
+      </div>
+      <div class="nav-item-wrapper has-dropdown">
+        <a href="business.html" class="nav-item">商务洽谈</a>
+        <div class="nav-dropdown">
+          <div class="dropdown-section main-section">
+            <div class="dropdown-title">商务合作</div>
+            <div class="dropdown-desc">网站搭建、自动化、项目包装</div>
+          </div>
+          <div class="dropdown-links">
+            <a href="business.html" class="dropdown-link">
+              <span class="link-title">网站开发</span>
+              <span class="link-desc">专业网站设计与开发</span>
+            </a>
+            <a href="#" class="dropdown-link">
+              <span class="link-title">自动化开发</span>
+              <span class="link-desc">定制化自动化解决方案</span>
+            </a>
+            <a href="#" class="dropdown-link">
+              <span class="link-title">项目包装</span>
+              <span class="link-desc">项目展示和推广服务</span>
+            </a>
+          </div>
+        </div>
       </div>
     </div>
+    <div class="nav-right">
+      <button class="nav-btn search-btn">
+        <svg viewBox="0 0 24 24">
+          <path d="M15.5 14h-.79l-.28-.27A6.47 6.47 0 0 0 16 9.5 6.5 6.5 0 1 0 9.5 16c1.61 0 3.09-.59 4.23-1.57l.27.28v.79l5 4.99L20.49 19l-4.99-5zm-6 0C7.01 14 5 11.99 5 9.5S7.01 5 9.5 5 14 7.01 14 9.5 11.99 14 9.5 14z"/>
+        </svg>
+      </button>
+      <button class="nav-btn more-btn">
+        <svg viewBox="0 0 24 24">
+          <path d="M12 8c1.1 0 2-.9 2-2s-.9-2-2-2-2 .9-2 2 .9 2 2 2zm0 2c-1.1 0-2 .9-2 2s.9 2 2 2 2-.9 2-2-.9-2-2-2zm0 6c-1.1 0-2 .9-2 2s.9 2 2 2 2-.9 2-2-.9-2-2-2z"/>
+        </svg>
+      </button>
+      <button class="nav-btn mobile-menu-btn">
+        <svg viewBox="0 0 24 24">
+          <path d="M3 18h18v-2H3v2zm0-5h18v-2H3v2zm0-7v2h18V6H3z"/>
+        </svg>
+      </button>
+    </div>
+  </nav>
 
-    <section class="hero">
-      <img src="assets/hero-cover-plain.png" alt="算力机房封面" />
-      <div class="hero-content">
-        <div>
-          <div class="eyebrow">算力机房商业计划书</div>
-          <h2>把算力机房做成可卖、可管、可扩容的商业系统</h2>
-          <p>项目不是单纯购买设备，而是绕着电力、散热、网络、安全、运维和交付，构建一套对外出售算力的标准化机房体系。</p>
-          <div class="pills">
-            <span class="pill">GPU 算力租赁</span>
-            <span class="pill">裸金属托管</span>
-            <span class="pill">企业私有集群</span>
-            <span class="pill">标准化计费</span>
-            <span class="pill">SLA 交付</span>
-          </div>
+  <div class="hero-slider">
+    <div class="slider-container">
+      <div class="slide">
+        <div class="slide-base-image" style="background-image: url('https://images.higgs.ai/?default=1&output=webp&url=https%3A%2F%2Fd8j0ntlcm91z4.cloudfront.net%2Fuser_38xzZboKViGWJOttwIXH07lWA1P%2Fhf_20260609_195923_b0ba8ace-1d1d-4f2c-9a28-1ab84b330680.png&w=1280&q=85');"></div>
+        <div class="slide-reveal-layer">
+          <canvas class="reveal-canvas"></canvas>
+          <div class="slide-reveal-image" style="background-image: url('https://images.higgs.ai/?default=1&output=webp&url=https%3A%2F%2Fd8j0ntlcm91z4.cloudfront.net%2Fuser_38xzZboKViGWJOttwIXH07lWA1P%2Fhf_20260609_201152_bba90a12-bf12-459f-91f0-51f237dbaf3b.png&w=1280&q=85');"></div>
         </div>
-        <div class="hero-side">
-          <div class="stat">
-            <div class="stat-grid">
-              <div class="tiny"><span>结构</span><strong>4 大栏</strong></div>
-              <div class="tiny"><span>子项</span><strong>10+</strong></div>
-              <div class="tiny"><span>图片</span><strong>3</strong></div>
-              <div class="tiny"><span>定位</span><strong>汇报版</strong></div>
+        <div class="slide-content">
+          <div class="shutter-text-container">
+            <div class="shutter-text" data-text="持续更新的AI工作门户">
+              <span class="shutter-char">持</span><span class="shutter-char">续</span><span class="shutter-char">更</span><span class="shutter-char">新</span><span class="shutter-char">的</span><span class="shutter-char">AI</span><span class="shutter-char">工</span><span class="shutter-char">作</span><span class="shutter-char">门</span><span class="shutter-char">户</span>
             </div>
           </div>
-          <div class="stat">
-            <strong style="display:block;margin-bottom:8px;">核心关键词</strong>
-            <div style="font-size:12px;line-height:1.75;color:rgba(236,243,255,.86);">
-              电力 · 供冷 · 机柜 · 网络 · 运维 · 合规 · 财务 · 扩容
-            </div>
-          </div>
+          <a href="works.html" class="slide-cta">开始探索</a>
         </div>
       </div>
-    </section>
-
-    <div class="layout">
-      <aside class="sidebar">
-        <h3>二级菜单</h3>
-        <p>点开主菜单查看细节，右侧可直接切换每一章详情。</p>
-        
-        <details class="menu-group" open>
-          <summary>01 项目概览</summary>
-          <div class="subnav"><button class="nav-btn active" data-target="overview">执行摘要</button><button class="nav-btn" data-target="product">商业模式</button></div>
-        </details>
-        
-        <details class="menu-group" >
-          <summary>02 技术与设备</summary>
-          <div class="subnav"><button class="nav-btn active" data-target="tech">技术与 BOM</button><button class="nav-btn" data-target="infra">基础设施</button></div>
-        </details>
-        
-        <details class="menu-group" >
-          <summary>03 运维与财务</summary>
-          <div class="subnav"><button class="nav-btn active" data-target="ops">运维与风控</button><button class="nav-btn" data-target="finance">财务测算</button><button class="nav-btn" data-target="calculator">成本计算器</button></div>
-        </details>
-        
-        <details class="menu-group" >
-          <summary>04 里程碑与结论</summary>
-          <div class="subnav"><button class="nav-btn active" data-target="roadmap">里程碑与团队</button><button class="nav-btn" data-target="compliance">合规与结论</button></div>
-        </details>
-        
-      </aside>
-
-      <main class="content">
-        
-      <section id="overview" class="section">
-        <div class="section-head">
-          <div>
-            <h3>执行摘要</h3>
-            <p>算力机房不是卖硬件，而是卖稳定可用的算力服务。</p>
+      <div class="slide gradient-dots-slide">
+        <div class="slide-black-bg"></div>
+        <canvas class="gradient-dots-canvas"></canvas>
+        <canvas class="vortex-canvas"></canvas>
+        <div class="slide-content">
+          <div class="shutter-text-container">
+            <div class="shutter-text" data-text="AI作品">
+              <span class="shutter-char">AI</span><span class="shutter-char">作</span><span class="shutter-char">品</span>
+            </div>
           </div>
-          <div class="section-id">OVERVIEW</div>
-        </div>
-        <div class="section-grid"><div class="card"><h4>项目核心</h4><div class="body"><p>目标是在当地建设可对外出售的算力机房，满足 AI 推理、GPU 计算、裸金属租赁、机柜托管和企业私有集群需求。</p><p>供应方向包括 按时计费、按月计费、定制配置和 SLA 保障。</p></div></div><div class="card"><h4>差异化优势</h4><div class="body"><ul><li>电力、散热、网络、合规同步设计</li><li>标准化 BOM 分项报价，规避成本混结</li><li>交付、监控、运维和备件管理一体化</li></ul></div></div><div class="card"><h4>对外说法</h4><div class="body"><ul><li>对企业客户讲稳定性和可用性</li><li>对 AI 团队讲交付速度和成本控制</li><li>对投资者讲规模化扩展和回收逻辑</li></ul></div></div></div>
-        <div class="img-grid"><div class="img-card"><img src="assets/hero-cover-plain.png" alt="封面图" /><div class="cap"><b>封面图</b><span>深色图面，给出汇报第一印象。</span></div></div><div class="img-card"><img src="assets/network-topology.png" alt="网络拓扑图" /><div class="cap"><b>网络拓扑图</b><span>运用网络结构和连接拖影。</span></div></div><div class="img-card"><img src="assets/rack-layout.png" alt="机柜布局图" /><div class="cap"><b>机柜布局图</b><span>提高机房空间和设备密度可视化。</span></div></div></div>
-      </section>
-    
-      <section id="product" class="section">
-        <div class="section-head">
-          <div>
-            <h3>商业模式</h3>
-            <p>先标准化，再做差异化。</p>
+          <div class="shutter-text-container">
+            <div class="shutter-text subtitle" data-text="网站、自动化、内容生产">
+              <span class="shutter-char">网</span><span class="shutter-char">站</span><span class="shutter-char">、</span><span class="shutter-char">自</span><span class="shutter-char">动</span><span class="shutter-char">化</span><span class="shutter-char">、</span><span class="shutter-char">内</span><span class="shutter-char">容</span><span class="shutter-char">生</span><span class="shutter-char">产</span>
+            </div>
           </div>
-          <div class="section-id">PRODUCT</div>
+          <a href="works.html" class="slide-cta">浏览作品</a>
         </div>
-        <div class="section-grid"><div class="card"><h4>基础产品</h4><div class="body"><ul><li>GPU 算力实例</li><li>CPU 高配实例</li><li>裸金属服务器</li><li>机柜托管</li><li>专属集群</li></ul></div></div><div class="card"><h4>增值服务</h4><div class="body"><ul><li>代运维</li><li>监控与日志</li><li>备份与快照</li><li>网络专线接入</li><li>安全隔离</li></ul></div></div><div class="card"><h4>定价方式</h4><div class="body"><table><thead><tr><th>方式</th><th>场景</th><th>解释</th></tr></thead><tbody><tr><td>按小时</td><td>短期试算</td><td>适合最小购买门槛</td></tr><tr><td>按月</td><td>稳定客户</td><td>便于预算和续费</td></tr><tr><td>按机柜</td><td>长期部署</td><td>适合型置资产</td></tr><tr><td>SLA</td><td>企业客户</td><td>保障响应时效和可用性</td></tr></tbody></table></div></div></div>
-        
-      </section>
-    
-      <section id="tech" class="section">
-        <div class="section-head">
-          <div>
-            <h3>技术与 BOM</h3>
-            <p>按部件拆分，才能把成本算实。</p>
+      </div>
+      <div class="slide spatial-dark-slide">
+        <div class="slide-black-bg"></div>
+        <canvas class="wavy-canvas"></canvas>
+        <div class="spatial-hero-container">
+          <canvas class="spatial-canvas"></canvas>
+          <div class="spatial-floating-images">
+            <div class="floating-card" data-parallax="1.2">
+              <div class="floating-card-icon">APP</div>
+              <div class="floating-card-title">提示词库</div>
+            </div>
+            <div class="floating-card" data-parallax="0.8">
+              <div class="floating-card-icon">TOOL</div>
+              <div class="floating-card-title">工具分享</div>
+            </div>
+            <div class="floating-card" data-parallax="1.5">
+              <div class="floating-card-icon">WORK</div>
+              <div class="floating-card-title">工作流</div>
+            </div>
+            <div class="floating-card" data-parallax="0.6">
+              <div class="floating-card-icon">TIPS</div>
+              <div class="floating-card-title">经验技巧</div>
+            </div>
           </div>
-          <div class="section-id">TECH</div>
         </div>
-        <div class="section-grid"><div class="card"><h4>机房架构</h4><div class="body"><div class="layer-grid"><div class="layer blue"><b>计算层</b><span>CPU 、GPU 、内存，决定算力密度。</span></div><div class="layer cyan"><b>供电层</b><span>UPS 、PDU 、稳压和冗余线路。</span></div><div class="layer green"><b>散热层</b><span>风冷、液冷或混合散热。</span></div><div class="layer amber"><b>网络层</b><span>交换机、光模块和带宽。</span></div><div class="layer violet"><b>管理层</b><span>门禁、监控、日志和审计。</span></div></div></div></div><div class="card"><h4>设备 BOM 示例</h4><div class="body"><table><thead><tr><th>类别</th><th>重点</th><th>价格备注</th></tr></thead><tbody><tr><td>GPU</td><td>显存、离时合作、算力密度</td><td>价格以采购时点为准</td></tr><tr><td>CPU</td><td>核心数、频率、温控</td><td>配置固定但可优化</td></tr><tr><td>内存</td><td>ECC 和容量</td><td>直接影响训练与推理</td></tr><tr><td>存储</td><td>NVMe 、SATA、RAID</td><td>解决系统和数据存放</td></tr><tr><td>网络</td><td>交换机、网卡、光模块</td><td>保证连接和调度</td></tr><tr><td>基础设施</td><td>UPS 、PDU 、机柜、制冷</td><td>这是 CAPEX 里最容易被忽略的部分</td></tr></tbody></table></div></div><div class="card"><h4>配置算法</h4><div class="body"><ul><li>以拆分 BOM 为第一原则</li><li>建议先按算力类型分案</li><li>再把主机、满配、操作后台拆开</li><li>所有报价均要标注时点和来源</li></ul></div></div></div>
-        
-      </section>
-    
-      <section id="infra" class="section">
-        <div class="section-head">
-          <div>
-            <h3>基础设施</h3>
-            <p>先确认硬约束，再筛选场地。</p>
+        <div class="slide-content">
+          <div class="slide-title">
+            <div class="shutter-text-container">
+              <div class="shutter-text" data-text="全站搜索相关内容">
+                <span class="shutter-char">全</span><span class="shutter-char">站</span><span class="shutter-char">搜</span><span class="shutter-char">索</span><span class="shutter-char">相</span><span class="shutter-char">关</span><span class="shutter-char">内</span><span class="shutter-char">容</span>
+              </div>
+            </div>
           </div>
-          <div class="section-id">INFRA</div>
-        </div>
-        <div class="section-grid"><div class="card"><h4>选址标准</h4><div class="body"><ul><li>电力接入容量和稳定性</li><li>网络上联条件</li><li>机柜承重与层高</li><li>消防、环评和噪音限制</li><li>扩容便利性</li></ul></div></div><div class="card"><h4>基础设施层</h4><div class="body"><table><thead><tr><th>层级</th><th>组成</th><th>目标</th></tr></thead><tbody><tr><td>供电</td><td>UPS 、PDU 、稳压</td><td>保障稳定运行</td></tr><tr><td>散热</td><td>风冷、液冷、风道</td><td>控制温度和能耗</td></tr><tr><td>连接</td><td>交换机、光纤、带宽</td><td>支撑算力调度</td></tr><tr><td>安全</td><td>门禁、监控、消防</td><td>防止非授权与异常</td></tr></tbody></table></div></div><div class="card"><h4>交付边界</h4><div class="body"><ul><li>只卖算力，不卖混乱</li><li>只卖标准化计费，不卖不确定</li><li>只提供可跟踪的交付结果</li></ul></div></div></div>
-        
-      </section>
-    
-      <section id="ops" class="section">
-        <div class="section-head">
-          <div>
-            <h3>运维与风控</h3>
-            <p>每一个机房都需要有能量管理和故障恢复路线。</p>
+          <div class="spatial-glass-bar search-in-content">
+            <div class="spatial-search-input-wrapper">
+              <svg class="spatial-search-icon" viewBox="0 0 24 24"><path d="M15.5 14h-.79l-.28-.27A6.47 6.47 0 0 0 16 9.5 6.5 6.5 0 1 0 9.5 16c1.61 0 3.09-.59 4.23-1.57l.27.28v.79l5 4.99L20.49 19l-4.99-5zm-6 0C7.01 14 5 11.99 5 9.5S7.01 5 9.5 5 14 7.01 14 9.5 11.99 14 9.5 14z"/></svg>
+              <input type="text" class="spatial-search-input" placeholder="搜索 AI 内容、提示词、工具...">
+              <div class="spatial-search-suggestions">
+                <span class="search-tag">提示词</span>
+                <span class="search-tag">AI工具</span>
+                <span class="search-tag">自动化</span>
+                <span class="search-tag">网站搭建</span>
+              </div>
+            </div>
           </div>
-          <div class="section-id">OPS</div>
+          <a href="#" class="slide-cta" onclick="event.preventDefault();document.querySelector('.spatial-search-input').focus();">开始搜索</a>
         </div>
-        <div class="section-grid"><div class="card"><h4>运维目标</h4><div class="body"><ul><li>7x24 监控</li><li>故障分钟级响应</li><li>备件快速替换</li><li>巡检、日志、健康检查</li></ul></div></div><div class="card"><h4>风险主线</h4><div class="body"><table><thead><tr><th>风险</th><th>表现</th><th>对策</th></tr></thead><tbody><tr><td>供电</td><td>电价波动、接入阻力</td><td>稳压、冗余供电、富余设计</td></tr><tr><td>散热</td><td>高温、热点、损耗</td><td>温控销售、分区冷却</td></tr><tr><td>网络</td><td>中断、延迟、带宽拥塞</td><td>主备网、专线和监控告警</td></tr><tr><td>合规</td><td>许可、消防、数据安全</td><td>前置核对，定期实施检查</td></tr></tbody></table></div></div></div>
-        
-      </section>
-    
-      <section id="finance" class="section">
-        <div class="section-head">
-          <div>
-            <h3>财务测算</h3>
-            <p>CAPEX 与 OPEX 分开看，财务才不会失真。</p>
+      </div>
+      <div class="slide bloom-slide">
+        <div class="slide-black-bg"></div>
+        <canvas class="vortex-canvas-page4"></canvas>
+        <div class="slide-content">
+          <div class="slide-title">
+            <div class="shutter-text-container">
+              <div class="shutter-text" data-text="讨论组">
+                <span class="shutter-char">讨</span><span class="shutter-char">论</span><span class="shutter-char">组</span>
+              </div>
+            </div>
           </div>
-          <div class="section-id">FINANCE</div>
-        </div>
-        <div class="section-grid"><div class="card"><h4>成本结构</h4><div class="body"><table><thead><tr><th>类型</th><th>内容</th><th>说明</th></tr></thead><tbody><tr><td>CAPEX</td><td>服务器、机柜、配电、制冷、网络、装修</td><td>一次性建设成本</td></tr><tr><td>OPEX</td><td>电费、带宽、场地租金、人力、维保</td><td>持续运行成本</td></tr><tr><td>收入</td><td>算力租赁、托管、运维、增值服务</td><td>多条收入更稳</td></tr></tbody></table></div></div><div class="card"><h4>关键指标</h4><div class="body"><ul><li>单位算力成本</li><li>设备利用率</li><li>现金回收周期</li><li>柜平均收入</li></ul></div></div><div class="card"><h4>情景对比</h4><div class="body"><ul><li>保守情景重点看空置率和电费压力</li><li>基准情景适合稳定收入</li><li>乐观情景适合扩容、重投和收益放大</li></ul></div></div></div>
-        
-      </section>
-    
-      <section id="calculator" class="section">
-        <div class="section-head">
-          <div>
-            <h3>成本计算器</h3>
-            <p>配件选配 + 自动汇总成本</p>
+          <div class="slide-subtitle">
+            <div class="shutter-text-container">
+              <div class="shutter-text subtitle" data-text="AI内容、工具、项目">
+                <span class="shutter-char">AI</span><span class="shutter-char">内</span><span class="shutter-char">容</span><span class="shutter-char">、</span><span class="shutter-char">工</span><span class="shutter-char">具</span><span class="shutter-char">、</span><span class="shutter-char">项</span><span class="shutter-char">目</span>
+              </div>
+            </div>
           </div>
-          <div class="section-id">CALCULATOR</div>
+          <a href="bbs.html" class="slide-cta">进入讨论</a>
         </div>
-        <div class="section-grid"><div class="card"><h4>设备配件选配</h4><div class="body">><div class="calc-grid">
-  <label class="calc-field"><span>选择GPU型号</span><select id="selGpu"><option value="">-- 请选择 --</option><option value="rtx5090">NVIDIA RTX 5090 32GB GDDR7 | FP16:180T | ¥42,999</option><option value="rtx4090">NVIDIA RTX 4090 24GB GDDR6X | FP16:82.6T | ¥24,999</option><option value="rtx4070ti">NVIDIA RTX 4070 Ti Super 16GB GDDR6X | FP16:44.4T | ¥8,999</option><option value="h100">NVIDIA H100 SXM 80GB HBM3 | FP16:1000T | ¥300,000</option><option value="a100">NVIDIA A100 80GB 80GB HBM2e | FP16:312T | ¥150,000</option><option value="l40s">NVIDIA L40S 48GB GDDR6 | FP16:182T | ¥85,000</option><option value="mi300x">AMD MI300X 192GB HBM3 | FP16:653T | ¥180,000</option><option value="ascend910b">华为 昇腾910B 64GB HBM2e | FP16:400T | ¥120,000</option></select></label>
-  <label class="calc-field"><span>选择CPU型号</span><select id="selCpu"><option value="">-- 请选择 --</option><option value="xeon-plat-8580">Intel Xeon Platinum 8580 (60核) | ¥75,000</option><option value="xeon-gold-6548">Intel Xeon Gold 6548N (32核) | ¥28,000</option><option value="epyc-9654">AMD EPYC 9654 (96核) | ¥45,000</option><option value="epyc-9334">AMD EPYC 9334 (32核) | ¥18,000</option><option value="threadripper-7980x">AMD Threadripper 7980X (64核) | ¥35,000</option><option value="i9-14900k">Intel Core i9-14900K (24核) | ¥5,500</option></select></label>
-  <label class="calc-field"><span>选择内存</span><select id="selMem"><option value="">-- 请选择 --</option><option value="ddr5-32g">DDR5 ECC 32GB (32GB) | ¥800</option><option value="ddr5-64g">DDR5 ECC 64GB (64GB) | ¥1,500</option><option value="ddr5-128g">DDR5 ECC 128GB (128GB) | ¥3,200</option><option value="ddr5-256g">DDR5 ECC 256GB (256GB) | ¥6,500</option><option value="ddr4-64g">DDR4 ECC 64GB (64GB) | ¥900</option></select></label>
-  <label class="calc-field"><span>选择存储</span><select id="selSto"><option value="">-- 请选择 --</option><option value="ssd-2t">Samsung 990 Pro 2TB NVMe | ¥1,500</option><option value="ssd-4t">Samsung 990 Pro 4TB NVMe | ¥3,500</option><option value="ssd-8t-ent">Kioxia 企业级8TB NVMe U.2 | ¥6,500</option><option value="ssd-15t-ent">Kioxia/Samsung 企业级15.36TB NVMe U.2 | ¥12,000</option><option value="hdd-16t">WD/Seagate 16TB HDD 7200rpm | ¥2,800</option></select></label>
-  <label class="calc-field"><span>选择网络</span><select id="selNet"><option value="">-- 请选择 --</option><option value="nic-25g">Mellanox/Intel 25GbE 双口网卡 | ¥2,500</option><option value="nic-100g">Mellanox/Nvidia 100GbE 单口网卡 | ¥8,000</option><option value="nic-200g">Nvidia ConnectX-7 200GbE 双口网卡 | ¥18,000</option><option value="switch-25g-48">H3C/Huawei 48口25GbE ToR交换机 | ¥35,000</option><option value="switch-100g-32">H3C/Huawei 32口100GbE核心交换机 | ¥85,000</option></select></label>
-  <label class="calc-field"><span>机箱电源</span><select id="selChas"><option value="">-- 请选择 --</option><option value="gpu-chassis-4u">Supermicro/国产 4U GPU服务器机箱(含冗余电源) | ¥3,500</option><option value="psu-2000w">台达/长城 2000W 1+1冗余电源 铂金 | ¥3,500</option></select></label>
-  <label class="calc-field"><span>每台GPU数量(1-8)</span><input id="gpuQty" type="number" min="1" max="8" value="8" /></label>
-  <label class="calc-field"><span>采购设备数量(台)</span><input id="devCnt" type="number" min="1" value="10" /></label>
-</div></div></div><div class="card"><h4>单台设备成本汇总</h4><div class="body"><div class="calc-results">
-  <div class="result-box"><span>GPU总价</span><strong id="outGpuTotal">-</strong><em>单价&times;数量</em></div>
-  <div class="result-box"><span>CPU价格</span><strong id="outCpuPrice">-</strong></div>
-  <div class="result-box"><span>内存价格</span><strong id="outMemPrice">-</strong></div>
-  <div class="result-box"><span>存储价格</span><strong id="outStoPrice">-</strong></div>
-  <div class="result-box"><span>网络价格</span><strong id="outNetPrice">-</strong></div>
-  <div class="result-box"><span>机箱电源价格</span><strong id="outChasPrice">-</strong></div>
-  <div class="result-box cost-highlight"><span>单台设备总成本</span><strong id="outDevCost">-</strong></div>
-  <div class="result-box"><span>单台功耗估算</span><strong id="outDevTdp">-</strong><em>W</em></div>
-  <div class="result-box"><span>单台FP16算力</span><strong id="outDevFlops">-</strong><em>TFLOPS</em></div>
-</div></div></div><div class="card"><h4>项目总投入</h4><div class="body"><div class="calc-results">
-  <div class="result-box"><span>设备数量</span><strong id="outTotalDevices">-</strong><em>台</em></div>
-  <div class="result-box"><span>设备总成本</span><strong id="outDevTotalCost">-</strong></div>
-  <div class="result-box"><span>机柜数量估算</span><strong id="outRackCnt">-</strong><em>每柜8台</em></div>
-  <div class="result-box"><span>机柜+基础设施均摊</span><strong id="outRackInfra">-</strong></div>
-  <div class="result-box"><span>场地/电力固定投入</span><input id="fixedCost" type="number" min="0" value="200000" class="inline-input" /></div>
-  <div class="result-box cost-highlight"><span>项目总CAPEX</span><strong id="outTotalCapex">-</strong></div>
-  <div class="result-box"><span>月电费估算</span><strong id="outMonthlyElec">-</strong></div>
-  <div class="result-box"><span>月OPEX估算</span><strong id="outMonthlyOpex">-</strong></div>
-</div>
-<div class="calc-note inline-row">
-  <label>电价(元/kWh): <input id="elecPrice" type="number" min="0" step="0.01" value="0.72" class="tiny-input" /></label>
-  <label>月宽带(元): <input id="broadband" type="number" min="0" value="8000" class="tiny-input" /></label>
-  <label>月人工(元): <input id="labor" type="number" min="0" value="15000" class="tiny-input" /></label>
-  <label>月场地(元): <input id="rent" type="number" min="0" value="12000" class="tiny-input" /></label>
-</div></div></div><div class="card"><h4>成本回收测算</h4><div class="body"><div class="calc-results">
-  <div class="result-box"><span>产出的总算力</span><strong id="outTotalFlops">-</strong><em>TFLOPS FP16</em></div>
-  <div class="result-box"><span>参考时价对比</span><strong id="outRefPrice">-</strong><em>元/时</em></div>
-  <div class="result-box"><span>50% 上架率 月收入</span><strong id="outRev50">-</strong></div>
-  <div class="result-box"><span>70% 上架率 月收入</span><strong id="outRev70">-</strong></div>
-  <div class="result-box"><span>90% 上架率 月收入</span><strong id="outRev90">-</strong></div>
-  <div class="result-box cost-highlight"><span>回收周期(月)</span><strong id="outPayback">-</strong></div>
-</div>
-<div class="calc-note">说明：算力实际售价需根据市场调整，参考AutoDL/AWS等平台定价。</div></div></div><div class="card"><h4>算力售价参考表</h4><div class="body"><table class="calc-table"><thead><tr><th>平台</th><th>实例</th><th>规格</th><th>时价(元/时)</th><th>月价(元/月)</th></tr></thead><tbody><tr><td>阿里云</td><td>A100x1卡</td><td>A100 80GB</td><td>¥42</td><td>¥30,240</td></tr><tr><td>阿里云</td><td>V100x1卡</td><td>V100 32GB</td><td>¥18</td><td>¥12,960</td></tr><tr><td>腾讯云</td><td>A100x1卡</td><td>A100 80GB</td><td>¥38</td><td>¥27,360</td></tr><tr><td>腾讯云</td><td>4090x1卡</td><td>RTX 4090 24GB</td><td>¥15</td><td>¥10,800</td></tr><tr><td>华为云</td><td>升腾910Bx1</td><td>910B 64GB</td><td>¥35</td><td>¥25,200</td></tr><tr><td>AWS</td><td>p4d.24xlarge</td><td>A100 80GB x8卡</td><td>¥206</td><td>¥148,320</td></tr><tr><td>AutoDL</td><td>A100x1</td><td>A100 80GB竞价</td><td>¥12</td><td>¥8,640</td></tr><tr><td>AutoDL</td><td>4090x1</td><td>RTX 4090 24GB</td><td>¥4.5</td><td>¥3,240</td></tr><tr><td>Featurize</td><td>4090x1</td><td>RTX 4090 24GB</td><td>¥5</td><td>¥3,600</td></tr><tr><td>矩池云</td><td>A100x1</td><td>A100 80GB</td><td>¥14</td><td>¥10,080</td></tr><tr><td>Vast.ai</td><td>4090x1</td><td>RTX 4090 24GB出租</td><td>¥0.85</td><td>¥612</td></tr><tr><td>Vast.ai</td><td>H100x1</td><td>H100 80GB出租</td><td>¥3.5</td><td>¥2,520</td></tr></tbody></table></div></div></div>
-        
-      </section>
-    
-      <section id="roadmap" class="section">
-        <div class="section-head">
-          <div>
-            <h3>里程碑与团队</h3>
-            <p>把项目推进节奏说得更清楚。</p>
+      </div>
+      <div class="slide bloom-feature-slide">
+        <div class="slide-black-bg"></div>
+        <canvas class="bloom-feature-canvas"></canvas>
+        <div class="feature-cards-container">
+          <div class="feature-card liquid-glass">
+            <div class="feature-icon">
+              <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5">
+                <circle cx="12" cy="12" r="10"/>
+                <circle cx="12" cy="12" r="4"/>
+              </svg>
+            </div>
+            <div class="feature-title">AI作品</div>
+            <div class="feature-desc">探索200+ AI生成的创意作品，涵盖网站、自动化、内容生产等领域</div>
           </div>
-          <div class="section-id">ROADMAP</div>
-        </div>
-        <div class="section-grid"><div class="card"><h4>实施里程碑</h4><div class="body"><table><thead><tr><th>阶段</th><th>目标</th><th>产出</th></tr></thead><tbody><tr><td>阶段 1</td><td>定址与选房</td><td>选址、环评、立项</td></tr><tr><td>阶段 2</td><td>设备采购</td><td>BOM 、价格、时间表</td></tr><tr><td>阶段 3</td><td>试运行</td><td>监控、计费、维护流程</td></tr><tr><td>阶段 4</td><td>商业化</td><td>SLA、销售和规模扩展</td></tr></tbody></table></div></div><div class="card"><h4>组织分工</h4><div class="body"><ul><li>项目负责人</li><li>采购负责人</li><li>运维负责人</li><li>网络负责人</li><li>安全负责人</li><li>财务负责人</li></ul></div></div></div>
-        
-      </section>
-    
-      <section id="compliance" class="section">
-        <div class="section-head">
-          <div>
-            <h3>合规与结论</h3>
-            <p>合规不只是手续，也是经营前提。</p>
+          <div class="feature-card liquid-glass">
+            <div class="feature-icon">
+              <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5">
+                <polygon points="12 2 15.09 8.26 22 9.27 17 14.14 18.18 21.02 12 17.77 5.82 21.02 7 14.14 2 9.27 8.91 8.26 12 2"/>
+              </svg>
+            </div>
+            <div class="feature-title">提示词库</div>
+            <div class="feature-desc">精选100+实用提示词，涵盖各种AI工具和场景</div>
           </div>
-          <div class="section-id">COMPLIANCE</div>
+          <div class="feature-card liquid-glass">
+            <div class="feature-icon">
+              <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5">
+                <path d="M13 2L3 14h9l-1 8 10-12h-9l1-8z"/>
+              </svg>
+            </div>
+            <div class="feature-title">商务合作</div>
+            <div class="feature-desc">网站搭建、自动化脚本、项目包装，专业服务助您成功</div>
+          </div>
         </div>
-        <div class="section-grid"><div class="card"><h4>合规框架</h4><div class="body"><ul><li>许可证与审批要提前确认</li><li>消防、安全、环境、建筑规范</li><li>网络与数据安全管理</li><li>合同、交付和赔付边界</li></ul></div></div><div class="card"><h4>总结</h4><div class="body"><p>本版 HTML 已经改成清楚、可点、可战示的条目结构，主文、菜单和图片都保持 UTF-8 正常显示。</p><p>后续可在此版基础上继续补充报价单、时间表和投资回收模型。</p></div></div></div>
-        
-      </section>
+        <div class="slide-content">
+          <div class="slide-title">
+            <div class="shutter-text-container">
+              <div class="shutter-text" data-text="商务洽谈">
+                <span class="shutter-char">商</span><span class="shutter-char">务</span><span class="shutter-char">洽</span><span class="shutter-char">谈</span>
+              </div>
+            </div>
+          </div>
+          <div class="slide-subtitle">
+            <div class="shutter-text-container">
+              <div class="shutter-text subtitle" data-text="网站、自动化、项目包装">
+                <span class="shutter-char">网</span><span class="shutter-char">站</span><span class="shutter-char">、</span><span class="shutter-char">自</span><span class="shutter-char">动</span><span class="shutter-char">化</span><span class="shutter-char">、</span><span class="shutter-char">项</span><span class="shutter-char">目</span><span class="shutter-char">包</span><span class="shutter-char">装</span>
+              </div>
+            </div>
+          </div>
+          <a href="business.html" class="slide-cta">联系合作</a>
+        </div>
+      </div>
+    </div>
     
-      </main>
+    <div class="slide-arrow prev">
+      <svg viewBox="0 0 24 24">
+        <path d="M15.41 7.41L14 6l-6 6 6 6 1.41-1.41L10.83 12z"/>
+      </svg>
+    </div>
+    <div class="slide-arrow next">
+      <svg viewBox="0 0 24 24">
+        <path d="M10 6L8.59 7.41 13.17 12l-4.58 4.59L10 18l6-6z"/>
+      </svg>
+    </div>
+    
+    <div class="slide-nav">
+      <div class="slide-dot active"></div>
+      <div class="slide-dot"></div>
+      <div class="slide-dot"></div>
+      <div class="slide-dot"></div>
+      <div class="slide-dot"></div>
     </div>
   </div>
 
-    <script>
-        const PARTS_DATA = JSON.parse(PARTS_RAW);
-    const sections = {"overview": "overview", "product": "product", "tech": "tech", "infra": "infra", "ops": "ops", "finance": "finance", "calculator": "calculator", "roadmap": "roadmap", "compliance": "compliance"};
-    const buttons = document.querySelectorAll(".nav-btn");
-    const money = new Intl.NumberFormat("zh-CN", { style: "currency", currency: "CNY", maximumFractionDigits: 0 });
-    const numFmt = new Intl.NumberFormat("zh-CN", { maximumFractionDigits: 0 });
+  <div class="more-menu">
+    <a href="tools.html" class="more-menu-item">
+      <svg viewBox="0 0 24 24"><path d="M19.43 12.98c.04-.32.07-.64.07-.98s-.03-.66-.07-.98l2.11-1.65c.19-.15.24-.42.12-.64l-2-3.46c-.12-.22-.37-.3-.59-.22l-2.49 1c-.52-.39-1.08-.7-1.66-.94l-.38-2.65c-.03-.24-.24-.42-.48-.42h-4c-.24 0-.45.18-.48.42l-.38 2.65c-.58.24-1.14.55-1.66.94l-2.49-1c-.22-.08-.47 0-.59.22l-2 3.46c-.12.22-.07.49.12.64l2.11 1.65c-.04.32-.07.64-.07.98s.03.66.07.98l-2.11 1.65c-.19.15-.24.42-.12.64l2 3.46c.12.22.37.3.59.22l2.49-1c.52.39 1.08.7 1.66.94l.38 2.65c.03.24.24.42.48.42h4c.24 0 .45-.18.48-.42l.38-2.65c.58-.24 1.14-.55 1.66-.94l2.49 1c.22.08.47 0 .59-.22l2-3.46c.12-.22.07-.49-.12-.64l-2.11-1.65zM12 15.6c-1.98 0-3.6-1.62-3.6-3.6s1.62-3.6 3.6-3.6 3.6 1.62 3.6 3.6-1.62 3.6-3.6 3.6z"/></svg>
+      <span>AI工具箱</span>
+    </a>
+    <a href="go.html" class="more-menu-item">
+      <svg viewBox="0 0 24 24"><path d="M10 6v2h2V6h2v6h2V6h2v10H10V6zm-8 0v10h2V6H2zm0 12h16v2H2v-2z"/></svg>
+      <span>外部入口</span>
+    </a>
+    <a href="about.html" class="more-menu-item">
+      <svg viewBox="0 0 24 24"><path d="M12 12c2.21 0 4-1.79 4-4s-1.79-4-4-4-4 1.79-4 4 1.79 4 4 4zm0 2c-2.67 0-8 1.34-8 4v2h16v-2c0-2.66-5.33-4-8-4z"/></svg>
+      <span>关于宝宝爱AI</span>
+    </a>
+  </div>
 
-    function getSelVal(selId) {
-      const sel = document.getElementById(selId);
-      return sel && sel.value ? sel.value : null;
-    }
-    function getNum(id, fallback) {
-      const n = Number(document.getElementById(id)?.value);
-      return Number.isFinite(n) && n > 0 ? n : fallback;
-    }
-    function setText(id, text) {
-      const el = document.getElementById(id);
-      if (el) el.textContent = text;
-    }
+  <div class="mobile-nav-overlay">
+    <div class="mobile-nav-close">
+      <svg viewBox="0 0 24 24">
+        <path d="M19 6.41L17.59 5 12 10.59 6.41 5 5 6.41 10.59 12 5 17.59 6.41 19 12 13.41 17.59 19 19 17.59 13.41 12z"/>
+      </svg>
+    </div>
+    <a href="index.html" class="mobile-nav-item active">首页</a>
+    <a href="logs.html" class="mobile-nav-item">日志</a>
+    <a href="works.html" class="mobile-nav-item">作品</a>
+    <a href="bbs.html" class="mobile-nav-item">讨论组</a>
+    <a href="share.html" class="mobile-nav-item">AI分享</a>
+    <a href="business.html" class="mobile-nav-item">商务洽谈</a>
+    <a href="tools.html" class="mobile-nav-item">AI工具箱</a>
+    <a href="go.html" class="mobile-nav-item">外部入口</a>
+    <a href="about.html" class="mobile-nav-item">关于宝宝爱AI</a>
+  </div>
 
-    function updateAll() {
-      const gpuId = getSelVal("selGpu");
-      const cpuId = getSelVal("selCpu");
-      const memId = getSelVal("selMem");
-      const stoId = getSelVal("selSto");
-      const netId = getSelVal("selNet");
-      const chasId = getSelVal("selChas");
-      const gpuQty = Math.max(1, Math.min(8, getNum("gpuQty", 8)));
-      const devCnt = Math.max(1, getNum("devCnt", 10));
+  <div class="search-overlay">
+    <div class="search-input-wrapper">
+      <input type="text" class="search-input" placeholder="搜索 AI 内容、作品、提示词...">
+      <div class="search-close">
+        <svg viewBox="0 0 24 24">
+          <path d="M19 6.41L17.59 5 12 10.59 6.41 5 5 6.41 10.59 12 5 17.59 6.41 19 12 13.41 17.59 19 19 17.59 13.41 12z"/>
+        </svg>
+      </div>
+    </div>
+    <div class="search-suggestions">
+      <div class="search-suggestions-title">热门搜索</div>
+      <div class="search-tags">
+        <span class="search-tag">提示词</span>
+        <span class="search-tag">AI图片</span>
+        <span class="search-tag">AI视频</span>
+        <span class="search-tag">网站搭建</span>
+        <span class="search-tag">自动化</span>
+        <span class="search-tag">作品案例</span>
+        <span class="search-tag">商务合作</span>
+      </div>
+    </div>
+    <div class="search-links">
+      <a href="logs.html" class="search-link-item">
+        <svg viewBox="0 0 24 24"><path d="M19 3h-1V1h-2v2H8V1H6v2H5c-1.11 0-1.99.9-1.99 2L3 19c0 1.1.89 2 2 2h14c1.1 0 2-.9 2-2V5c0-1.1-.9-2-2-2zm0 16H5V8h14v11zM9 10H7v2h2v-2zm4 0h-2v2h2v-2zm4 0h-2v2h2v-2zm-8 4H7v2h2v-2zm4 0h-2v2h2v-2zm4 0h-2v2h2v-2z"/></svg>
+        <span>日志</span>
+      </a>
+      <a href="works.html" class="search-link-item">
+        <svg viewBox="0 0 24 24"><path d="M21 19V5c0-1.1-.9-2-2-2H5c-1.1 0-2 .9-2 2v14c0 1.1.9 2 2 2h14c1.1 0 2-.9 2-2zM8.5 13.5l2.5 3.01L14.5 12l4.5 6H5l3.5-4.5z"/></svg>
+        <span>作品</span>
+      </a>
+      <a href="share.html" class="search-link-item">
+        <svg viewBox="0 0 24 24"><path d="M18 16.08c-.76 0-1.44.3-1.96.77L8.91 12.7c.05-.23.09-.46.09-.7s-.04-.47-.09-.7l7.05-4.11c.54.5 1.25.81 2.04.81 1.66 0 3-1.34 3-3s-1.34-3-3-3-3 1.34-3 3c0 .24.04.47.09.7L8.04 9.81C7.5 9.31 6.79 9 6 9c-1.66 0-3 1.34-3 3s1.34 3 3 3c.79 0 1.5-.31 2.04-.81l7.12 4.16c-.05.21-.08.43-.08.65 0 1.61 1.31 2.92 2.92 2.92s2.92-1.31 2.92-2.92-1.31-2.92-2.92-2.92z"/></svg>
+        <span>AI分享</span>
+      </a>
+    </div>
+  </div>
 
-      const gpu = PARTS_DATA.gpu.find(g => g.id === gpuId);
-      const cpu = PARTS_DATA.cpu.find(c => c.id === cpuId);
-      const mem = PARTS_DATA.memory.find(m => m.id === memId);
-      const sto = PARTS_DATA.storage.find(s => s.id === stoId);
-      const net = PARTS_DATA.network.find(n => n.id === netId);
-      const chas = PARTS_DATA.platform.find(p => p.id === chasId);
+  <footer class="footer">
+    <div class="footer-text">© 2024 宝宝爱AI · 持续更新的 AI 工作门户</div>
+    <div class="footer-links">
+      <a href="about.html" class="footer-link">关于</a>
+      <a href="business.html" class="footer-link">商务合作</a>
+    </div>
+  </footer>
 
-      const gpuTotal = gpu ? gpu.price * gpuQty : 0;
-      const cpuPrice = cpu ? cpu.price : 0;
-      const memPrice = mem ? mem.price : 0;
-      const stoPrice = sto ? sto.price : 0;
-      const netPrice = net ? net.price : 0;
-      const chasPrice = chas ? chas.price * 2 : 0;
-
-      setText("outGpuTotal", money.format(gpuTotal));
-      setText("outCpuPrice", money.format(cpuPrice));
-      setText("outMemPrice", money.format(memPrice));
-      setText("outStoPrice", money.format(stoPrice));
-      setText("outNetPrice", money.format(netPrice));
-      setText("outChasPrice", money.format(chasPrice));
-
-      const singleDevCost = gpuTotal + cpuPrice + memPrice + stoPrice + netPrice + chasPrice;
-      setText("outDevCost", money.format(singleDevCost));
-      const singleTdp = (gpu ? gpu.tdp * gpuQty : 0) + (cpu ? cpu.tdp : 0) + (mem ? mem.tdp : 0) + (sto ? sto.tdp : 0) + (net ? net.tdp : 0);
-      setText("outDevTdp", numFmt.format(singleTdp) + " W");
-      const singleFlops = gpu ? gpu.tflops_fp16 * gpuQty : 0;
-      setText("outDevFlops", numFmt.format(singleFlops) + " TFLOPS");
-
-      setText("outTotalDevices", numFmt.format(devCnt));
-      const devTotalCost = singleDevCost * devCnt;
-      setText("outDevTotalCost", money.format(devTotalCost));
-      const rackCnt = Math.ceil(devCnt / 8);
-      const rackInfra = rackCnt * 15000;
-      setText("outRackCnt", numFmt.format(rackCnt) + " 个");
-      setText("outRackInfra", money.format(rackInfra));
-
-      const fixedCost = getNum("fixedCost", 200000);
-      const totalCapex = devTotalCost + rackInfra + fixedCost;
-      setText("outTotalCapex", money.format(totalCapex));
-
-      const elecPrice = getNum("elecPrice", 0.72);
-      const monthlyElec = singleTdp / 1000 * devCnt * 20 * 30 * elecPrice;
-      setText("outMonthlyElec", money.format(monthlyElec));
-
-      const broadband = getNum("broadband", 8000);
-      const labor = getNum("labor", 15000);
-      const rent = getNum("rent", 12000);
-      const monthlyOpex = monthlyElec + broadband + labor + rent;
-      setText("outMonthlyOpex", money.format(monthlyOpex));
-
-      const totalFlops = singleFlops * devCnt;
-      setText("outTotalFlops", numFmt.format(totalFlops) + " TFLOPS");
-
-      const a100Ref = PARTS_DATA.computePlat.find(p => p.spec && p.spec.includes("A100"));
-      const refPrice = a100Ref ? a100Ref.priceHour : 14;
-      setText("outRefPrice", ¥" + numFmt.format(refPrice) + "/时");
-
-      const monthlyHours = devCnt * 20 * 30;
-      const hourlyRate = refPrice * 0.7;
-      const rev50 = monthlyHours * hourlyRate * 0.5;
-      const rev70 = monthlyHours * hourlyRate * 0.7;
-      const rev90 = monthlyHours * hourlyRate * 0.9;
-      setText("outRev50", money.format(rev50));
-      setText("outRev70", money.format(rev70));
-      setText("outRev90", money.format(rev90));
-
-      const payback = rev70 > 0 ? totalCapex / (rev70 - monthlyOpex) : 999;
-      setText("outPayback", payback > 0 && payback < 999 ? numFmt.format(Math.ceil(payback)) + " 个月" : "--");
-    }
-
-    function activate(id) {
-      buttons.forEach(btn => btn.classList.toggle("active", btn.dataset.target === id));
-      Object.entries(sections).forEach(([key, nodeId]) => {
-        const el = document.getElementById(nodeId);
-        if (el) el.classList.toggle("active", key === id);
-      });
-      location.hash = "#" + id;
-    }
-
-    buttons.forEach(btn => btn.addEventListener("click", () => activate(btn.dataset.target)));
-
-    const calcInputs = document.querySelectorAll("#selGpu, #selCpu, #selMem, #selSto, #selNet, #selChas, #gpuQty, #devCnt, #fixedCost, #elecPrice, #broadband, #labor, #rent");
-    calcInputs.forEach(el => el && el.addEventListener("input", updateAll));
-    calcInputs.forEach(el => el && el.addEventListener("change", updateAll));
-
-    const start = location.hash.replace("#", "") || "overview";
-    if (sections[start]) activate(start);
-    else activate("overview");
-    setTimeout(updateAll, 100);
-  </script>
-
+  <script src="js/main.js"></script>
 </body>
 </html>
