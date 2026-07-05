@@ -1425,9 +1425,14 @@ function initWorksCarousel() {
   if (!track || cards.length === 0) return;
   
   cards.forEach(card => {
-    card.addEventListener('click', () => {
+    card.addEventListener('click', (event) => {
       cards.forEach(c => c.classList.remove('selected'));
       card.classList.add('selected');
+
+      const href = card.dataset.href;
+      if (href && !event.target.closest('a, button')) {
+        window.location.href = href;
+      }
     });
   });
   

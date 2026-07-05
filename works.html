@@ -19,17 +19,17 @@
       <a href="business.html" class="nav-item">商务洽谈</a>
     </div>
     <div class="nav-right">
-      <button class="nav-btn search-btn">
+      <button class="nav-btn search-btn" aria-label="搜索">
         <svg viewBox="0 0 24 24">
           <path d="M15.5 14h-.79l-.28-.27A6.47 6.47 0 0 0 16 9.5 6.5 6.5 0 1 0 9.5 16c1.61 0 3.09-.59 4.23-1.57l.27.28v.79l5 4.99L20.49 19l-4.99-5zm-6 0C7.01 14 5 11.99 5 9.5S7.01 5 9.5 5 14 7.01 14 9.5 11.99 14 9.5 14z"/>
         </svg>
       </button>
-      <button class="nav-btn more-btn">
+      <button class="nav-btn more-btn" aria-label="更多">
         <svg viewBox="0 0 24 24">
           <path d="M12 8c1.1 0 2-.9 2-2s-.9-2-2-2-2 .9-2 2 .9 2 2 2zm0 2c-1.1 0-2 .9-2 2s.9 2 2 2 2-.9 2-2-.9-2-2-2zm0 6c-1.1 0-2 .9-2 2s.9 2 2 2 2-.9 2-2-.9-2-2-2z"/>
         </svg>
       </button>
-      <button class="nav-btn mobile-menu-btn">
+      <button class="nav-btn mobile-menu-btn" aria-label="菜单">
         <svg viewBox="0 0 24 24">
           <path d="M3 18h18v-2H3v2zm0-5h18v-2H3v2zm0-7v2h18V6H3z"/>
         </svg>
@@ -74,16 +74,29 @@
         </div>
       </section>
 
-      <p class="hero-description">从网站搭建到自动化工作流，从内容生产到真实项目案例，展示 AI 驱动的创新成果。</p>
+      <p class="hero-description">从网站搭建到自动化工作流，从内容生产到真实项目案例，把宝宝爱AI正在做和准备上线的作品放在一个清晰页面里展示。</p>
       <div class="hero-cta">
-        <a class="cta-primary" href="#worksGallery">浏览全部作品</a>
+        <a class="cta-primary" href="#allWorks">浏览全部作品</a>
         <a class="cta-secondary" href="business.html">商务洽谈</a>
       </div>
     </div>
 
     <div class="image-carousel" id="worksGallery">
       <div class="carousel-track" id="carouselTrack">
-        <div class="carousel-card selected" data-index="0" data-title="宝宝爱AI门户" data-category="网站搭建">
+        <div class="carousel-card selected" data-index="0" data-title="老板今天别乱指挥" data-category="网页游戏原型" data-href="boss-game.html">
+          <div class="card-image-wrapper">
+            <div class="card-visual visual-boss-game" role="img" aria-label="老板今天别乱指挥"></div>
+            <div class="card-overlay"></div>
+            <div class="card-selected-ring"></div>
+          </div>
+          <div class="card-info">
+            <div class="card-title">老板今天别乱指挥</div>
+            <div class="card-category">网页游戏原型</div>
+            <a class="card-launch-link" href="boss-game.html">立即试玩</a>
+          </div>
+        </div>
+
+        <div class="carousel-card" data-index="1" data-title="宝宝爱AI门户" data-category="网站搭建">
           <div class="card-image-wrapper">
             <div class="card-visual visual-portal" role="img" aria-label="宝宝爱AI门户"></div>
             <div class="card-overlay"></div>
@@ -95,7 +108,7 @@
           </div>
         </div>
 
-        <div class="carousel-card" data-index="1" data-title="AI内容自动化" data-category="自动化脚本">
+        <div class="carousel-card" data-index="2" data-title="AI内容自动化" data-category="自动化脚本">
           <div class="card-image-wrapper">
             <div class="card-visual visual-automation" role="img" aria-label="AI内容自动化"></div>
             <div class="card-overlay"></div>
@@ -107,7 +120,7 @@
           </div>
         </div>
 
-        <div class="carousel-card" data-index="2" data-title="AI图片作品集" data-category="内容生产">
+        <div class="carousel-card" data-index="3" data-title="AI图片作品集" data-category="内容生产">
           <div class="card-image-wrapper">
             <div class="card-visual visual-content" role="img" aria-label="AI图片作品集"></div>
             <div class="card-overlay"></div>
@@ -119,7 +132,7 @@
           </div>
         </div>
 
-        <div class="carousel-card" data-index="3" data-title="AI视频创作" data-category="视频生成">
+        <div class="carousel-card" data-index="4" data-title="AI视频创作" data-category="视频生成">
           <div class="card-image-wrapper">
             <div class="card-visual visual-video" role="img" aria-label="AI视频创作"></div>
             <div class="card-overlay"></div>
@@ -131,7 +144,7 @@
           </div>
         </div>
 
-        <div class="carousel-card" data-index="4" data-title="提示词库" data-category="知识整理">
+        <div class="carousel-card" data-index="5" data-title="提示词库" data-category="知识整理">
           <div class="card-image-wrapper">
             <div class="card-visual visual-prompt" role="img" aria-label="提示词库"></div>
             <div class="card-overlay"></div>
@@ -143,7 +156,7 @@
           </div>
         </div>
 
-        <div class="carousel-card" data-index="5" data-title="AI工具箱" data-category="工具集成">
+        <div class="carousel-card" data-index="6" data-title="AI工具箱" data-category="工具集成">
           <div class="card-image-wrapper">
             <div class="card-visual visual-tools" role="img" aria-label="AI工具箱"></div>
             <div class="card-overlay"></div>
@@ -156,10 +169,10 @@
         </div>
       </div>
 
-      <button class="carousel-prev" id="carouselPrev">
+      <button class="carousel-prev" id="carouselPrev" aria-label="上一组作品">
         <svg viewBox="0 0 24 24"><path d="M15.41 7.41L14 6l-6 6 6 6 1.41-1.41L10.83 12z"/></svg>
       </button>
-      <button class="carousel-next" id="carouselNext">
+      <button class="carousel-next" id="carouselNext" aria-label="下一组作品">
         <svg viewBox="0 0 24 24"><path d="M10 6L8.59 7.41 13.17 12l-4.58 4.59L10 18l6-6z"/></svg>
       </button>
     </div>
@@ -169,24 +182,106 @@
         <div class="feature-icon">
           <svg viewBox="0 0 24 24"><path d="M12 2C6.48 2 2 6.48 2 12s4.48 10 10 10 10-4.48 10-10S17.52 2 12 2zm-2 15l-5-5 1.41-1.41L10 14.17l7.59-7.59L19 8l-9 9z"/></svg>
         </div>
-        <div class="feature-title">高质量成果</div>
-        <div class="feature-description">专业级别的AI生成作品，精心打磨每一个细节</div>
+        <div class="feature-title">可展示结果</div>
+        <div class="feature-description">先让页面能看、能讲、能展示，再继续往下补完整产品和部署链路。</div>
       </div>
       <div class="feature-card">
         <div class="feature-icon">
           <svg viewBox="0 0 24 24"><path d="M12 2C6.48 2 2 6.48 2 12s4.48 10 10 10 10-4.48 10-10S17.52 2 12 2zm-2 15l-5-5 1.41-1.41L10 14.17l7.59-7.59L19 8l-9 9z"/></svg>
         </div>
-        <div class="feature-title">快速交付</div>
-        <div class="feature-description">高效的AI工作流，快速将创意转化为实际成果</div>
+        <div class="feature-title">持续扩展</div>
+        <div class="feature-description">作品页结构已经打开，后面可以继续往里加专题页、截图、试玩入口和部署链接。</div>
       </div>
       <div class="feature-card">
         <div class="feature-icon">
           <svg viewBox="0 0 24 24"><path d="M12 2C6.48 2 2 6.48 2 12s4.48 10 10 10 10-4.48 10-10S17.52 2 12 2zm-2 15l-5-5 1.41-1.41L10 14.17l7.59-7.59L19 8l-9 9z"/></svg>
         </div>
-        <div class="feature-title">多样风格</div>
-        <div class="feature-description">支持多种创作风格，满足不同场景需求</div>
+        <div class="feature-title">统一入口</div>
+        <div class="feature-description">轮播用于首屏吸引，下面的完整作品区负责集中浏览和对外介绍。</div>
       </div>
     </div>
+
+    <section class="works-showcase" id="allWorks">
+      <div class="works-section-head">
+        <span class="works-section-kicker">全部作品</span>
+        <h2 class="works-section-title">浏览所有作品</h2>
+        <p class="works-section-copy">你现在看到的是一个真正能往下扩展的作品页结构。上面先抓住注意力，下面把所有作品清楚摆开。</p>
+      </div>
+
+      <div class="works-grid">
+        <article class="work-showcase-card work-showcase-featured">
+          <div class="work-showcase-visual visual-boss-game" aria-hidden="true"></div>
+          <div class="work-showcase-body">
+            <div class="work-showcase-topline">
+              <span class="work-pill">新作品</span>
+              <span class="work-pill">网页游戏原型</span>
+            </div>
+            <h3 class="work-showcase-title">老板今天别乱指挥</h3>
+            <p class="work-showcase-subtitle">一款成年人崩溃边缘管理模拟器</p>
+            <p class="work-showcase-copy">用户扮演老板或负责人，在公司、家庭、人情和自我压力同时爆发的一天里，处理不断刷新的事件池，平衡现金流、进度、团队士气、家庭关系、人情债和健康值。</p>
+            <p class="work-showcase-quote">公司要你决策，家人要你负责，朋友要你帮忙，客户要你交付。你先救哪边？</p>
+            <div class="work-showcase-actions">
+              <a class="work-showcase-link" href="boss-game.html">打开试玩页</a>
+            </div>
+          </div>
+        </article>
+
+        <article class="work-showcase-card">
+          <div class="work-showcase-visual visual-portal" aria-hidden="true"></div>
+          <div class="work-showcase-body">
+            <div class="work-showcase-topline">
+              <span class="work-pill">网站搭建</span>
+            </div>
+            <h3 class="work-showcase-title">宝宝爱AI门户</h3>
+            <p class="work-showcase-copy">首页、日志、作品、分享与商务入口统一收纳，适合持续更新和对外展示。</p>
+          </div>
+        </article>
+
+        <article class="work-showcase-card">
+          <div class="work-showcase-visual visual-automation" aria-hidden="true"></div>
+          <div class="work-showcase-body">
+            <div class="work-showcase-topline">
+              <span class="work-pill">自动化脚本</span>
+            </div>
+            <h3 class="work-showcase-title">AI内容自动化</h3>
+            <p class="work-showcase-copy">把内容整理、生成、发布和复用串成轻量工作流，减少重复劳动。</p>
+          </div>
+        </article>
+
+        <article class="work-showcase-card">
+          <div class="work-showcase-visual visual-content" aria-hidden="true"></div>
+          <div class="work-showcase-body">
+            <div class="work-showcase-topline">
+              <span class="work-pill">内容生产</span>
+            </div>
+            <h3 class="work-showcase-title">AI图片作品集</h3>
+            <p class="work-showcase-copy">把图像生成、封面包装和视觉风格探索汇总成可快速浏览的视觉作品集合。</p>
+          </div>
+        </article>
+
+        <article class="work-showcase-card">
+          <div class="work-showcase-visual visual-video" aria-hidden="true"></div>
+          <div class="work-showcase-body">
+            <div class="work-showcase-topline">
+              <span class="work-pill">视频生成</span>
+            </div>
+            <h3 class="work-showcase-title">AI视频创作</h3>
+            <p class="work-showcase-copy">从脚本、镜头、旁白到成片包装的一体化视频创作实验。</p>
+          </div>
+        </article>
+
+        <article class="work-showcase-card">
+          <div class="work-showcase-visual visual-tools" aria-hidden="true"></div>
+          <div class="work-showcase-body">
+            <div class="work-showcase-topline">
+              <span class="work-pill">工具集成</span>
+            </div>
+            <h3 class="work-showcase-title">AI工具箱</h3>
+            <p class="work-showcase-copy">常用能力、生成入口和可复用组件集中整理，方便后续项目快速拼装。</p>
+          </div>
+        </article>
+      </div>
+    </section>
   </div>
 
   <div class="more-menu">
@@ -259,7 +354,7 @@
   </div>
 
   <footer class="footer">
-    <div class="footer-text">© 2026 宝宝爱AI · 持续更新的 AI 工作门户</div>
+    <div class="footer-text">© 2026 宝宝爱AI · 持续更新中的 AI 工作门户</div>
     <div class="footer-links">
       <a href="about.html" class="footer-link">关于</a>
       <a href="business.html" class="footer-link">商务合作</a>

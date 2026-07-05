@@ -1,0 +1,1572 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>老板今天别乱指挥 - 宝宝爱AI</title>
+    <meta name="description" content="老板今天别乱指挥：成年人多线程经营模拟器，处理公司、家庭、人情与自我压力同时爆发的一天。">
+    <style>
+        * { margin: 0; padding: 0; box-sizing: border-box; }
+        body { font-family: 'Segoe UI', sans-serif; background: linear-gradient(135deg, #0f0c29 0%, #302b63 50%, #24243e 100%); min-height: 100vh; color: #fff; overflow-x: hidden; }
+        #particles { position: fixed; top: 0; left: 0; width: 100%; height: 100%; z-index: 0; pointer-events: none; }
+        
+        .hero { position: relative; z-index: 1; display: flex; flex-direction: column; justify-content: center; align-items: center; text-align: center; min-height: 100vh; padding: 40px 20px; }
+        .logo { width: 140px; height: 140px; background: linear-gradient(135deg, #667eea 0%, #764ba2 100%); border-radius: 35px; display: flex; justify-content: center; align-items: center; font-size: 5rem; margin-bottom: 30px; box-shadow: 0 20px 60px rgba(102, 126, 234, 0.5); animation: float 4s ease-in-out infinite; }
+        @keyframes float { 0%,100%{transform:translateY(0);} 50%{transform:translateY(-15px);} }
+        .hero h1 { font-size: 3rem; margin-bottom: 20px; background: linear-gradient(135deg, #fff 0%, #a0aec0 50%, #fff 100%); background-size: 200% auto; -webkit-background-clip: text; -webkit-text-fill-color: transparent; background-clip: text; animation: shimmer 3s linear infinite; }
+        @keyframes shimmer { 0%{background-position: 0% center;} 100%{background-position: 200% center;} }
+        .subtitle { font-size: 1.3rem; color: #a0aec0; margin-bottom: 15px; font-weight: 300; letter-spacing: 2px; }
+        .tagline { font-size: 1.1rem; opacity: 0.8; margin-bottom: 50px; max-width: 600px; line-height: 1.8; }
+        .features { display: flex; gap: 25px; justify-content: center; margin-bottom: 50px; flex-wrap: wrap; }
+        .feature { background: rgba(255,255,255,0.08); padding: 15px 30px; border-radius: 30px; font-size: 1rem; border: 1px solid rgba(255,255,255,0.15); backdrop-filter: blur(10px); transition: all 0.3s; }
+        .feature:hover { background: rgba(255,255,255,0.15); transform: translateY(-3px); }
+        .footer { position: absolute; bottom: 30px; font-size: 0.9rem; opacity: 0.5; }
+        
+        .page { display: none; min-height: 100vh; padding: 10px; position: relative; z-index: 1; }
+        .page.active { display: flex; justify-content: center; align-items: center; }
+        #home-page.active { display: flex; flex-direction: column; }
+        
+        .card { background: rgba(255,255,255,0.06); border-radius: 16px; padding: 20px; margin-bottom: 15px; border: 1px solid rgba(255,255,255,0.1); backdrop-filter: blur(15px); }
+        
+        h2 { font-size: 1.6rem; margin-bottom: 20px; text-align: center; background: linear-gradient(135deg, #fff, #a0aec0); -webkit-background-clip: text; -webkit-text-fill-color: transparent; }
+        h3 { font-size: 1.1rem; margin-bottom: 15px; color: #a0aec0; }
+        
+        .setup-grid { display: flex; flex-wrap: wrap; gap: 12px; justify-content: center; }
+        .setup-option { background: rgba(255,255,255,0.05); padding: 18px 24px; border-radius: 15px; cursor: pointer; text-align: center; border: 2px solid rgba(255,255,255,0.08); transition: all 0.3s; min-width: 140px; backdrop-filter: blur(15px); font-size: 1rem; position: relative; overflow: hidden; }
+        .setup-option::before { content: ''; position: absolute; top: 0; left: -100%; width: 100%; height: 100%; background: linear-gradient(90deg, transparent, rgba(255,255,255,0.15), transparent); transition: left 0.5s; }
+        .setup-option:hover::before { left: 100%; }
+        .setup-option:hover { background: rgba(255,255,255,0.1); transform: translateY(-4px); box-shadow: 0 12px 30px rgba(0,0,0,0.3); border-color: rgba(102,126,234,0.3); }
+        .setup-option.selected { border-color: #667eea; background: rgba(102,126,234,0.15); box-shadow: 0 0 25px rgba(102,126,234,0.5); transform: scale(1.05); }
+        .setup-option.selected::after { content: '✓'; position: absolute; top: 5px; right: 10px; color: #4caf50; font-weight: bold; font-size: 0.9rem; }
+        
+        .setup-card { max-width: 850px; width: 100%; background: rgba(15, 12, 41, 0.9); border: 1px solid rgba(102, 126, 234, 0.2); border-radius: 20px; padding: 35px; box-shadow: 0 20px 60px rgba(0,0,0,0.4), inset 0 0 60px rgba(102, 126, 234, 0.05); position: relative; overflow: hidden; }
+        .setup-card::before { content: ''; position: absolute; top: -50%; right: -30%; width: 300px; height: 300px; background: radial-gradient(circle, rgba(102, 126, 234, 0.1) 0%, transparent 70%); border-radius: 50%; }
+        .setup-card::after { content: ''; position: absolute; bottom: -50%; left: -30%; width: 300px; height: 300px; background: radial-gradient(circle, rgba(156, 39, 176, 0.1) 0%, transparent 70%); border-radius: 50%; }
+        .setup-header { text-align: center; margin-bottom: 35px; position: relative; z-index: 1; }
+        .setup-subtitle { font-size: 1rem; opacity: 0.6; margin-top: 8px; color: #a0aec0; }
+        .setup-section { margin-bottom: 30px; position: relative; z-index: 1; }
+        .setup-section h3 { margin-bottom: 18px; font-size: 1.2rem; color: #667eea; font-weight: bold; text-shadow: 0 0 10px rgba(102, 126, 234, 0.3); display: flex; align-items: center; gap: 8px; }
+        .setup-section h3::before { content: '◆'; color: #ffd700; font-size: 0.8rem; }
+        
+        .company-preview { background: rgba(255,255,255,0.04); border-radius: 15px; padding: 20px; margin: 20px 0; border: 1px solid rgba(255,255,255,0.08); transition: all 0.3s; }
+        .company-preview.active { border-color: rgba(102,126,234,0.3); background: rgba(102,126,234,0.05); }
+        .preview-icon { font-size: 3rem; text-align: center; margin-bottom: 10px; }
+        .preview-title { font-size: 1.4rem; font-weight: bold; text-align: center; margin-bottom: 8px; }
+        .preview-desc { font-size: 0.95rem; opacity: 0.8; text-align: center; margin-bottom: 15px; line-height: 1.5; }
+        .preview-stats { display: flex; gap: 20px; justify-content: center; }
+        .stats-group { display: flex; flex-direction: column; gap: 5px; }
+        .stats-group.advantages span { color: #4caf50; background: rgba(76,175,80,0.1); padding: 5px 12px; border-radius: 20px; font-size: 0.85rem; }
+        .stats-group.disadvantages span { color: #f44336; background: rgba(244,67,54,0.1); padding: 5px 12px; border-radius: 20px; font-size: 0.85rem; }
+        
+        .btn { padding: 12px 30px; font-size: 1rem; border: none; border-radius: 25px; cursor: pointer; transition: all 0.3s; font-weight: bold; text-decoration: none; display: inline-block; position: relative; overflow: hidden; }
+        .btn-primary { background: linear-gradient(135deg, #667eea 0%, #764ba2 100%); color: #fff; box-shadow: 0 8px 20px rgba(102,126,234,0.4); }
+        .btn-primary:hover { transform: translateY(-2px); box-shadow: 0 12px 30px rgba(102,126,234,0.6); }
+        .btn-primary::before { content: ''; position: absolute; top: 0; left: -100%; width: 100%; height: 100%; background: linear-gradient(90deg, transparent, rgba(255,255,255,0.3), transparent); animation: shine 2s infinite; }
+        @keyframes shine { 0%{left:-100%;} 100%{left:100%;} }
+        .btn:disabled { opacity: 0.4; cursor: not-allowed; transform: none !important; }
+        
+        .btn-group { display: flex; justify-content: center; gap: 15px; margin-top: 30px; }
+        
+        .game-header { position: fixed; top: 0; left: 0; right: 0; height: 50px; background: rgba(15, 12, 41, 0.95); display: flex; justify-content: center; align-items: center; gap: 30px; padding: 0 20px; z-index: 100; border-bottom: 1px solid rgba(102, 126, 234, 0.2); backdrop-filter: blur(10px); }
+        
+        .game-container { display: flex; gap: 10px; min-height: calc(100vh - 60px); padding-top: 55px; }
+        
+        .status-panel { width: 180px; flex-shrink: 0; position: fixed; left: 5px; top: 90px; bottom: 10px; overflow-y: hidden; padding-right: 5px; z-index: 50; }
+        .header-date, .header-weekday, .header-turn, .header-progress { font-size: 0.95rem; color: #a0aec0; }
+        .header-turn span, .header-progress span { color: #667eea; font-weight: bold; font-size: 1.1rem; }
+        .header-rank { font-size: 0.8rem; color: #ff9800; position: absolute; right: 20px; }
+        
+        .stats-info { display: none; }
+        
+        .stat-card { background: rgba(255,255,255,0.05); border-radius: 8px; padding: 6px; margin-bottom: 5px; border: 1px solid rgba(255,255,255,0.08); transition: all 0.2s; }
+        .stat-card:hover { background: rgba(255,255,255,0.08); }
+        .stat-card.warning { border-color: rgba(255,152,0,0.4); background: rgba(255,152,0,0.08); }
+        .stat-card.danger { border-color: rgba(244,67,54,0.4); background: rgba(244,67,54,0.08); animation: pulse-danger 1s infinite; }
+        @keyframes pulse-danger { 0%,100%{box-shadow:0 0 0 0 rgba(244,67,54,0.4);} 50%{box-shadow:0 0 0 6px rgba(244,67,54,0);} }
+        
+        .stat-header { display: flex; justify-content: space-between; align-items: center; margin-bottom: 4px; }
+        .stat-icon { font-size: 1.1rem; }
+        .stat-name { font-size: 0.85rem; color: #667eea; font-weight: bold; text-shadow: 0 0 10px rgba(102, 126, 234, 0.5); }
+        
+        .stat-bar-container { height: 32px; background: rgba(255,255,255,0.12); border-radius: 6px; overflow: hidden; position: relative; border: 1px solid rgba(255,255,255,0.15); }
+        .stat-bar { height: 100%; border-radius: 4px; transition: width 0.4s ease; display: flex; align-items: center; justify-content: center; font-weight: bold; font-size: 0.95rem; color: rgba(255,255,255,0.95); text-shadow: 0 1px 2px rgba(0,0,0,0.3); }
+        .stat-bar.cashFlow { background: linear-gradient(90deg, #4caf50, #8bc34a); }
+        .stat-bar.progress { background: linear-gradient(90deg, #2196f3, #64b5f6); }
+        .stat-bar.morale { background: linear-gradient(90deg, #ff9800, #ffb74d); }
+        .stat-bar.family { background: linear-gradient(90deg, #9c27b0, #ce93d8); }
+        .stat-bar.debt { background: linear-gradient(90deg, #f44336, #ef9a9a); }
+        .stat-bar.health { background: linear-gradient(90deg, #e91e63, #f48fb1); }
+        
+        .advice-panel { background: rgba(255,152,0,0.06); border-radius: 8px; padding: 6px; border: 1px solid rgba(255,152,0,0.15); margin-top: 6px; }
+        .advice-header { font-weight: bold; color: #ff9800; margin-bottom: 3px; font-size: 0.75rem; }
+        .advice-item { margin-bottom: 2px; padding: 2px 4px; background: rgba(255,152,0,0.08); border-radius: 3px; font-size: 0.68rem; }
+        
+        .event-panel { flex: 1; padding-left: 190px; display: grid; grid-template-columns: repeat(4, 1fr); gap: 12px; padding-top: 0; }
+        
+        .event-section { border-radius: 12px; padding: 12px; }
+        .event-section.company { background: rgba(102,126,234,0.05); border: 1px solid rgba(102,126,234,0.2); }
+        .event-section.family { background: rgba(156,39,176,0.05); border: 1px solid rgba(156,39,176,0.2); }
+        .event-section.social { background: rgba(255,152,0,0.05); border: 1px solid rgba(255,152,0,0.2); }
+        .event-section.self { background: rgba(233,30,99,0.05); border: 1px solid rgba(233,30,99,0.2); }
+        
+        .event-section-title { font-size: 1rem; margin-bottom: 10px; display: flex; align-items: center; gap: 8px; padding: 8px 10px; border-radius: 8px; font-weight: bold; }
+        .event-section.company .event-section-title { background: rgba(102,126,234,0.15); color: #667eea; }
+        .event-section.family .event-section-title { background: rgba(156,39,176,0.15); color: #9c27b0; }
+        .event-section.social .event-section-title { background: rgba(255,152,0,0.15); color: #ff9800; }
+        .event-section.self .event-section-title { background: rgba(233,30,99,0.15); color: #e91e63; }
+        
+        .event-card { background: rgba(255,255,255,0.05); border-radius: 8px; padding: 12px; margin-bottom: 8px; cursor: pointer; border-left: 4px solid #667eea; transition: all 0.2s; border: 1px solid rgba(255,255,255,0.06); }
+        .event-card:hover { background: rgba(255,255,255,0.08); transform: translateY(-2px); }
+        .event-card.good { border-left-color: #4caf50; background: rgba(76,175,80,0.06); }
+        .event-card.upgrading { border-left-color: #ff5722; animation: pulse-red 0.6s infinite; background: rgba(255,87,34,0.1); padding: 15px; }
+        @keyframes pulse-red { 0%,100%{box-shadow: 0 0 0 0 rgba(255,87,34,0.6);} 50%{box-shadow: 0 0 0 8px rgba(255,87,34,0);} }
+        
+        .event-header { display: flex; justify-content: space-between; align-items: center; margin-bottom: 8px; }
+        .event-title { font-weight: bold; font-size: 1.1rem; }
+        .event-priority { display: flex; gap: 2px; font-size: 0.85rem; }
+        
+        .event-desc { font-size: 1rem; opacity: 0.85; margin-bottom: 8px; line-height: 1.5; }
+        .event-meta { display: flex; gap: 10px; font-size: 0.85rem; opacity: 0.7; }
+        
+        .modal { display: none; position: fixed; top: 0; left: 0; width: 100%; height: 100%; background: rgba(0,0,0,0.85); justify-content: center; align-items: center; z-index: 1000; padding: 15px; backdrop-filter: blur(10px); }
+        .modal.active { display: flex; }
+        .modal-content { background: linear-gradient(135deg, #1a1a3e 0%, #2d2d5a 100%); border-radius: 20px; padding: 30px; max-width: 500px; width: 100%; border: 1px solid rgba(102,126,234,0.3); box-shadow: 0 15px 40px rgba(0,0,0,0.5); }
+        .modal-title { font-size: 1.5rem; margin-bottom: 15px; color: #fff; }
+        .modal-desc { margin-bottom: 20px; line-height: 1.6; font-size: 1rem; opacity: 0.9; }
+        .option-btn { display: block; width: 100%; padding: 12px 15px; margin-bottom: 8px; border: none; border-radius: 10px; cursor: pointer; text-align: left; transition: all 0.3s; font-size: 0.95rem; font-weight: 500; }
+        .option-btn:hover { transform: translateX(5px); }
+        
+        .result-section { display: none; }
+        .result-section.active { display: block; }
+        .result-title { font-size: 1.3rem; margin-bottom: 15px; color: #ffd700; text-align: center; }
+        .result-desc { margin-bottom: 20px; line-height: 1.6; text-align: center; font-size: 1rem; }
+        .result-effects { display: flex; flex-wrap: wrap; gap: 8px; justify-content: center; margin-bottom: 25px; }
+        .effect-tag { padding: 6px 12px; border-radius: 15px; font-size: 0.85rem; }
+        .effect-tag.positive { background: rgba(76,175,80,0.2); color: #4caf50; }
+        .effect-tag.negative { background: rgba(244,67,54,0.2); color: #f44336; }
+        
+        .ending-title { font-size: 2.5rem; text-align: center; margin-bottom: 25px; color: #ffd700; text-shadow: 0 0 30px rgba(255,215,0,0.5); }
+        .ending-title.failed { font-size: 3rem; color: #8b0000; text-shadow: 0 0 15px #8b0000, 0 0 30px #500000; }
+        .ending-desc { font-size: 1.2rem; text-align: center; margin-bottom: 30px; opacity: 0.9; }
+        .ending-desc.failed { color: #666; font-style: italic; }
+        
+        #ending-page.failed { background: linear-gradient(180deg, #0a0a0a 0%, #1a0a0a 30%, #0a0a0a 100%); }
+        #ending-page.failed .card { background: rgba(20,10,10,0.9); border: 1px solid rgba(139,0,0,0.3); }
+        #ending-page.failed .progress-bar { background: linear-gradient(90deg, #4a0000, #8b0000); }
+        
+        .rain-drop { position: fixed; width: 2px; background: linear-gradient(to bottom, transparent, rgba(100,100,100,0.3)); animation: rain 1s linear infinite; pointer-events: none; z-index: 1; }
+        @keyframes rain { 0%{transform: translateY(-10vh); opacity: 0;} 10%{opacity: 1;} 90%{opacity: 1;} 100%{transform: translateY(110vh); opacity: 0;} }
+        
+        .progress-grid { display: grid; grid-template-columns: repeat(3, 1fr); gap: 15px; margin-bottom: 30px; }
+        .progress-item { text-align: center; }
+        .progress-item label { font-size: 0.85rem; opacity: 0.8; }
+        
+        .achievement-toast { position: fixed; bottom: 80px; right: 20px; background: rgba(30,30,50,0.98); border: 2px solid #ffd700; border-radius: 12px; padding: 15px 20px; display: flex; align-items: center; gap: 12px; z-index: 1000; transform: translateX(150%); opacity: 0; transition: all 0.5s cubic-bezier(0.34, 1.56, 0.64, 1); box-shadow: 0 8px 25px rgba(255,215,0,0.3); }
+        .achievement-toast.show { transform: translateX(0); opacity: 1; }
+        
+        .urgent-toast { position: fixed; top: 20px; left: 50%; transform: translateX(-50%) translateY(-150%); background: rgba(244,67,54,0.95); border: 2px solid #ff4444; border-radius: 12px; padding: 15px 25px; display: flex; align-items: center; gap: 12px; z-index: 1001; opacity: 0; transition: all 0.5s cubic-bezier(0.34, 1.56, 0.64, 1); box-shadow: 0 8px 30px rgba(244,67,54,0.5); animation: urgent-pulse 1s infinite; }
+        .urgent-toast.show { transform: translateX(-50%) translateY(0); opacity: 1; }
+        @keyframes urgent-pulse { 0%,100%{box-shadow:0 0 0 0 rgba(244,67,54,0.7);} 50%{box-shadow:0 0 0 10px rgba(244,67,54,0);} }
+        
+        .confetti { position: fixed; width: 10px; height: 10px; background: #ffd700; z-index: 9999; pointer-events: none; animation: confetti-fall 2s ease-out forwards; }
+        @keyframes confetti-fall { 0%{transform: translateY(-10vh) rotate(0deg); opacity: 1;} 100%{transform: translateY(100vh) rotate(720deg); opacity: 0;} }
+        
+        .emoji-popup { position: fixed; top: 30%; right: 25%; transform: scale(0); font-size: 10rem; z-index: 9999; animation: emoji-pop 1.5s ease-out forwards; pointer-events: none; opacity: 0.6; }
+        @keyframes emoji-pop { 0%{transform: scale(0); opacity: 0;} 20%{transform: scale(1.3); opacity: 0.6;} 30%{transform: scale(1); opacity: 0.6;} 80%{transform: scale(1); opacity: 0.6;} 100%{transform: scale(1.1); opacity: 0;} }
+        
+        .float-btn-group { position: fixed; bottom: 20px; right: 20px; display: flex; flex-direction: column; gap: 10px; z-index: 100; }
+        .float-btn { padding: 12px 20px; font-size: 0.95rem; border-radius: 50px; border: none; cursor: pointer; transition: all 0.3s; font-weight: bold; box-shadow: 0 4px 15px rgba(0,0,0,0.3); backdrop-filter: blur(10px); }
+        .float-btn.home { background: linear-gradient(135deg, #667eea 0%, #764ba2 100%); color: #fff; }
+        .float-btn.restart { background: linear-gradient(135deg, #f093fb 0%, #f5576c 100%); color: #fff; }
+        .float-btn:hover { transform: translateY(-3px); box-shadow: 0 6px 20px rgba(0,0,0,0.4); }
+        
+        .company-float-btn { position: fixed; top: 15px; left: 15px; padding: 16px 32px; background: linear-gradient(135deg, #2d1b4e 0%, #1a1a2e 50%, #0f3460 100%); border: none; border-radius: 50px; font-size: 1rem; font-weight: bold; cursor: pointer; transition: all 0.3s; z-index: 100; backdrop-filter: blur(15px); color: #ffd700; text-shadow: 0 0 15px rgba(255,215,0,0.6); box-shadow: 0 0 25px rgba(255,215,0,0.3), inset 0 0 25px rgba(255,215,0,0.1); overflow: hidden; }
+        .company-float-btn::before { content: '👑💎🌟'; position: absolute; top: -50%; left: -50%; font-size: 2rem; opacity: 0.1; }
+        .company-float-btn::after { content: '✨🏆💠'; position: absolute; bottom: -50%; right: -50%; font-size: 2rem; opacity: 0.1; }
+        .company-float-btn:hover { transform: scale(1.08); box-shadow: 0 0 40px rgba(255,215,0,0.5), inset 0 0 35px rgba(255,215,0,0.2); color: #fff; }
+        .company-float-btn:hover::before, .company-float-btn:hover::after { opacity: 0.3; }
+        .site-back-link { position: fixed; top: 18px; right: 18px; z-index: 101; display: inline-flex; align-items: center; justify-content: center; padding: 12px 22px; border-radius: 999px; text-decoration: none; color: #fff; font-size: 0.95rem; font-weight: bold; background: rgba(255,255,255,0.1); border: 1px solid rgba(255,255,255,0.18); backdrop-filter: blur(12px); box-shadow: 0 10px 30px rgba(0,0,0,0.25); transition: all 0.3s; }
+        .site-back-link:hover { transform: translateY(-2px); background: rgba(255,255,255,0.16); }
+        
+        @media (max-width: 1200px) { 
+            .event-panel { grid-template-columns: repeat(2, 1fr); }
+        }
+        @media (max-width: 1024px) { 
+            .game-container { flex-direction: column; } 
+            .status-panel { position: relative; width: 100%; left: 0; top: 0; bottom: auto; overflow-y: visible; }
+            .event-panel { padding-left: 0; }
+            .company-float-btn { top: auto; bottom: 80px; left: 20px; }
+            .game-header { flex-wrap: wrap; gap: 10px; height: auto; padding: 10px 15px; }
+            .header-rank { position: static; margin-top: 5px; }
+        }
+        @media (max-width: 768px) { 
+            .setup-option { padding: 12px 18px; min-width: 110px; font-size: 0.85rem; }
+            .btn-group { flex-direction: column; align-items: center; }
+            .btn-group .btn { width: 100%; max-width: 250px; }
+            .progress-grid { grid-template-columns: repeat(2, 1fr); }
+            .ending-title { font-size: 1.8rem; }
+            .ending-title.failed { font-size: 2rem; }
+            .hero h1 { font-size: 2rem; }
+            .logo { width: 110px; height: 110px; font-size: 4rem; }
+            .tagline { font-size: 1rem; }
+            .features { gap: 15px; }
+            .feature { padding: 12px 20px; font-size: 0.9rem; }
+            .event-panel { grid-template-columns: 1fr; }
+            .game-header { gap: 8px; padding: 8px 12px; }
+            .header-date, .header-weekday, .header-turn, .header-progress { font-size: 0.8rem; }
+            .header-turn span, .header-progress span { font-size: 0.9rem; }
+            .header-rank { font-size: 0.7rem; }
+            .status-panel { position: relative; width: 100%; left: 0; top: 0; bottom: auto; overflow-y: visible; }
+            .event-panel { padding-left: 0; padding-top: 10px; }
+            .company-float-btn { top: auto; bottom: 140px; left: 15px; padding: 10px 20px; font-size: 0.85rem; }
+            .float-btn { width: 45px; height: 45px; font-size: 1.2rem; }
+        }
+        @media (max-width: 480px) { 
+            .event-panel { grid-template-columns: 1fr; }
+            .event-card { padding: 10px; }
+            .stat-card { padding: 8px; }
+            .advice-panel { padding: 8px; }
+            .event-section-title { font-size: 0.9rem; }
+            .event-title { font-size: 0.85rem; }
+            .event-desc { font-size: 0.78rem; }
+            .event-meta { font-size: 0.7rem; }
+            .stat-value { font-size: 1rem; }
+            .stat-name { font-size: 0.75rem; }
+            .stat-icon { font-size: 1rem; }
+            .game-header { gap: 5px; padding: 6px 10px; }
+            .header-date, .header-weekday, .header-turn, .header-progress { font-size: 0.75rem; }
+            .header-turn span, .header-progress span { font-size: 0.85rem; }
+            .header-rank { font-size: 0.65rem; }
+            .setup-card { padding: 20px; }
+            .setup-option { padding: 10px 15px; min-width: 90px; font-size: 0.8rem; }
+            .company-float-btn { padding: 8px 16px; font-size: 0.8rem; }
+        }
+    </style>
+</head>
+<body>
+    <canvas id="particles"></canvas>
+    <a class="site-back-link" href="works.html">← 返回作品页</a>
+    
+    <div id="home-page" class="page active">
+        <div class="hero">
+            <div class="logo">💼</div>
+            <h1>老板今天别乱指挥</h1>
+            <p class="subtitle">ADULT CRISIS MANAGER</p>
+            <p class="tagline">今天公司会不会崩，取决于你先处理哪一个烂摊子。<br>平衡六大指标，在危机中寻找机遇，成为真正的老板！</p>
+            <div class="features">
+                <div class="feature">📊 六大指标平衡</div>
+                <div class="feature">🔥 随机事件挑战</div>
+                <div class="feature">🎉 机遇与危机并存</div>
+                <div class="feature">🏆 成就系统</div>
+            </div>
+            <button class="btn btn-primary" onclick="showPage('setup-page')">🚀 开始接手今天</button>
+            <div class="footer">成年人的世界，没有容易二字</div>
+        </div>
+    </div>
+    
+    <div id="setup-page" class="page">
+        <div class="card setup-card">
+            <div class="setup-header">
+                <h2>📋 开局设置</h2>
+                <div class="setup-subtitle">选择你的创业之路</div>
+            </div>
+            
+            <div class="setup-section">
+                <h3>选择你的公司类型</h3>
+                <div id="company-options" class="setup-grid">
+                    <div class="setup-option" data-type="互联网小团队">💻 互联网小团队</div>
+                    <div class="setup-option" data-type="奶茶店">🧋 奶茶店</div>
+                    <div class="setup-option" data-type="装修公司">🔨 装修公司</div>
+                    <div class="setup-option" data-type="电商团队">🛒 电商团队</div>
+                    <div class="setup-option" data-type="短视频工作室">📱 短视频工作室</div>
+                    <div class="setup-option" data-type="创业公司">🚀 创业公司</div>
+                    <div class="setup-option" data-type="本地生活门店">🏪 本地生活门店</div>
+                    <div class="setup-option" data-type="小型贸易公司">📦 小型贸易公司</div>
+                </div>
+            </div>
+            
+            <div class="setup-section" id="weekday-section" style="display:none;">
+                <h3>选择今天是星期几</h3>
+                <div id="weekday-options" class="setup-grid">
+                    <div class="setup-option" data-day="1">📅 星期一</div>
+                    <div class="setup-option" data-day="2">📅 星期二</div>
+                    <div class="setup-option" data-day="3">📅 星期三</div>
+                    <div class="setup-option" data-day="4">📅 星期四</div>
+                    <div class="setup-option" data-day="5">📅 星期五</div>
+                    <div class="setup-option" data-day="6">📅 星期六</div>
+                    <div class="setup-option" data-day="0">📅 星期日</div>
+                </div>
+            </div>
+            
+            <div class="btn-group">
+                <button class="btn btn-primary" onclick="startGame()" id="start-btn" disabled>今天开始吧</button>
+                <button class="btn" onclick="goHome()" style="background:rgba(255,255,255,0.1);">返回首页</button>
+            </div>
+        </div>
+    </div>
+    
+    <div id="company-modal" class="modal">
+        <div class="card" style="max-width:500px;">
+            <div class="preview-icon" id="modal-icon" style="text-align:center;font-size:3rem;margin-bottom:10px;"></div>
+            <h2 id="modal-title" style="text-align:center;margin-bottom:15px;"></h2>
+            <p id="modal-desc" style="font-size:1rem;line-height:1.6;margin-bottom:15px;"></p>
+            <div style="display:flex;gap:15px;justify-content:center;">
+                <div id="modal-advantages" style="flex:1;"></div>
+                <div id="modal-disadvantages" style="flex:1;"></div>
+            </div>
+            <div class="btn-group" style="margin-top:20px;">
+                <button class="btn btn-primary" onclick="confirmCompany()">确认选择</button>
+            </div>
+        </div>
+    </div>
+
+    <div id="game-page" class="page">
+        <div class="game-header">
+            <div class="header-date">📅 <span id="game-date">2026年1月1日</span></div>
+            <div class="header-weekday">📆 <span id="game-weekday">星期一</span></div>
+            <div class="header-turn">🔄 第 <span id="turn-val">1</span> 回合</div>
+            <div class="header-progress">📊 进度 <span id="turn-percent">5%</span></div>
+            <div class="header-rank" id="turn-rank">只有95%的玩家能撑过第1回合</div>
+        </div>
+        <div class="game-container">
+            <div class="status-panel">
+                
+                <div class="stat-card" id="card-cashFlow">
+                    <div class="stat-header">
+                        <span class="stat-icon">💰</span>
+                        <span class="stat-name">现金流</span>
+                    </div>
+                    <div class="stat-bar-container"><div class="stat-bar cashFlow" id="bar-cashFlow" style="width:80%">80</div></div>
+                </div>
+                
+                <div class="stat-card" id="card-progress">
+                    <div class="stat-header">
+                        <span class="stat-icon">📊</span>
+                        <span class="stat-name">项目进度</span>
+                    </div>
+                    <div class="stat-bar-container"><div class="stat-bar progress" id="bar-progress" style="width:50%">50</div></div>
+                </div>
+                
+                <div class="stat-card" id="card-morale">
+                    <div class="stat-header">
+                        <span class="stat-icon">😁</span>
+                        <span class="stat-name">团队士气</span>
+                    </div>
+                    <div class="stat-bar-container"><div class="stat-bar morale" id="bar-morale" style="width:70%">70</div></div>
+                </div>
+                
+                <div class="stat-card" id="card-family">
+                    <div class="stat-header">
+                        <span class="stat-icon">🏠</span>
+                        <span class="stat-name">家庭关系</span>
+                    </div>
+                    <div class="stat-bar-container"><div class="stat-bar family" id="bar-family" style="width:80%">80</div></div>
+                </div>
+                
+                <div class="stat-card" id="card-debt">
+                    <div class="stat-header">
+                        <span class="stat-icon">🤝</span>
+                        <span class="stat-name">人情债</span>
+                    </div>
+                    <div class="stat-bar-container"><div class="stat-bar debt" id="bar-debt" style="width:40%">40</div></div>
+                </div>
+                
+                <div class="stat-card" id="card-health">
+                    <div class="stat-header">
+                        <span class="stat-icon">❤️</span>
+                        <span class="stat-name">身体健康</span>
+                    </div>
+                    <div class="stat-bar-container"><div class="stat-bar health" id="bar-health" style="width:60%">60</div></div>
+                </div>
+                
+                <div class="advice-panel">
+                    <div class="advice-header">💡 老板提醒</div>
+                    <div id="advice-content">各项指标都很健康，继续保持！</div>
+                </div>
+            </div>
+            
+            <button class="company-float-btn" id="company-badge"></button>
+            <div class="event-panel">
+                <div class="event-section">
+                    <div class="event-section-title">🏢 公司事务</div>
+                    <div id="company-events"></div>
+                </div>
+                <div class="event-section">
+                    <div class="event-section-title">👨‍👩‍👧 家庭事务</div>
+                    <div id="family-events"></div>
+                </div>
+                <div class="event-section">
+                    <div class="event-section-title">🤝 人情往来</div>
+                    <div id="social-events"></div>
+                </div>
+                <div class="event-section">
+                    <div class="event-section-title">🧘 自我状态</div>
+                    <div id="self-events"></div>
+                </div>
+            </div>
+        </div>
+        
+        <div class="float-btn-group">
+            <button class="float-btn home" onclick="goHome()">🏠 返回首页</button>
+            <button class="float-btn restart" onclick="startGame()">🔄 重新开始</button>
+        </div>
+    </div>
+
+    <div id="ending-page" class="page">
+        <div class="card">
+            <h1 id="ending-title" class="ending-title"></h1>
+            <p id="ending-desc" class="ending-desc"></p>
+            <div class="progress-grid">
+                <div class="progress-item"><label>现金流</label><div class="stat-bar-container"><div class="stat-bar cashFlow" id="end-cashFlow"></div></div></div>
+                <div class="progress-item"><label>项目进度</label><div class="stat-bar-container"><div class="stat-bar progress" id="end-progress"></div></div></div>
+                <div class="progress-item"><label>团队士气</label><div class="stat-bar-container"><div class="stat-bar morale" id="end-morale"></div></div></div>
+                <div class="progress-item"><label>家庭关系</label><div class="stat-bar-container"><div class="stat-bar family" id="end-family"></div></div></div>
+                <div class="progress-item"><label>人情债</label><div class="stat-bar-container"><div class="stat-bar debt" id="end-debt"></div></div></div>
+                <div class="progress-item"><label>身体健康</label><div class="stat-bar-container"><div class="stat-bar health" id="end-health"></div></div></div>
+            </div>
+            <div class="btn-group">
+                <button class="btn btn-primary" onclick="goHome()">返回首页</button>
+                <button class="btn" onclick="startGame()" style="background:rgba(255,255,255,0.1);">再玩一次</button>
+            </div>
+        </div>
+    </div>
+
+    <div id="event-modal" class="modal">
+        <div class="modal-content">
+            <div id="modal-main">
+                <h3 id="modal-title" class="modal-title"></h3>
+                <p id="modal-desc" class="modal-desc"></p>
+                <div id="modal-options"></div>
+            </div>
+            <div id="modal-result" class="result-section">
+                <h3 id="result-title" class="result-title"></h3>
+                <p id="result-desc" class="result-desc"></p>
+                <div id="result-effects" class="result-effects"></div>
+                <button class="btn btn-primary" onclick="closeModalAndContinue()" style="width:100%;">继续</button>
+            </div>
+        </div>
+    </div>
+
+    <script>
+        const weekdaySettings = {
+            0: { cashFlow: 90, progress: 40, morale: 85, family: 85, debt: 55, health: 80, eventCount: 2, goodChance: 0.6 },
+            1: { cashFlow: 80, progress: 60, morale: 70, family: 60, debt: 50, health: 65, eventCount: 4, goodChance: 0.3 },
+            2: { cashFlow: 75, progress: 55, morale: 65, family: 55, debt: 45, health: 60, eventCount: 4, goodChance: 0.35 },
+            3: { cashFlow: 70, progress: 50, morale: 60, family: 50, debt: 45, health: 55, eventCount: 5, goodChance: 0.35 },
+            4: { cashFlow: 65, progress: 50, morale: 55, family: 45, debt: 40, health: 50, eventCount: 5, goodChance: 0.4 },
+            5: { cashFlow: 60, progress: 55, morale: 75, family: 70, debt: 50, health: 60, eventCount: 4, goodChance: 0.5 },
+            6: { cashFlow: 85, progress: 45, morale: 80, family: 80, debt: 55, health: 75, eventCount: 3, goodChance: 0.5 }
+        };
+
+        const weekdayNames = ['星期日', '星期一', '星期二', '星期三', '星期四', '星期五', '星期六'];
+
+        function getWeekdayName(day) {
+            return weekdayNames[day];
+        }
+
+        function generateRandomDate() {
+            const year = 2026;
+            const month = Math.floor(Math.random() * 12) + 1;
+            const daysInMonth = new Date(year, month, 0).getDate();
+            const day = Math.floor(Math.random() * daysInMonth) + 1;
+            return { year, month, day };
+        }
+
+        const companyDescriptions = {
+            '互联网小团队': { desc: '在狭小的办公室里，几个年轻人怀揣梦想，用代码改变世界。特点：项目进度加成，但团队士气容易低落，身体健康消耗快。', icon: '💻', color: '#667eea', advantages: ['项目进度+10%', '现金流+20%'], disadvantages: ['团队士气-5%', '家庭关系-5%', '身体健康-10%'] },
+            '奶茶店': { desc: '温馨的小店，香气扑鼻，顾客络绎不绝。特点：团队士气和家庭关系好，但现金流紧张，项目进度慢。', icon: '🧋', color: '#ff6b6b', advantages: ['团队士气+5%', '家庭关系+10%', '身体健康+5%'], disadvantages: ['现金流-10%', '项目进度-10%'] },
+            '装修公司': { desc: '锤子和电钻的交响乐，每一个工程都是艺术。特点：项目进度不错，但团队士气和家庭关系容易出问题，人情债较多。', icon: '🔨', color: '#ffa726', advantages: ['项目进度+5%'], disadvantages: ['团队士气-5%', '家庭关系-5%', '人情债+10%', '身体健康-5%'] },
+            '电商团队': { desc: '键盘敲击声中，订单如雪片般飞来。特点：现金流优秀，但家庭关系紧张，需要大量人情往来。', icon: '🛒', color: '#4caf50', advantages: ['现金流+5%'], disadvantages: ['家庭关系-10%', '人情债+5%', '身体健康-5%'] },
+            '短视频工作室': { desc: '镜头背后，是无数个熬夜的夜晚和创意的火花。特点：团队士气高涨，但现金流紧张，身体消耗巨大。', icon: '📱', color: '#e91e63', advantages: ['团队士气+10%', '项目进度+5%'], disadvantages: ['现金流-15%', '家庭关系-10%', '身体健康-10%'] },
+            '创业公司': { desc: '在生死边缘挣扎，每一步都是赌注。特点：项目进度和现金流潜力巨大，但其他指标全面承压。', icon: '🚀', color: '#9c27b0', advantages: ['项目进度+15%', '现金流+50%', '团队士气+5%'], disadvantages: ['家庭关系-15%', '人情债+15%', '身体健康-15%'] },
+            '本地生活门店': { desc: '邻里街坊的好去处，稳定但缺乏激情。特点：家庭关系和身体健康好，但项目进度慢，现金流不稳定。', icon: '🏪', color: '#00bcd4', advantages: ['团队士气+10%', '家庭关系+15%', '身体健康+10%'], disadvantages: ['项目进度-15%', '现金流不稳定'] },
+            '小型贸易公司': { desc: '在商海中穿梭，人脉就是命脉。特点：现金流不错，但人情债多，其他指标平平。', icon: '📦', color: '#ff9800', advantages: ['现金流+10%'], disadvantages: ['团队士气-5%', '家庭关系-5%', '人情债+15%'] }
+        };
+
+        const companyModifiers = {
+            '互联网小团队': { base: { cashFlow: 0, progress: 10, morale: -5, family: -5, debt: 0, health: -10 }, multiplier: { cashFlow: 1.2, progress: 1.3, morale: 0.9, family: 0.8, debt: 1.0, health: 0.8 } },
+            '奶茶店': { base: { cashFlow: -10, progress: -10, morale: 5, family: 10, debt: 5, health: 5 }, multiplier: { cashFlow: 0.9, progress: 0.7, morale: 1.1, family: 1.2, debt: 0.9, health: 1.1 } },
+            '装修公司': { base: { cashFlow: -5, progress: 5, morale: -5, family: -5, debt: -10, health: -5 }, multiplier: { cashFlow: 1.0, progress: 1.1, morale: 0.8, family: 0.8, debt: 1.2, health: 0.9 } },
+            '电商团队': { base: { cashFlow: 5, progress: 0, morale: 0, family: -10, debt: -5, health: -5 }, multiplier: { cashFlow: 1.3, progress: 1.0, morale: 1.0, family: 0.7, debt: 1.1, health: 0.9 } },
+            '短视频工作室': { base: { cashFlow: -15, progress: 5, morale: 10, family: -10, debt: 0, health: -10 }, multiplier: { cashFlow: 0.8, progress: 1.2, morale: 1.2, family: 0.7, debt: 1.0, health: 0.7 } },
+            '创业公司': { base: { cashFlow: -20, progress: 15, morale: 5, family: -15, debt: -15, health: -15 }, multiplier: { cashFlow: 1.5, progress: 1.5, morale: 1.1, family: 0.6, debt: 1.3, health: 0.6 } },
+            '本地生活门店': { base: { cashFlow: 0, progress: -15, morale: 10, family: 15, debt: 10, health: 10 }, multiplier: { cashFlow: 0.8, progress: 0.6, morale: 1.2, family: 1.3, debt: 0.8, health: 1.2 } },
+            '小型贸易公司': { base: { cashFlow: 10, progress: -5, morale: -5, family: -5, debt: -15, health: 0 }, multiplier: { cashFlow: 1.4, progress: 0.8, morale: 0.9, family: 0.9, debt: 1.3, health: 1.0 } }
+        };
+
+        const companyEvents = {
+            '互联网小团队': {
+                bad1: ['一个大客户突然通知要取消订单，你需要决定如何应对。', '融资方突然反悔，之前谈好的投资泡汤了。', '产品上线后发现严重bug，用户纷纷投诉！', '竞品公司突然发布了一模一样的产品！'],
+                bad2: ['你的核心程序员提交了辞职信，说大厂挖走了他。', '技术总监说要回老家发展，团队面临重新洗牌。', '首席架构师突然离职，项目进度严重受阻！', 'CTO被挖角，技术团队军心涣散！'],
+                bad3: ['服务器被黑客攻击，数据面临泄露风险！', '云服务突然涨价30%，超出了预算。', '数据库崩溃，数据丢失了一半！', 'API接口被恶意调用，产生巨额费用！'],
+                bad10: ['程序员们集体要求996，否则就要集体辞职！', '代码review发现大量安全漏洞，需要紧急修复！'],
+                bad11: ['办公室空调坏了，程序员们热得无心写代码！', '工位不够了，新来的实习生只能坐在会议室！'],
+                bad12: ['你的电脑中了挖矿病毒，算力被偷偷占用！', '代码仓库被意外删除，恢复需要时间！'],
+                good1: ['一位天使投资人看到你的产品，主动打来电话说想投资。', '今日头条报道了你们的创业故事，带来大量曝光！', '雷军点赞了你们的产品！', '腾讯投资部主动联系你们！'],
+                good2: ['你们的产品在GitHub上获得了1000颗星！', '知名科技媒体报道了你们的产品，带来很多新客户。', '产品登上了App Store首页推荐！', '开源社区热烈讨论你们的技术方案！'],
+                good6: ['开源社区有人主动贡献代码！', 'AI工具帮你们提升了开发效率！', 'GitHub给你们颁发了开源贡献奖！', '技术博客阅读量突破10万！'],
+                good7: ['员工提出了一个革命性的技术方案！', '发现了一个可以节省50%服务器成本的方法！']
+            },
+            '奶茶店': {
+                bad1: ['供应商突然涨价，原材料成本上涨20%！', '隔壁新开了一家连锁奶茶店，抢走了不少生意。', '牛奶价格暴涨，利润被压缩！', '外卖差评突然增多，评分下降！'],
+                bad2: ['店长突然辞职，店里没人管了！', '网红饮品的原材料断货了，招牌产品做不了了。', '奶茶师傅被挖走，新品研发停滞！', '店员集体请假，周末没人上班！'],
+                bad3: ['顾客投诉饮品有异物，要求赔偿！', '外卖平台抽成突然提高到25%，利润被压缩。', '卫生检查不合格，被要求停业整改！', '店铺被投诉到消费者协会！'],
+                bad10: ['员工聚餐喝多了，第二天集体迟到！', '外卖小哥抱怨出餐太慢，不愿接单！'],
+                bad11: ['制冰机坏了，冰饮都做不了！', '空调坏了，顾客不愿进店消费！'],
+                bad12: ['收银系统崩溃，无法结账！', '外卖订单太多，店里忙不过来！'],
+                good1: ['你们的饮品被网红博主推荐，订单量暴增！', '附近写字楼新开张，潜在客户增加了很多。', '抖音上一条视频让你们店火了！', '被评为本地最好喝的奶茶店！'],
+                good2: ['推出的新品大受欢迎，排队排到了街上！', '美团给了你们首页推荐位，订单翻倍！', '明星来店里打卡，带来大量粉丝！', '会员日活动效果惊人，新增会员500+！'],
+                good6: ['夏天来临，冰饮需求暴涨！', '老客户办会员卡带来稳定收入！', '推出联名款饮品，销量翻倍！', '团购活动大获成功！'],
+                good7: ['员工提出了一个爆款饮品配方！', '发现了更便宜的原材料供应商！']
+            },
+            '装修公司': {
+                bad1: ['客户突然说不装了，预付款也不要了。', '建材市场涨价，成本超出了预算。', '房东突然涨租，装修成本大增！', '客户要求大幅修改设计方案！'],
+                bad2: ['包工头卷款跑路，工人工资没着落！', '工人施工失误，把业主家的水管打穿了。', '装修工人集体罢工，要求涨工资！', '项目经理突然离职，工地没人管！'],
+                bad3: ['业主不满意装修效果，要求返工！', '装修许可证没办下来，工地被查封了。', '装修材料不合格，需要全部更换！', '邻居投诉噪音太大，要求停工！'],
+                bad10: ['工人酒后施工，质量出问题！', '施工队和业主发生冲突！'],
+                bad11: ['天气太热，工人不愿干活！', '暴雨导致工地积水，材料被泡！'],
+                bad12: ['设计图纸丢失，需要重新设计！', '施工设备坏了，无法继续施工！'],
+                good1: ['一位老客户给你介绍了一个大别墅装修的单子！', '在本地装修比赛中获奖，名声大噪！', '明星找你们装修豪宅！', '装修案例登上了家居杂志！'],
+                good2: ['装修的样板间被参观，接到了好几个新订单！', '材料商给了VIP折扣，成本降低了。', '口碑越来越好，老客户介绍了很多新客户！', '获得了绿色环保装修认证！'],
+                good6: ['房地产市场回暖，装修需求增加！', '朋友介绍了一个大项目！', '推出套餐装修，吸引了很多客户！', '装修工期缩短，效率提升！'],
+                good7: ['工人提出了一个节省材料的好方法！', '引进了新的装修技术，质量提升！']
+            },
+            '电商团队': {
+                bad1: ['平台突然限流，店铺流量暴跌！', '竞争对手恶意差评，店铺评分被拉低。', '商品被恶意举报，被迫下架！', '平台佣金突然上涨！'],
+                bad2: ['仓库管理员把订单发错了，客户要求赔偿！', '快递涨价，物流成本增加了15%。', '仓库爆仓，订单无法及时发货！', '商品被海关扣留，无法发货！'],
+                bad3: ['爆款商品突然断货，订单无法发货！', '平台规则变了，之前的推广方式失效了。', '店铺被降权，搜索排名大幅下降！', '资金被平台冻结，无法提现！'],
+                bad10: ['客服团队集体辞职，没人处理售后！', '推广费用花完了，流量骤降！'],
+                bad11: ['仓库空调坏了，商品被热坏！', '打包材料用完了，无法发货！'],
+                bad12: ['店铺被黑客攻击，后台数据泄露！', '图片被盗用，投诉无门！'],
+                good1: ['参加平台大促活动，销量翻了10倍！', '店铺被选入平台优质商家榜单！', '店铺粉丝突破100万！', '产品被平台选为爆款！'],
+                good2: ['一位达人帮你们带货，销量暴涨！', '老客户回购率提升，口碑越来越好！', '产品登上了直播带货榜！', '跨境电商订单大增！'],
+                good6: ['双十一活动提前开始，订单激增！', '海外仓上线，物流速度提升！', '平台给了流量扶持！', '商品被选为平台主推！'],
+                good7: ['员工提出了一个爆款选品方案！', '发现了一个低成本高利润的货源！']
+            },
+            '短视频工作室': {
+                bad1: ['平台突然限流，粉丝增长停滞！', '主力摄影师说要单飞，团队陷入困境。', '账号被限流，播放量骤降！', '热门话题突然过时！'],
+                bad2: ['视频内容被判定违规，账号被限流一周！', '热门话题突然过时，之前拍的素材全废了。', '账号被封禁，所有努力白费！', '剪辑师突然离职，视频无法按时发布！'],
+                bad3: ['设备突然坏了，明天就要交片！', '品牌方突然取消合作，收入来源没了。', '拍摄场地被占用，无法拍摄！', '天气不好，户外拍摄取消！'],
+                bad10: ['演员迟到，拍摄进度延误！', '视频发布时间错过黄金时段！'],
+                bad11: ['灯光设备坏了，无法拍摄！', '录音设备出问题，声音不清！'],
+                bad12: ['电脑死机，剪辑好的视频丢失！', '硬盘损坏，素材全部丢失！'],
+                good1: ['一条视频意外爆火，涨粉10万！', '知名品牌方主动找上门寻求合作！', '视频登上了平台热榜！', '粉丝突破100万大关！'],
+                good2: ['获得平台扶持流量，播放量翻倍！', '接到了一个大品牌的广告订单！', '账号被认证为优质创作者！', '视频被官方推荐！'],
+                good6: ['热门节日来临，内容流量大涨！', '新签约的达人带来大量粉丝！', '平台举办活动，奖励丰厚！', '直播带货首秀大获成功！'],
+                good7: ['员工提出了一个爆款选题！', '发现了一个低成本拍摄技巧！']
+            },
+            '创业公司': {
+                bad1: ['投资人突然撤资，资金链断裂！', '核心团队成员集体离职，公司陷入危机。', '产品发布失败，用户流失严重！', '市场反应冷淡，融资困难！'],
+                bad2: ['产品上线第一天就被黑客攻击！', '竞争对手推出了类似产品，抢占了市场。', '核心技术被泄露，优势丧失！', '高管团队内斗，公司分裂！'],
+                bad3: ['政府政策突然变化，业务模式受影响！', '办公室租金到期，房东涨租50%！', '营业执照到期，无法续期！', '税务稽查，发现问题！'],
+                bad10: ['员工集体要求涨工资，否则罢工！', '媒体负面报道，公司形象受损！'],
+                bad11: ['办公区停电，无法工作！', '饮水机坏了，员工抱怨！'],
+                bad12: ['服务器崩溃，产品无法使用！', '数据库被删，数据丢失！'],
+                good1: ['获得Pre-A轮融资，估值翻倍！', '产品被知名投资人点赞，曝光度大增！', '入选创业大赛决赛！', '被评为最具潜力创业公司！'],
+                good2: ['入选创业孵化器，获得免费办公场地！', '产品在行业大会上获奖，获得大量关注！', '被媒体报道为创业黑马！', '产品用户突破100万！'],
+                good6: ['获得政府创业补贴！', '产品被知名媒体报道！', '获得创业扶持资金！', '入驻科技园，享受优惠政策！'],
+                good7: ['员工提出了一个颠覆性的商业模式！', '发现了一个蓝海市场！']
+            },
+            '本地生活门店': {
+                bad1: ['周边道路施工，客流减少了一半！', '隔壁店打价格战，抢走了不少老客户。', '市政修路，店铺被围挡挡住！', '停车场满了，顾客不愿来！'],
+                bad2: ['店员突然请假，店里人手不够！', '设备突然坏了，需要停业维修。', '店长突然离职，店铺无人管理！', '供应商断货，无法营业！'],
+                bad3: ['卫生检查没通过，被要求整改！', '原材料供应商突然断货，无法营业。', '顾客投诉服务态度差！', '店铺被列入黑名单！'],
+                bad10: ['员工和顾客发生争执！', '食材过期，被顾客发现！'],
+                bad11: ['空调坏了，顾客不愿进店！', '厕所堵住了，顾客投诉！'],
+                bad12: ['收银机坏了，无法结账！', 'WiFi坏了，顾客抱怨！'],
+                good1: ['美团外卖订单量突然增加！', '老客户介绍了很多新客户来。', '被评为本地必吃店铺！', '店铺登上了大众点评首页！'],
+                good2: ['推出会员制度，客户粘性增加了！', '参加本地美食节，获得了很多新客源！', '老客户忠诚度提升，复购率增加！', '店铺被美食博主推荐！'],
+                good6: ['节假日来临，客流量大增！', '外卖平台给了额外补贴！', '推出新品，吸引了很多顾客！', '团购活动效果很好！'],
+                good7: ['员工提出了一个提升服务的好方法！', '发现了更优质的食材供应商！']
+            },
+            '小型贸易公司': {
+                bad1: ['客户拖欠货款，资金周转困难！', '海关突然严查，货物被扣了。', '汇率波动，损失惨重！', '客户破产，货款收不回！'],
+                bad2: ['供应商突然涨价，利润被压缩！', '物流突然延误，客户要求赔偿。', '供应商断货，无法交货！', '原材料价格暴涨！'],
+                bad3: ['汇率波动，损失了一大笔钱！', '竞争对手低价抢单，客户流失严重。', '贸易政策变化，业务受阻！', '客户取消订单，损失惨重！'],
+                bad10: ['员工出错，发错货物！', '仓库被盗，货物丢失！'],
+                bad11: ['仓库潮湿，货物发霉！', '物流爆仓，货物无法发出！'],
+                bad12: ['电脑中毒，订单数据丢失！', '网络中断，无法接单！'],
+                good1: ['一个老客户给你介绍了一个大订单！', '发现了新的货源渠道，成本降低了20%！', '大客户续签合同，订单翻倍！', '开拓了新市场！'],
+                good2: ['客户追加订单，量翻了3倍！', '成功开拓了新市场，客户增加了！', '产品质量获得认证，客户信任度提升！', '供应商给了独家优惠！'],
+                good6: ['国际贸易政策利好！', '新客户带来长期合作机会！', '关税降低，成本减少！', '物流效率提升，时效缩短！'],
+                good7: ['员工提出了一个新的贸易方案！', '发现了一个高利润的产品！']
+            }
+        };
+
+        const eventsData = [
+            { id: 'bad1', title: '客户突然取消订单', pool: 'company', urgency: 3, countdown: 3, description: '一个大客户突然通知要取消订单，你需要决定如何应对。', options: [{text:'努力挽回', effects:{cashFlow:-10, progress:5}, feedback:'客户被你的诚意打动，决定继续合作。'}, {text:'接受现实', effects:{cashFlow:-30, morale:-10}, feedback:'订单取消了，但团队士气受到打击。'}] },
+            { id: 'bad2', title: '核心员工想离职', pool: 'company', urgency: 4, countdown: 2, description: '你的核心技术员工提交了辞职信，他说找到了更好的机会。', options: [{text:'加薪挽留', effects:{cashFlow:-15, morale:5}, feedback:'你开出了更高的薪水，员工决定留下。'}, {text:'祝福他', effects:{morale:-15, progress:-10}, feedback:'员工离开了，团队需要时间重新适应。'}] },
+            { id: 'bad3', title: '业务突发危机', pool: 'company', urgency: 5, countdown: 1, description: '公司业务突然出现严重问题，需要紧急处理！', options: [{text:'紧急修复', effects:{cashFlow:-20, morale:-5}, feedback:'危机解决了，但损失了一些客户。'}, {text:'等待恢复', effects:{progress:-20, cashFlow:-10}, feedback:'恢复很慢，项目进度严重落后。'}] },
+            { id: 'good1', title: '获得投资机会', pool: 'company', urgency: 1, countdown: 6, description: '一位投资人看到你的产品，主动打来电话说想投资。', options: [{text:'热情接待', effects:{cashFlow:50, debt:-20}, feedback:'投资人很满意，签了投资意向书！'}] },
+            { id: 'good2', title: '产品获得好评', pool: 'company', urgency: 1, countdown: 5, description: '你们的产品获得了好评，带来了很多新客户。', options: [{text:'加大推广', effects:{cashFlow:30, morale:10}, feedback:'推广效果很好，销售额大幅增长！'}] },
+            { id: 'bad4', title: '老婆抱怨没时间陪', pool: 'family', urgency: 3, countdown: 3, description: '老婆抱怨你最近太忙了，没时间陪她和孩子。', options: [{text:'今晚回家吃饭', effects:{family:15, progress:-5}, feedback:'家人很开心，但项目进度稍微落后了。'}, {text:'周末补偿', effects:{family:10, morale:-5}, feedback:'家人理解了，但还是希望你多陪陪他们。'}] },
+            { id: 'bad5', title: '孩子生病', pool: 'family', urgency: 5, countdown: 1, description: '孩子突然发高烧，需要立刻去医院。', options: [{text:'立即陪孩子去医院', effects:{family:20, health:-5, progress:-10}, feedback:'孩子病情稳定了，家人非常感激你。'}, {text:'让老婆带孩子去', effects:{family:-15, morale:-5}, feedback:'孩子康复了，但老婆对你很失望。'}] },
+            { id: 'good3', title: '老婆中了彩票', pool: 'family', urgency: 1, countdown: 6, description: '老婆买的彩票中了小奖，虽然不多但很开心！', options: [{text:'庆祝一下', effects:{cashFlow:20, family:10}, feedback:'一家人出去吃了顿大餐，心情很好！'}] },
+            { id: 'bad6', title: '朋友结婚要随礼', pool: 'social', urgency: 2, countdown: 4, description: '一个好朋友要结婚了，需要准备份子钱。', options: [{text:'大方随礼', effects:{cashFlow:-10, debt:10}, feedback:'朋友很感动，人情债增加了。'}, {text:'少随点', effects:{debt:-10}, feedback:'朋友有点失望，人情债减少了。'}] },
+            { id: 'bad7', title: '亲戚借钱', pool: 'social', urgency: 3, countdown: 3, description: '一个亲戚来找你借钱，说是急用。', options: [{text:'借钱给他', effects:{cashFlow:-20, debt:5}, feedback:'亲戚很感激，人情债增加了。'}, {text:'委婉拒绝', effects:{debt:-15}, feedback:'亲戚不太高兴，人情债减少了。'}] },
+            { id: 'good4', title: '老同学介绍生意', pool: 'social', urgency: 1, countdown: 5, description: '老同学听说你在创业，给你介绍了一个大单子！', options: [{text:'好好把握', effects:{cashFlow:40, debt:5}, feedback:'生意谈成了，老同学也很有面子！'}] },
+            { id: 'bad8', title: '身体透支', pool: 'self', urgency: 4, countdown: 2, description: '你感觉身体越来越累，医生建议你休息。', options: [{text:'请假休息', effects:{health:20, progress:-10}, feedback:'休息后精力充沛，但项目进度落后了。'}, {text:'坚持工作', effects:{health:-15, morale:-5}, feedback:'身体越来越差，团队士气也受影响。'}] },
+            { id: 'bad9', title: '失眠严重', pool: 'self', urgency: 3, countdown: 3, description: '最近压力太大，晚上经常失眠。', options: [{text:'看医生', effects:{cashFlow:-10, health:10}, feedback:'医生开了药，睡眠质量改善了。'}, {text:'自我调节', effects:{health:-5}, feedback:'失眠问题越来越严重。'}] },
+            { id: 'good5', title: '体检结果很好', pool: 'self', urgency: 1, countdown: 6, description: '年度体检结果出来了，各项指标都很正常！', options: [{text:'继续保持', effects:{health:10}, feedback:'身体是革命的本钱，继续保持健康！'}] },
+            
+            { id: 'bad10', title: '员工聚餐喝多了', pool: 'company', urgency: 2, countdown: 4, description: '员工聚餐喝多了，第二天集体迟到。', options: [{text:'宽容处理', effects:{morale:5, progress:-5}, feedback:'团队气氛融洽了，但进度受影响。'}, {text:'严肃批评', effects:{morale:-10}, feedback:'团队气氛紧张了。'}] },
+            { id: 'bad11', title: '办公室空调坏了', pool: 'company', urgency: 2, countdown: 4, description: '天气太热，办公室空调坏了，员工无心工作。', options: [{text:'马上维修', effects:{cashFlow:-15, morale:5}, feedback:'空调修好了，员工恢复工作状态。'}, {text:'忍忍算了', effects:{morale:-10, health:-5}, feedback:'大家热得受不了，工作效率下降。'}] },
+            { id: 'bad12', title: '电脑中毒了', pool: 'company', urgency: 3, countdown: 3, description: '你的电脑中了病毒，重要文件可能丢失。', options: [{text:'花钱请人修复', effects:{cashFlow:-20, progress:5}, feedback:'文件恢复了，虚惊一场。'}, {text:'自己尝试修复', effects:{progress:-10}, feedback:'折腾了半天，还是没修好。'}] },
+            { id: 'good6', title: '业务旺季来临', pool: 'company', urgency: 1, countdown: 5, description: '业务旺季来临，订单量大幅增加！', options: [{text:'加班接单', effects:{cashFlow:40, health:-10}, feedback:'赚了不少钱，但身体累垮了。'}, {text:'选择性接单', effects:{cashFlow:20, morale:5}, feedback:'虽然少赚点，但团队轻松。'}] },
+            { id: 'good7', title: '员工提出好建议', pool: 'company', urgency: 1, countdown: 5, description: '员工提出了一个很好的改进建议。', options: [{text:'采纳建议', effects:{morale:10, progress:10}, feedback:'实施后效果很好！'}, {text:'暂时搁置', effects:{morale:-5}, feedback:'员工感到失望。'}] },
+            
+            { id: 'bad13', title: '父母要来探望', pool: 'family', urgency: 2, countdown: 4, description: '父母说要来城里探望你们，需要安排住宿。', options: [{text:'热情招待', effects:{family:15, cashFlow:-15}, feedback:'父母很高兴，家庭关系更融洽了。'}, {text:'借口忙碌', effects:{family:-10}, feedback:'父母很失望。'}] },
+            { id: 'bad14', title: '家里水管爆了', pool: 'family', urgency: 4, countdown: 2, description: '家里水管突然爆了，水漫金山。', options: [{text:'回家处理', effects:{family:10, progress:-10}, feedback:'问题解决了，但耽误了工作。'}, {text:'找物业处理', effects:{family:-5, cashFlow:-10}, feedback:'处理得不太好，老婆抱怨。'}] },
+            { id: 'good8', title: '结婚纪念日', pool: 'family', urgency: 1, countdown: 5, description: '今天是结婚纪念日！', options: [{text:'准备惊喜', effects:{family:20, cashFlow:-20}, feedback:'老婆感动得热泪盈眶！'}, {text:'简单庆祝', effects:{family:10, cashFlow:-5}, feedback:'温馨的小庆祝。'}] },
+            { id: 'good9', title: '孩子考了满分', pool: 'family', urgency: 1, countdown: 5, description: '孩子考试得了满分，全家人都很高兴！', options: [{text:'奖励孩子', effects:{family:15, cashFlow:-10}, feedback:'孩子很开心，全家其乐融融。'}] },
+            
+            { id: 'bad15', title: '朋友找你帮忙', pool: 'social', urgency: 3, countdown: 3, description: '朋友遇到困难，需要你帮忙。', options: [{text:'全力帮忙', effects:{debt:15, progress:-10}, feedback:'朋友很感激，人情债增加了。'}, {text:'委婉拒绝', effects:{debt:-10}, feedback:'朋友很失望。'}] },
+            { id: 'bad16', title: '同学聚会', pool: 'social', urgency: 2, countdown: 4, description: '老同学组织聚会，需要花钱。', options: [{text:'参加聚会', effects:{debt:10, cashFlow:-15}, feedback:'聚会很开心，认识了新朋友。'}, {text:'不参加', effects:{debt:-5}, feedback:'同学们觉得你架子大。'}] },
+            { id: 'good10', title: '收到红包', pool: 'social', urgency: 1, countdown: 6, description: '亲戚给你发了一个大红包！', options: [{text:'开心收下', effects:{cashFlow:30, debt:-5}, feedback:'意外之喜！'}] },
+            
+            { id: 'bad17', title: '感冒发烧', pool: 'self', urgency: 3, countdown: 3, description: '你感冒发烧了，身体不舒服。', options: [{text:'请假休息', effects:{health:15, progress:-10}, feedback:'休息后康复了。'}, {text:'带病工作', effects:{health:-10, morale:-5}, feedback:'病情加重了。'}] },
+            { id: 'bad18', title: '情绪低落', pool: 'self', urgency: 2, countdown: 4, description: '最近压力太大，情绪很低落。', options: [{text:'找朋友倾诉', effects:{health:10, debt:5}, feedback:'倾诉后心情好多了。'}, {text:'自己扛着', effects:{health:-10, morale:-5}, feedback:'情绪越来越差。'}] },
+            { id: 'good11', title: '健身房打折', pool: 'self', urgency: 1, countdown: 6, description: '附近健身房推出优惠活动！', options: [{text:'办卡健身', effects:{health:15, cashFlow:-20}, feedback:'身体越来越棒！'}] },
+            { id: 'good12', title: '中了小奖', pool: 'self', urgency: 1, countdown: 6, description: '你买的彩票中了小奖！', options: [{text:'开心收下', effects:{cashFlow:15}, feedback:'运气不错！'}] }
+        ];
+
+        const achievements = [
+            { id: 'first_day', name: '第一天上班', desc: '完成第一次事件处理', icon: '🌞', unlocked: false },
+            { id: 'balancer', name: '平衡大师', desc: '所有指标同时高于60', icon: '⚖️', unlocked: false },
+            { id: 'survivor', name: '幸存者', desc: '处理10个事件仍未破产', icon: '🏆', unlocked: false },
+            { id: 'rich', name: '金主爸爸', desc: '现金流达到100', icon: '💰', unlocked: false },
+            { id: 'healthy', name: '养生达人', desc: '健康值始终保持在80以上', icon: '❤️', unlocked: false }
+        ];
+
+        const playerSurvivalRate = [95, 90, 82, 75, 68, 60, 52, 45, 38, 32, 26, 21, 17, 13, 10, 7, 5, 3, 2, 1];
+        const survivalMessages = [
+            '只有95%的玩家能撑过第1回合',
+            '只有90%的玩家能撑过第2回合',
+            '只有82%的玩家能撑过第3回合',
+            '只有75%的玩家能撑过第4回合',
+            '只有68%的玩家能撑过第5回合',
+            '只有60%的玩家能撑过第6回合',
+            '只有52%的玩家能撑过第7回合',
+            '只有45%的玩家能撑过第8回合',
+            '只有38%的玩家能撑过第9回合',
+            '只有32%的玩家能撑过第10回合',
+            '只有26%的玩家能撑过第11回合',
+            '只有21%的玩家能撑过第12回合',
+            '只有17%的玩家能撑过第13回合',
+            '只有13%的玩家能撑过第14回合',
+            '只有10%的玩家能撑过第15回合',
+            '只有7%的玩家能撑过第16回合',
+            '只有5%的玩家能撑过第17回合',
+            '只有3%的玩家能撑过第18回合',
+            '只有2%的玩家能撑过第19回合',
+            '只有1%的玩家能撑过第20回合'
+        ];
+        
+        const totalTurns = 20;
+        
+        let gameState = { companyType: '', difficulty: '简单', turn: 1, metrics: {}, previousMetrics: {}, activeEvents: [], resolvedEvents: [], upgradedEvents: [], newPits: [], savedSituation: 0 };
+        let lastOptionEffects = {};
+
+        function initEventListeners() {
+            document.querySelectorAll('#company-options .setup-option').forEach(opt => {
+                opt.onclick = function() {
+                    showCompanyModal(this.dataset.type);
+                };
+            });
+            document.querySelectorAll('#weekday-options .setup-option').forEach(opt => {
+                opt.onclick = function() {
+                    gameState.weekday = parseInt(this.dataset.day);
+                    document.querySelectorAll('#weekday-options .setup-option').forEach(o => o.classList.remove('selected'));
+                    this.classList.add('selected');
+                    checkStartButton();
+                };
+            });
+        }
+
+        function showCompanyModal(type) {
+            const desc = companyDescriptions[type];
+            if (!desc) return;
+            
+            document.getElementById('modal-icon').textContent = desc.icon;
+            document.getElementById('modal-title').textContent = type;
+            document.getElementById('modal-title').style.color = desc.color;
+            document.getElementById('modal-desc').textContent = desc.desc;
+            
+            const advHtml = desc.advantages.map(a => '<div style="color:#4caf50;background:rgba(76,175,80,0.1);padding:8px;border-radius:8px;margin-bottom:5px;font-size:0.9rem;">✅ ' + a + '</div>').join('');
+            const disHtml = desc.disadvantages.map(d => '<div style="color:#f44336;background:rgba(244,67,54,0.1);padding:8px;border-radius:8px;margin-bottom:5px;font-size:0.9rem;">❌ ' + d + '</div>').join('');
+            document.getElementById('modal-advantages').innerHTML = advHtml;
+            document.getElementById('modal-disadvantages').innerHTML = disHtml;
+            
+            gameState.companyType = type;
+            document.getElementById('company-modal').style.display = 'flex';
+        }
+
+        function confirmCompany() {
+            document.getElementById('company-modal').style.display = 'none';
+            document.querySelectorAll('#company-options .setup-option').forEach(o => o.classList.remove('selected'));
+            document.querySelector('#company-options .setup-option[data-type="' + gameState.companyType + '"]').classList.add('selected');
+            document.getElementById('weekday-section').style.display = 'block';
+        }
+
+        function showCompanyPreview(type) {
+            const preview = document.getElementById('company-preview');
+            const desc = companyDescriptions[type];
+            if (!desc) return;
+            
+            preview.classList.add('active');
+            document.getElementById('preview-icon').textContent = desc.icon;
+            document.getElementById('preview-title').textContent = type;
+            document.getElementById('preview-title').style.color = desc.color;
+            document.getElementById('preview-desc').textContent = desc.desc;
+            
+            const advHtml = desc.advantages.map(a => '<span>✅ ' + a + '</span>').join('');
+            const disHtml = desc.disadvantages.map(d => '<span>❌ ' + d + '</span>').join('');
+            document.getElementById('preview-advantages').innerHTML = advHtml;
+            document.getElementById('preview-disadvantages').innerHTML = disHtml;
+        }
+
+        function playIntroAnimation(companyType, difficulty) {
+            const introOverlay = document.createElement('div');
+            introOverlay.style.cssText = `
+                position: fixed; top: 0; left: 0; right: 0; bottom: 0;
+                background: #000; z-index: 9999; display: flex; flex-direction: column;
+                justify-content: center; align-items: center; overflow: hidden;
+            `;
+            
+            const flashOverlay = document.createElement('div');
+            flashOverlay.style.cssText = `
+                position: absolute; top: 0; left: 0; right: 0; bottom: 0;
+                background: #fff; opacity: 0; z-index: 9998;
+            `;
+            introOverlay.appendChild(flashOverlay);
+            
+            const bgColors = ['#0a0a0a', '#1a1a2e', '#16213e', '#0f3460', '#533483'];
+            let colorIndex = 0;
+            const bgInterval = setInterval(() => {
+                colorIndex = (colorIndex + 1) % bgColors.length;
+                introOverlay.style.background = bgColors[colorIndex];
+            }, 150);
+            
+            for (let i = 0; i < 30; i++) {
+                const particle = document.createElement('div');
+                particle.style.cssText = `
+                    position: absolute; width: 4px; height: 4px;
+                    background: #667eea; border-radius: 50%;
+                    left: ${Math.random() * 100}%; top: ${Math.random() * 100}%;
+                    opacity: ${Math.random() * 0.5 + 0.2};
+                `;
+                introOverlay.appendChild(particle);
+                
+                let px = Math.random() * 100;
+                let py = Math.random() * 100;
+                setInterval(() => {
+                    px += (Math.random() - 0.5) * 4;
+                    py += (Math.random() - 0.5) * 4;
+                    particle.style.left = px + '%';
+                    particle.style.top = py + '%';
+                }, 50);
+            }
+            
+            const phrases = [
+                { text: '穿越时空...', delay: 0, size: '1rem', opacity: 0.6 },
+                { text: companyType, delay: 600, size: '3.5rem', opacity: 1, color: '#ffd700' },
+                { text: '', delay: 1200, size: '0.1rem', opacity: 0 },
+                { text: '难度模式：' + difficulty, delay: 1400, size: '1.5rem', opacity: 0.8 },
+                { text: '', delay: 2000, size: '0.1rem', opacity: 0 },
+                { text: '今天，你就是老板！', delay: 2100, size: '2.5rem', opacity: 1 },
+                { text: '', delay: 2700, size: '0.1rem', opacity: 0 },
+                { text: '准备好迎接挑战了吗？', delay: 2800, size: '1.8rem', opacity: 0.9 }
+            ];
+            
+            phrases.forEach(phrase => {
+                const el = document.createElement('div');
+                el.textContent = phrase.text;
+                el.style.cssText = `
+                    font-size: ${phrase.size}; opacity: 0; transform: translateY(50px) scale(0.8);
+                    transition: all 0.4s cubic-bezier(0.34, 1.56, 0.64, 1); text-align: center;
+                    margin: 5px 0; font-weight: bold;
+                    ${phrase.color ? 'color: ' + phrase.color + ';' : 'color: #fff;'}
+                    text-shadow: 0 0 40px rgba(102, 126, 234, 0.8);
+                `;
+                introOverlay.appendChild(el);
+                
+                setTimeout(() => {
+                    el.style.opacity = phrase.opacity;
+                    el.style.transform = 'translateY(0) scale(1)';
+                }, phrase.delay);
+                
+                setTimeout(() => {
+                    el.style.opacity = 0;
+                    el.style.transform = 'translateY(-50px) scale(0.8)';
+                }, phrase.delay + 500);
+            });
+            
+            setTimeout(() => {
+                flashOverlay.style.transition = 'opacity 0.1s';
+                flashOverlay.style.opacity = '0.8';
+                setTimeout(() => flashOverlay.style.opacity = '0', 100);
+                setTimeout(() => flashOverlay.style.opacity = '0.6', 200);
+                setTimeout(() => flashOverlay.style.opacity = '0', 300);
+                setTimeout(() => flashOverlay.style.opacity = '0.4', 400);
+                setTimeout(() => flashOverlay.style.opacity = '0', 500);
+            }, 3200);
+            
+            document.body.appendChild(introOverlay);
+            
+            setTimeout(() => {
+                clearInterval(bgInterval);
+                flashOverlay.style.opacity = '0';
+                introOverlay.style.transition = 'opacity 0.3s';
+                introOverlay.style.opacity = '0';
+                setTimeout(() => {
+                    introOverlay.remove();
+                    showPage('game-page');
+                }, 300);
+            }, 3800);
+        }
+
+        function checkStartButton() {
+            const btn = document.getElementById('start-btn');
+            if (btn) btn.disabled = !gameState.companyType || gameState.weekday === undefined;
+        }
+
+        function showPage(pageId) {
+            document.querySelectorAll('.page').forEach(page => page.classList.remove('active'));
+            document.getElementById(pageId).classList.add('active');
+            window.scrollTo({ top: 0, behavior: 'smooth' });
+        }
+
+        function goHome() {
+            showPage('home-page');
+        }
+
+        function startGame() {
+            const weekday = gameState.weekday;
+            const base = weekdaySettings[weekday];
+            const modifier = companyModifiers[gameState.companyType] || { base: {}, multiplier: {} };
+            gameState.metrics = {};
+            ['cashFlow', 'progress', 'morale', 'family', 'debt', 'health'].forEach(key => {
+                const baseVal = base[key] || 50;
+                const baseMod = modifier.base[key] || 0;
+                const finalVal = Math.max(10, Math.min(90, baseVal + baseMod));
+                gameState.metrics[key] = finalVal;
+            });
+            gameState.previousMetrics = { ...gameState.metrics };
+            gameState.turn = 1;
+            gameState.resolvedEvents = [];
+            gameState.activeEvents = [];
+            gameState.upgradedEvents = [];
+            gameState.newPits = [];
+            gameState.usedEvents = [];
+            gameState.currentDate = generateRandomDate();
+            achievements.forEach(a => a.unlocked = false);
+            initEvents();
+            renderDashboard();
+            renderEvents();
+            playIntroAnimation(gameState.companyType, getWeekdayName(weekday));
+            document.getElementById('company-badge').textContent = '🏢 ' + gameState.companyType;
+        }
+
+        function getCompanyDescription(eventId) {
+            const companyDesc = companyEvents[gameState.companyType];
+            if (companyDesc && companyDesc[eventId]) {
+                return companyDesc[eventId][Math.floor(Math.random() * companyDesc[eventId].length)];
+            }
+            return null;
+        }
+
+        function getCompanyEventTitle(eventId, baseTitle) {
+            const titles = {
+                '互联网小团队': {
+                    'bad1': ['客户取消订单', '融资泡汤', '产品出bug', '竞品抄袭'],
+                    'bad2': ['核心程序员离职', '技术总监跳槽', '架构师跑路', 'CTO被挖'],
+                    'bad3': ['服务器被攻击', '云服务涨价', '数据库崩溃', 'API被滥用'],
+                    'bad10': ['程序员抗议996', '安全漏洞爆发'],
+                    'bad11': ['空调罢工', '工位不够'],
+                    'bad12': ['电脑中病毒', '代码仓库丢失'],
+                    'good1': ['天使投资', '媒体报道', '大佬点赞', '巨头投资'],
+                    'good2': ['GitHub千星', '科技媒体报道', 'AppStore推荐', '开源热议'],
+                    'good6': ['开源贡献', 'AI提效', '开源获奖', '博客爆火'],
+                    'good7': ['革命性方案', '成本优化']
+                },
+                '奶茶店': {
+                    'bad1': ['供应商涨价', '隔壁抢生意', '牛奶涨价', '差评增多'],
+                    'bad2': ['店长离职', '原料断货', '奶茶师傅被挖', '店员请假'],
+                    'bad3': ['顾客投诉', '平台抽成上涨', '卫生不合格', '消协投诉'],
+                    'bad10': ['员工迟到', '外卖小哥抗议'],
+                    'bad11': ['制冰机坏了', '空调罢工'],
+                    'bad12': ['收银崩溃', '订单爆仓'],
+                    'good1': ['网红推荐', '写字楼开张', '抖音爆红', '本地最佳'],
+                    'good2': ['新品爆火', '美团推荐', '明星打卡', '会员暴增'],
+                    'good6': ['夏天热销', '会员收入', '联名爆款', '团购成功'],
+                    'good7': ['爆款配方', '便宜货源']
+                },
+                '装修公司': {
+                    'bad1': ['客户反悔', '建材涨价', '房东涨租', '设计变更'],
+                    'bad2': ['包工头跑路', '施工失误', '工人罢工', '项目经理离职'],
+                    'bad3': ['业主不满', '许可证问题', '材料不合格', '邻居投诉'],
+                    'bad10': ['工人酒驾', '业主冲突'],
+                    'bad11': ['天气太热', '暴雨泡料'],
+                    'bad12': ['图纸丢失', '设备损坏'],
+                    'good1': ['别墅订单', '装修获奖', '明星豪宅', '杂志刊登'],
+                    'good2': ['样板间参观', 'VIP折扣', '口碑爆发', '环保认证'],
+                    'good6': ['房产回暖', '朋友介绍', '套餐优惠', '工期缩短'],
+                    'good7': ['节省材料', '技术升级']
+                },
+                '电商团队': {
+                    'bad1': ['平台限流', '恶意差评', '商品下架', '佣金上涨'],
+                    'bad2': ['发错订单', '快递涨价', '仓库爆仓', '海关扣留'],
+                    'bad3': ['爆款断货', '规则变化', '店铺降权', '资金冻结'],
+                    'bad10': ['客服离职', '推广耗尽'],
+                    'bad11': ['仓库过热', '打包材料用完'],
+                    'bad12': ['店铺被黑', '图片被盗'],
+                    'good1': ['大促爆单', '优质商家', '百万粉丝', '平台爆款'],
+                    'good2': ['达人带货', '回购率提升', '直播爆单', '跨境大增'],
+                    'good6': ['双十一提前', '海外仓上线', '流量扶持', '平台主推'],
+                    'good7': ['爆款选品', '高利润货源']
+                },
+                '短视频工作室': {
+                    'bad1': ['平台限流', '摄影师单飞', '账号封禁', '话题过时'],
+                    'bad2': ['内容违规', '素材作废', '账号封禁', '剪辑师离职'],
+                    'bad3': ['设备损坏', '合作取消', '场地占用', '天气不好'],
+                    'bad10': ['演员迟到', '错过黄金时段'],
+                    'bad11': ['灯光损坏', '录音问题'],
+                    'bad12': ['电脑死机', '硬盘损坏'],
+                    'good1': ['视频爆火', '品牌合作', '热榜登顶', '百万粉丝'],
+                    'good2': ['流量扶持', '大牌广告', '优质认证', '官方推荐'],
+                    'good6': ['节日流量', '达人签约', '平台活动', '直播首秀'],
+                    'good7': ['爆款选题', '低成本技巧']
+                },
+                '创业公司': {
+                    'bad1': ['投资人撤资', '团队离职', '产品失败', '融资困难'],
+                    'bad2': ['黑客攻击', '竞品抄袭', '技术泄露', '高管内斗'],
+                    'bad3': ['政策变化', '租金暴涨', '执照到期', '税务稽查'],
+                    'bad10': ['员工罢工', '负面报道'],
+                    'bad11': ['停电', '饮水机坏'],
+                    'bad12': ['服务器崩溃', '数据库被删'],
+                    'good1': ['Pre-A轮', '大佬点赞', '创业决赛', '潜力公司'],
+                    'good2': ['孵化器入驻', '行业获奖', '创业黑马', '百万用户'],
+                    'good6': ['政府补贴', '媒体报道', '扶持资金', '科技园入驻'],
+                    'good7': ['颠覆模式', '蓝海市场']
+                },
+                '本地生活门店': {
+                    'bad1': ['道路施工', '价格战', '围挡挡店', '停车场满'],
+                    'bad2': ['店员请假', '设备损坏', '店长离职', '供应商断货'],
+                    'bad3': ['卫生不合格', '断货停业', '服务投诉', '黑名单'],
+                    'bad10': ['员工冲突', '食材过期'],
+                    'bad11': ['空调坏', '厕所堵'],
+                    'bad12': ['收银坏', 'WiFi断'],
+                    'good1': ['外卖暴增', '老客介绍', '必吃店铺', '点评首页'],
+                    'good2': ['会员制度', '美食节', '忠诚度提升', '博主推荐'],
+                    'good6': ['节假日', '平台补贴', '新品上市', '团购成功'],
+                    'good7': ['服务提升', '优质食材']
+                },
+                '小型贸易公司': {
+                    'bad1': ['货款拖欠', '海关严查', '汇率波动', '客户破产'],
+                    'bad2': ['供应商涨价', '物流延误', '供应商断货', '原材料暴涨'],
+                    'bad3': ['汇率损失', '低价抢单', '政策变化', '订单取消'],
+                    'bad10': ['发错货物', '仓库被盗'],
+                    'bad11': ['货物发霉', '物流爆仓'],
+                    'bad12': ['电脑中毒', '网络中断'],
+                    'good1': ['大单介绍', '新货源', '续签翻倍', '新市场'],
+                    'good2': ['订单追加', '新市场开拓', '质量认证', '独家优惠'],
+                    'good6': ['政策利好', '长期合作', '关税降低', '物流提速'],
+                    'good7': ['新方案', '高利润产品']
+                }
+            };
+            const companyTitles = titles[gameState.companyType];
+            if (companyTitles && companyTitles[eventId]) {
+                return companyTitles[eventId][Math.floor(Math.random() * companyTitles[eventId].length)];
+            }
+            return baseTitle;
+        }
+
+        function initEvents() {
+            const weekday = gameState.weekday;
+            const settings = weekdaySettings[weekday];
+            const eventCount = settings.eventCount;
+            const goodChance = settings.goodChance;
+            
+            let availableEvents = eventsData.filter(e => {
+                if (gameState.usedEvents.includes(e.id)) return false;
+                return isEventAvailableOnWeekday(e.id, weekday);
+            });
+            
+            const goodEvents = availableEvents.filter(e => e.id.startsWith('good'));
+            const badEvents = availableEvents.filter(e => !e.id.startsWith('good'));
+            
+            const goodCount = Math.round(eventCount * goodChance);
+            const badCount = eventCount - goodCount;
+            
+            const selectedGood = goodEvents.sort(() => Math.random() - 0.5).slice(0, goodCount);
+            const selectedBad = badEvents.sort(() => Math.random() - 0.5).slice(0, badCount);
+            
+            const selectedEvents = [...selectedGood, ...selectedBad].sort(() => Math.random() - 0.5);
+            
+            gameState.activeEvents = selectedEvents.map((e, idx) => {
+                let desc = e.description;
+                let title = e.title;
+                if (e.pool === 'company') {
+                    const compDesc = getCompanyDescription(e.id);
+                    if (compDesc) desc = compDesc;
+                    const compTitle = getCompanyEventTitle(e.id, e.title);
+                    if (compTitle) title = compTitle;
+                }
+                return {
+                    ...e, uniqueId: 'event_' + Date.now() + '_' + idx,
+                    description: desc,
+                    title: title,
+                    urgency: e.urgency, countdown: e.countdown, baseUrgency: e.urgency, baseCountdown: e.countdown
+                };
+            });
+            
+            addPeriodicEvents();
+        }
+
+        function isEventAvailableOnWeekday(eventId, weekday) {
+            const weekdayOnly = {
+                'bad2': [1, 2, 3, 4, 5],
+                'bad3': [1, 2, 3, 4, 5],
+                'good1': [1, 2, 3, 4, 5],
+                'good2': [2, 3, 4],
+                'bad4': [0, 1, 2, 3, 4, 5, 6],
+                'bad5': [0, 1, 2, 3, 4, 5, 6],
+                'good3': [0, 6],
+                'bad6': [1, 2, 3, 4, 5],
+                'bad7': [0, 1, 2, 3, 4, 5, 6],
+                'good4': [0, 1, 2, 3, 4, 5, 6],
+                'bad8': [1, 2, 3, 4, 5],
+                'bad9': [1, 2, 3, 4, 5],
+                'good5': [0, 6],
+                'bad10': [5],
+                'bad11': [1, 2, 3, 4, 5],
+                'bad12': [1, 2, 3, 4, 5],
+                'good6': [2, 3, 4],
+                'good7': [1, 2, 3, 4, 5],
+                'bad13': [0, 6],
+                'bad14': [0, 1, 2, 3, 4, 5, 6],
+                'good8': [0, 6],
+                'good9': [0, 1, 2, 3, 4, 5, 6],
+                'bad15': [0, 1, 2, 3, 4, 5, 6],
+                'bad16': [5, 6],
+                'good10': [0, 1, 2, 3, 4, 5, 6],
+                'bad17': [0, 1, 2, 3, 4, 5, 6],
+                'bad18': [1, 2, 3, 4, 5],
+                'good11': [0, 6],
+                'good12': [0, 1, 2, 3, 4, 5, 6]
+            };
+            
+            if (weekdayOnly[eventId]) {
+                return weekdayOnly[eventId].includes(weekday);
+            }
+            return true;
+        }
+
+        function addPeriodicEvents() {
+            const date = gameState.currentDate;
+            if (date.day === 1) {
+                gameState.activeEvents.push({
+                    id: 'periodic_rent',
+                    title: '缴纳房租/房贷',
+                    pool: 'company',
+                    urgency: 5,
+                    countdown: 1,
+                    description: '今天是月初，需要缴纳房租或房贷！',
+                    options: [{text:'按时缴纳', effects:{cashFlow:-30}, feedback:'房租已缴纳。'}, {text:'拖延几天', effects:{cashFlow:-10, morale:-10}, feedback:'房东/银行催款了！'}],
+                    uniqueId: 'event_' + Date.now() + '_rent',
+                    baseUrgency: 5,
+                    baseCountdown: 1
+                });
+            }
+            if (date.day === 15 || date.day === 30 || date.day === 31) {
+                gameState.activeEvents.push({
+                    id: 'periodic_salary',
+                    title: '发放工资',
+                    pool: 'company',
+                    urgency: 4,
+                    countdown: 2,
+                    description: '今天是发薪日，需要给员工发放工资！',
+                    options: [{text:'按时发放', effects:{cashFlow:-25, morale:10}, feedback:'员工们很开心！'}, {text:'延迟发放', effects:{morale:-20}, feedback:'员工开始抱怨了。'}],
+                    uniqueId: 'event_' + Date.now() + '_salary',
+                    baseUrgency: 4,
+                    baseCountdown: 2
+                });
+            }
+        }
+
+        function renderDashboard() {
+            Object.keys(gameState.metrics).forEach(key => {
+                const val = gameState.metrics[key];
+                const bar = document.getElementById('bar-' + key);
+                bar.style.width = val + '%';
+                bar.textContent = val;
+                
+                let color;
+                if (val >= 60) {
+                    color = 'linear-gradient(90deg, #4caf50, #8bc34a)';
+                } else if (val >= 40) {
+                    color = 'linear-gradient(90deg, #ff9800, #ffb74d)';
+                } else if (val >= 20) {
+                    color = 'linear-gradient(90deg, #ff5722, #ff7043)';
+                } else {
+                    color = 'linear-gradient(90deg, #f44336, #ef9a9a)';
+                }
+                bar.style.background = color;
+                
+                const card = document.getElementById('card-' + key);
+                if (card) {
+                    card.classList.remove('warning', 'danger');
+                    if (val <= 20) card.classList.add('danger');
+                    else if (val <= 40) card.classList.add('warning');
+                }
+            });
+            document.getElementById('turn-val').textContent = gameState.turn;
+            const percent = Math.round((gameState.turn / totalTurns) * 100);
+            document.getElementById('turn-percent').textContent = percent + '%';
+            const survivalRate = playerSurvivalRate[gameState.turn - 1] || 1;
+            const survivalMsg = survivalMessages[gameState.turn - 1] || '你已经超越了绝大多数玩家！';
+            document.getElementById('turn-rank').textContent = survivalMsg;
+            
+            if (gameState.currentDate) {
+                const date = gameState.currentDate;
+                document.getElementById('game-date').textContent = date.year + '年' + date.month + '月' + date.day + '日';
+            }
+            document.getElementById('game-weekday').textContent = getWeekdayName(gameState.weekday);
+            updateAdvice();
+            checkUrgentEvents();
+        }
+
+        function updateAdvice() {
+            const m = gameState.metrics;
+            const list = [];
+            if (m.cashFlow < 30) list.push('💰 现金流告急！');
+            else if (m.cashFlow < 50) list.push('💸 现金流偏低');
+            if (m.progress < 30) list.push('📊 项目进度落后！');
+            else if (m.progress < 50) list.push('📈 项目进度需加油');
+            if (m.morale < 30) list.push('😔 团队士气崩溃！');
+            else if (m.morale < 50) list.push('🙁 团队士气低迷');
+            if (m.family < 30) list.push('👨‍👩‍👧 家庭关系紧张！');
+            else if (m.family < 50) list.push('🏠 忽略家庭了');
+            if (m.debt < 30) list.push('💳 人情债太少！');
+            else if (m.debt < 50) list.push('🤝 人情债较少');
+            if (m.health < 30) list.push('❤️ 身体健康危险！');
+            else if (m.health < 50) list.push('🏥 需要休息');
+            
+            const el = document.getElementById('advice-content');
+            el.innerHTML = list.length ? list.map(a => '<div class="advice-item">' + a + '</div>').join('') : '<p style="margin:0;font-size:0.65rem;">各项指标都很健康，继续保持！</p>';
+        }
+
+        function checkUrgentEvents() {
+            const urgentEvents = gameState.activeEvents.filter(e => e.countdown <= 1);
+            if (urgentEvents.length > 0) {
+                const urgentToast = document.getElementById('urgent-toast');
+                if (urgentToast) {
+                    urgentToast.remove();
+                }
+                const toast = document.createElement('div');
+                toast.id = 'urgent-toast';
+                toast.className = 'urgent-toast';
+                toast.innerHTML = '<div style="font-size:1.2rem;">🚨</div><div><div style="font-weight:bold;font-size:0.85rem;">紧急事件！</div><div style="font-size:0.7rem;">' + urgentEvents.length + '个事件即将过期，请立即处理！</div></div>';
+                document.body.appendChild(toast);
+                setTimeout(() => toast.classList.add('show'), 100);
+                setTimeout(() => { toast.classList.remove('show'); setTimeout(() => toast.remove(), 500); }, 5000);
+            }
+        }
+
+        function renderEvents() {
+            ['company', 'family', 'social', 'self'].forEach(pool => {
+                const events = gameState.activeEvents.filter(e => e.pool === pool);
+                const container = document.getElementById(pool + '-events');
+                container.innerHTML = events.map(e => {
+                    const cls = e.countdown <= 1 ? 'event-card upgrading' : (e.id.startsWith('good') ? 'event-card good' : 'event-card');
+                    return '<div class="' + cls + '" onclick="showEvent(\'' + e.uniqueId + '\')"><div class="event-header"><div class="event-title">' + e.title + '</div><div class="event-priority">' + '⭐'.repeat(e.urgency) + '</div></div><div class="event-desc">' + e.description + '</div><div class="event-meta"><span>⏰ ' + e.countdown + '</span></div></div>';
+                }).join('') || '<div style="text-align:center;color:#666;padding:10px;font-size:0.8rem;">暂无事件</div>';
+            });
+        }
+
+        function showEvent(uid) {
+            const e = gameState.activeEvents.find(x => x.uniqueId === uid);
+            if (!e) return;
+            document.getElementById('modal-main').style.display = 'block';
+            document.getElementById('modal-result').classList.remove('active');
+            document.getElementById('modal-title').textContent = e.title;
+            document.getElementById('modal-desc').textContent = e.description;
+            document.getElementById('modal-options').innerHTML = e.options.map((opt, i) => '<button class="option-btn btn-primary" onclick="handleOption(\'' + uid + '\',' + i + ')">' + opt.text + '</button>').join('');
+            document.getElementById('event-modal').classList.add('active');
+        }
+
+        function createConfetti() {
+            const colors = ['#ffd700', '#ff6b6b', '#4ecdc4', '#45b7d1', '#96ceb4', '#ffeaa7'];
+            for (let i = 0; i < 50; i++) {
+                const confetti = document.createElement('div');
+                confetti.className = 'confetti';
+                confetti.style.left = Math.random() * 100 + 'vw';
+                confetti.style.background = colors[Math.floor(Math.random() * colors.length)];
+                confetti.style.width = (Math.random() * 10 + 5) + 'px';
+                confetti.style.height = (Math.random() * 10 + 5) + 'px';
+                confetti.style.animationDuration = (Math.random() * 1 + 1) + 's';
+                confetti.style.animationDelay = (Math.random() * 0.5) + 's';
+                document.body.appendChild(confetti);
+                setTimeout(() => confetti.remove(), 2500);
+            }
+        }
+
+        function showEmojiPopup(emoji) {
+            const popup = document.createElement('div');
+            popup.className = 'emoji-popup';
+            popup.textContent = emoji;
+            document.body.appendChild(popup);
+            setTimeout(() => popup.remove(), 1600);
+        }
+
+        function handleOption(uid, idx) {
+            const e = gameState.activeEvents.find(x => x.uniqueId === uid);
+            if (!e) return;
+            
+            const modifier = companyModifiers[gameState.companyType] || { multiplier: {} };
+            const rawEffects = e.options[idx].effects;
+            lastOptionEffects = {};
+            Object.keys(rawEffects).forEach(key => {
+                const mult = modifier.multiplier[key] || 1;
+                lastOptionEffects[key] = Math.round(rawEffects[key] * mult);
+            });
+            
+            applyEffects(lastOptionEffects);
+            gameState.resolvedEvents.push({ title: e.title, choice: e.options[idx].text, feedback: e.options[idx].feedback });
+            gameState.activeEvents = gameState.activeEvents.filter(x => x.uniqueId !== uid);
+            if (!gameState.usedEvents.includes(e.id)) {
+                gameState.usedEvents.push(e.id);
+            }
+            
+            const isGood = e.id.startsWith('good');
+            const hasPositiveEffect = Object.values(lastOptionEffects).some(v => v > 0);
+            const hasNegativeEffect = Object.values(lastOptionEffects).some(v => v < 0);
+            
+            const goodEmojis = ['🎉', '✨', '🌟', '💯', '🥳', '🚀', '🔥', '💪', '💰', '🌟', '🎊', '🍾'];
+            const badEmojis = ['💥', '😱', '😭', '💀', '😰', '😓', '🤯', '🔥', '💔', '😤', '🤦‍♂️', '😵'];
+            
+            if (isGood && hasPositiveEffect) {
+                createConfetti();
+                showEmojiPopup(goodEmojis[Math.floor(Math.random() * goodEmojis.length)]);
+            } else if (!isGood && hasNegativeEffect) {
+                showEmojiPopup(badEmojis[Math.floor(Math.random() * badEmojis.length)]);
+            }
+            
+            document.getElementById('modal-main').style.display = 'none';
+            document.getElementById('modal-result').classList.add('active');
+            document.getElementById('result-title').textContent = e.options[idx].feedback;
+            document.getElementById('result-desc').textContent = '你的选择带来了以下影响：';
+            
+            const effectsHtml = Object.keys(lastOptionEffects).map(key => {
+                const val = lastOptionEffects[key];
+                const isPositive = val > 0;
+                const icon = key === 'cashFlow' ? '💰' : key === 'progress' ? '📊' : key === 'morale' ? '😁' : key === 'family' ? '🏠' : key === 'debt' ? '🤝' : '❤️';
+                return '<span class="effect-tag ' + (isPositive ? 'positive' : 'negative') + '">' + icon + ' ' + (isPositive ? '+' : '') + val + '</span>';
+            }).join('');
+            document.getElementById('result-effects').innerHTML = effectsHtml;
+        }
+
+        function closeModalAndContinue() {
+            document.getElementById('event-modal').classList.remove('active');
+            gameState.turn++;
+            showTurnEffect(gameState.turn);
+            updateEventCountdowns();
+            refreshEvents();
+            renderDashboard();
+            renderEvents();
+            checkAchievements();
+            checkGameOver();
+        }
+
+        function showTurnEffect(turn) {
+            const turnToast = document.createElement('div');
+            turnToast.style.position = 'fixed';
+            turnToast.style.top = '70px';
+            turnToast.style.left = '200px';
+            turnToast.style.transform = 'translateY(-20px) scale(0)';
+            turnToast.style.fontSize = '2rem';
+            turnToast.style.fontWeight = 'bold';
+            turnToast.style.color = '#667eea';
+            turnToast.style.textShadow = '0 0 15px rgba(102, 126, 234, 0.6)';
+            turnToast.style.zIndex = '9998';
+            turnToast.style.pointerEvents = 'none';
+            turnToast.style.opacity = '0';
+            turnToast.style.background = 'rgba(15, 12, 41, 0.8)';
+            turnToast.style.padding = '10px 20px';
+            turnToast.style.borderRadius = '10px';
+            turnToast.style.border = '1px solid rgba(102, 126, 234, 0.3)';
+            turnToast.textContent = '第 ' + turn + ' 回合';
+            document.body.appendChild(turnToast);
+            
+            setTimeout(() => {
+                turnToast.style.transition = 'all 0.5s cubic-bezier(0.34, 1.56, 0.64, 1)';
+                turnToast.style.transform = 'translateY(0) scale(1.1)';
+                turnToast.style.opacity = '1';
+            }, 50);
+            
+            setTimeout(() => {
+                turnToast.style.transform = 'translateY(0) scale(1)';
+            }, 300);
+            
+            setTimeout(() => {
+                turnToast.style.opacity = '0';
+                turnToast.style.transform = 'translateY(-10px) scale(0.9)';
+                setTimeout(() => turnToast.remove(), 500);
+            }, 1500);
+            
+            const sparkles = [];
+            for (let i = 0; i < 8; i++) {
+                const sparkle = document.createElement('div');
+                sparkle.style.position = 'fixed';
+                sparkle.style.top = '70px';
+                sparkle.style.left = '200px';
+                sparkle.style.width = '8px';
+                sparkle.style.height = '8px';
+                sparkle.style.background = '#ffd700';
+                sparkle.style.borderRadius = '50%';
+                sparkle.style.zIndex = '9997';
+                sparkle.style.pointerEvents = 'none';
+                sparkle.style.opacity = '0';
+                document.body.appendChild(sparkle);
+                sparkles.push(sparkle);
+                
+                const angle = (i / 8) * Math.PI * 2;
+                const distance = 60;
+                const endX = Math.cos(angle) * distance;
+                const endY = Math.sin(angle) * distance;
+                
+                setTimeout(() => {
+                    sparkle.style.transition = 'all 0.8s ease-out';
+                    sparkle.style.left = (200 + endX) + 'px';
+                    sparkle.style.top = (70 + endY) + 'px';
+                    sparkle.style.opacity = '1';
+                    sparkle.style.transform = 'scale(0)';
+                }, 50);
+                
+                setTimeout(() => {
+                    sparkle.style.opacity = '0';
+                    setTimeout(() => sparkle.remove(), 300);
+                }, 800);
+            }
+        }
+
+        function applyEffects(effects) {
+            Object.keys(effects).forEach(key => {
+                if (gameState.metrics[key] !== undefined) {
+                    gameState.metrics[key] = Math.max(0, Math.min(100, gameState.metrics[key] + effects[key]));
+                }
+            });
+        }
+
+        function updateEventCountdowns() {
+            gameState.activeEvents.forEach(e => { 
+                e.countdown--; 
+                if (e.countdown <= 0) { 
+                    applyEffects({ morale: -5, cashFlow: -5 }); 
+                    gameState.upgradedEvents.push(e); 
+                    gameState.newPits.push(e.title); 
+                } 
+            });
+            gameState.activeEvents = gameState.activeEvents.filter(e => e.countdown > 0);
+        }
+
+        function refreshEvents() {
+            if (gameState.activeEvents.length >= 10) return;
+            const low = [];
+            const m = gameState.metrics;
+            if (m.cashFlow < 40) low.push('company');
+            if (m.progress < 40) low.push('company');
+            if (m.morale < 40) low.push('company');
+            if (m.family < 40) low.push('family');
+            if (m.debt < 40) low.push('social');
+            if (m.health < 40) low.push('self');
+            const count = low.length >= 2 ? 3 : 2;
+            const available = eventsData.filter(e => {
+                if (gameState.activeEvents.some(ae => ae.id === e.id)) return false;
+                if (gameState.usedEvents.includes(e.id)) return false;
+                return isEventAvailableOnWeekday(e.id, gameState.weekday);
+            });
+            const p = available.filter(e => low.includes(e.pool)).sort(() => Math.random() - 0.5);
+            const np = available.filter(e => !low.includes(e.pool)).sort(() => Math.random() - 0.5);
+            const selected = [...p, ...np].slice(0, count);
+            const newEvents = selected.map((e, idx) => {
+                let desc = e.description;
+                let title = e.title;
+                if (e.pool === 'company') {
+                    const compDesc = getCompanyDescription(e.id);
+                    if (compDesc) desc = compDesc;
+                    const compTitle = getCompanyEventTitle(e.id, e.title);
+                    if (compTitle) title = compTitle;
+                }
+                return { 
+                    ...e, 
+                    uniqueId: 'event_' + Date.now() + '_' + idx, 
+                    description: desc,
+                    title: title,
+                    urgency: Math.min(5, e.urgency + Math.floor(gameState.resolvedEvents.length / 4)), 
+                    countdown: Math.max(1, e.countdown - Math.floor(gameState.resolvedEvents.length / 4)), 
+                    baseUrgency: e.urgency, 
+                    baseCountdown: e.countdown 
+                };
+            });
+            gameState.activeEvents.push(...newEvents);
+        }
+
+        function checkAchievements() {
+            const { metrics, resolvedEvents } = gameState;
+            achievements.forEach(ach => {
+                if (ach.unlocked) return;
+                switch(ach.id) {
+                    case 'first_day': if (resolvedEvents.length >= 1) ach.unlocked = true; break;
+                    case 'balancer': if (metrics.cashFlow > 60 && metrics.progress > 60 && metrics.morale > 60 && metrics.family > 60 && metrics.health > 60 && metrics.debt > 60) ach.unlocked = true; break;
+                    case 'survivor': if (resolvedEvents.length >= 10 && metrics.cashFlow > 0) ach.unlocked = true; break;
+                    case 'rich': if (metrics.cashFlow >= 100) ach.unlocked = true; break;
+                    case 'healthy': if (metrics.health >= 80) ach.unlocked = true; break;
+                }
+                if (ach.unlocked) {
+                    const toast = document.createElement('div');
+                    toast.className = 'achievement-toast';
+                    toast.innerHTML = '<div style="font-size:1.5rem;">' + ach.icon + '</div><div><div style="font-weight:bold;color:#ffd700;font-size:1rem;">解锁成就：' + ach.name + '</div><div style="font-size:0.8rem;opacity:0.8;">' + ach.desc + '</div></div>';
+                    document.body.appendChild(toast);
+                    setTimeout(() => toast.classList.add('show'), 100);
+                    setTimeout(() => { toast.classList.remove('show'); setTimeout(() => toast.remove(), 500); }, 4000);
+                }
+            });
+            gameState.previousMetrics = { ...metrics };
+        }
+
+        function checkGameOver() {
+            const { metrics, resolvedEvents } = gameState;
+            if (metrics.cashFlow <= 0) { showEnding('公司破产', '现金流归零，公司倒闭了！'); return; }
+            if (metrics.morale <= 0) { showEnding('集体离职', '团队士气崩溃，所有人都走了！'); return; }
+            if (metrics.health <= 0) { showEnding('强制停工', '你累倒了，被送进医院抢救！'); return; }
+            if (metrics.family <= 0) { showEnding('家庭破裂', '家庭关系彻底破裂，老婆带着孩子走了！'); return; }
+            if (resolvedEvents.length >= totalTurns) { showEnding('顺利过关', '恭喜！你成功度过了艰难的一天！'); }
+        }
+
+        function createRain() {
+            document.querySelectorAll('.rain-drop').forEach(d => d.remove());
+            for (let i = 0; i < 50; i++) {
+                const drop = document.createElement('div');
+                drop.className = 'rain-drop';
+                drop.style.left = Math.random() * 100 + '%';
+                drop.style.height = (Math.random() * 20 + 10) + 'px';
+                drop.style.animationDuration = (Math.random() * 0.5 + 0.5) + 's';
+                drop.style.animationDelay = Math.random() * 1 + 's';
+                document.body.appendChild(drop);
+            }
+        }
+
+        function showEnding(title, desc) {
+            const titleEl = document.getElementById('ending-title');
+            const descEl = document.getElementById('ending-desc');
+            const endingPage = document.getElementById('ending-page');
+            
+            titleEl.textContent = title;
+            descEl.textContent = desc;
+            const failed = ['公司破产', '项目失败', '集体离职', '家庭破裂', '强制停工'].includes(title);
+            titleEl.classList.toggle('failed', failed);
+            descEl.classList.toggle('failed', failed);
+            endingPage.classList.toggle('failed', failed);
+            
+            ['cashFlow', 'progress', 'morale', 'family', 'debt', 'health'].forEach(key => {
+                const bar = document.getElementById('end-' + key);
+                bar.style.width = gameState.metrics[key] + '%';
+                bar.textContent = gameState.metrics[key];
+                if (failed) {
+                    bar.style.background = 'linear-gradient(90deg, #4a0000, #8b0000)';
+                }
+            });
+            
+            if (failed) {
+                playFailAnimation(() => {
+                    createRain();
+                    showPage('ending-page');
+                });
+            } else {
+                showPage('ending-page');
+            }
+        }
+
+        function playFailAnimation(callback) {
+            const flash = document.createElement('div');
+            flash.style.cssText = `
+                position: fixed; top: 0; left: 0; right: 0; bottom: 0;
+                background: #8b0000; z-index: 9999; opacity: 0;
+                pointer-events: none;
+            `;
+            document.body.appendChild(flash);
+            
+            flash.style.transition = 'opacity 0.05s';
+            flash.style.opacity = '0.8';
+            setTimeout(() => flash.style.opacity = '0', 50);
+            setTimeout(() => flash.style.opacity = '0.6', 100);
+            setTimeout(() => flash.style.opacity = '0', 150);
+            setTimeout(() => flash.style.opacity = '0.4', 200);
+            setTimeout(() => flash.style.opacity = '0', 250);
+            
+            const shake = document.createElement('div');
+            shake.style.cssText = `
+                position: fixed; top: 0; left: 0; right: 0; bottom: 0;
+                z-index: 9998; pointer-events: none;
+            `;
+            document.body.appendChild(shake);
+            
+            let shakeOffset = 0;
+            const shakeInterval = setInterval(() => {
+                shakeOffset = (shakeOffset === 0) ? -10 : (shakeOffset === -10) ? 10 : 0;
+                shake.style.transform = 'translateX(' + shakeOffset + 'px)';
+            }, 50);
+            
+            setTimeout(() => {
+                clearInterval(shakeInterval);
+                flash.remove();
+                shake.remove();
+                callback();
+            }, 350);
+        }
+
+        document.addEventListener('DOMContentLoaded', initEventListeners);
+        
+        const canvas = document.getElementById('particles');
+        const ctx = canvas.getContext('2d');
+        let particles = [];
+        function resize() { canvas.width = window.innerWidth; canvas.height = window.innerHeight; }
+        resize();
+        window.addEventListener('resize', resize);
+        class Particle {
+            constructor() { this.reset(); }
+            reset() {
+                this.x = Math.random() * canvas.width;
+                this.y = Math.random() * canvas.height;
+                this.size = Math.random() * 2 + 0.5;
+                this.speedX = (Math.random() - 0.5) * 0.3;
+                this.speedY = (Math.random() - 0.5) * 0.3;
+                this.opacity = Math.random() * 0.4 + 0.05;
+            }
+            update() {
+                this.x += this.speedX;
+                this.y += this.speedY;
+                if (this.x < 0 || this.x > canvas.width || this.y < 0 || this.y > canvas.height) this.reset();
+            }
+            draw() {
+                ctx.beginPath();
+                ctx.arc(this.x, this.y, this.size, 0, Math.PI * 2);
+                ctx.fillStyle = `rgba(102, 126, 234, ${this.opacity})`;
+                ctx.fill();
+            }
+        }
+        
+        for (let i = 0; i < 80; i++) particles.push(new Particle());
+        
+        function animate() {
+            ctx.clearRect(0, 0, canvas.width, canvas.height);
+            particles.forEach(p => { p.update(); p.draw(); });
+            requestAnimationFrame(animate);
+        }
+        animate();
+        
+        document.addEventListener('DOMContentLoaded', initEventListeners);
+    </script>
+</body>
+</html>
